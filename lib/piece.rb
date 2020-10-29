@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # serves as the template for all unique pieces
-class Piece
+module Piece
   def initialize(location)
     @location = location
     @moved = false
@@ -11,16 +11,76 @@ class Piece
     @location = location
     @moved = true
   end
-end
-
-class Pawn < Piece
-  def symbol(color)
-    color == 'white' ? "\u2659".encode : "\u265F".encode
-  end
 
   def legal_move?(location)
   end
 
   def can_attack_king?
+  end
+end
+
+class King
+  include Piece
+
+  def symbol(color)
+    color == 'white' ? "\u2654".encode : "\u265A".encode
+  end
+
+  def possible_moves
+  end
+end
+
+class Queen
+  include Piece
+
+  def symbol(color)
+    color == 'white' ? "\u2655".encode : "\u265B".encode
+  end
+
+  def possible_moves
+  end
+end
+
+class Rook
+  include Piece
+
+  def symbol(color)
+    color == 'white' ? "\u2656".encode : "\u265C".encode
+  end
+
+  def possible_moves
+  end
+end
+
+class Bishop
+  include Piece
+
+  def symbol(color)
+    color == 'white' ? "\u2657".encode : "\u265D".encode
+  end
+
+  def possible_moves
+  end
+end
+
+class Knight
+  include Piece
+
+  def symbol(color)
+    color == 'white' ? "\u2658".encode : "\u265E".encode
+  end
+
+  def possible_moves
+  end
+end
+
+class Pawn
+  include Piece
+
+  def symbol(color)
+    color == 'white' ? "\u2659".encode : "\u265F".encode
+  end
+
+  def possible_moves
   end
 end
