@@ -3,7 +3,7 @@
 require './lib/piece.rb'
 
 describe King do
-  subject(:king) { King.new([0, 1]) }
+  subject(:king) { King.new([0, 4]) }
 
   describe '#symbol' do
     context 'when white' do
@@ -23,6 +23,32 @@ describe King do
     it 'sets @location to the new location' do
       king.move([0, 1])
       expect(king.instance_variable_get('@location')).to eql([0, 1])
+    end
+  end
+
+  describe '#legal_move?' do
+    context 'when legal move is given' do
+      it 'returns true' do
+        expect(king.legal_move?([1, 4])).to be true
+      end
+    end
+
+    context 'when non-legal move is given' do
+      it 'returns false' do
+        expect(king.legal_move?([4, 7])).to be nil
+      end
+    end
+
+    context 'when move is current location' do
+      it 'returns false' do
+        expect(king.legal_move?([0, 4])).to be nil
+      end
+    end
+
+    context 'when off board move is given' do
+      it 'returns false' do
+        expect(king.legal_move?([-1, 16])).to be nil
+      end
     end
   end
 end

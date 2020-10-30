@@ -12,7 +12,8 @@ module Piece
     @moved = true
   end
 
-  def legal_move?(location)
+  def legal_move?(move)
+    true if possible_moves.include?(move)
   end
 
   def can_attack_king?
@@ -27,6 +28,12 @@ class King
   end
 
   def possible_moves
+    x = @location.first
+    y = @location.last
+    [
+      [x + 1, y], [x, y + 1], [x + 1, y + 1], [x + 1, y - 1],
+      [x - 1, y], [x, y - 1], [x - 1, y - 1], [x - 1, x + 1]
+    ].keep_if { |move| move.all? { |number| number.between?(0, 7) } }
   end
 end
 
