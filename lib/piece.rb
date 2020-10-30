@@ -45,6 +45,18 @@ class Queen
   end
 
   def possible_moves
+    x = @location.first
+    y = @location.last
+    moves = []
+    8.times do |number|
+      moves.push([number, y], [x, number])
+      moves.push(
+        [x + number, y + number], [x + number, y - number],
+        [x - number, y + number], [x - number, y - number]
+      )
+    end
+    moves.delete(@location)
+    moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
   end
 end
 
@@ -56,6 +68,12 @@ class Rook
   end
 
   def possible_moves
+    x = @location.first
+    y = @location.last
+    moves = []
+    8.times { |number| moves.push([number, y], [x, number]) }
+    moves.delete(@location)
+    moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
   end
 end
 
@@ -67,6 +85,17 @@ class Bishop
   end
 
   def possible_moves
+    x = @location.first
+    y = @location.last
+    moves = []
+    8.times do |number|
+      moves.push(
+        [x + number, y + number], [x + number, y - number],
+        [x - number, y + number], [x - number, y - number]
+      )
+    end
+    moves.delete(@location)
+    moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
   end
 end
 
