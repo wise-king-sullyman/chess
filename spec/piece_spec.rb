@@ -52,6 +52,22 @@ describe King do
       end
     end
   end
+
+  describe '#can_attack_king?' do
+    context 'when enemy king is in attack range' do
+      it 'returns true' do
+        allow(game).to receive(:enemy_king_location).and_return([0, 5])
+        expect(king.can_attack_king?).to be true
+      end
+    end
+
+    context 'when enemy king is not in attack range' do
+      it 'returns nil' do
+        allow(game).to receive(:enemy_king_location).and_return([7, 4])
+        expect(king.can_attack_king?).to be nil
+      end
+    end
+  end
 end
 
 describe Queen do
@@ -116,6 +132,22 @@ describe Queen do
       end
     end
   end
+
+  describe '#can_attack_king?' do
+    context 'when enemy king is in attack range' do
+      it 'returns true' do
+        allow(game).to receive(:enemy_king_location).and_return([0, 6])
+        expect(queen.can_attack_king?).to be true
+      end
+    end
+
+    context 'when enemy king is not in attack range' do
+      it 'returns nil' do
+        allow(game).to receive(:enemy_king_location).and_return([7, 4])
+        expect(queen.can_attack_king?).to be nil
+      end
+    end
+  end
 end
 
 describe Rook do
@@ -165,6 +197,22 @@ describe Rook do
     context 'when off board move is given' do
       it 'returns false' do
         expect(rook.legal_move?([-1, 16])).to be nil
+      end
+    end
+  end
+
+  describe '#can_attack_king?' do
+    context 'when enemy king is in attack range' do
+      it 'returns true' do
+        allow(game).to receive(:enemy_king_location).and_return([7, 0])
+        expect(rook.can_attack_king?).to be true
+      end
+    end
+
+    context 'when enemy king is not in attack range' do
+      it 'returns nil' do
+        allow(game).to receive(:enemy_king_location).and_return([7, 4])
+        expect(rook.can_attack_king?).to be nil
       end
     end
   end
@@ -220,6 +268,22 @@ describe Bishop do
       end
     end
   end
+
+  describe '#can_attack_king?' do
+    context 'when enemy king is in attack range' do
+      it 'returns true' do
+        allow(game).to receive(:enemy_king_location).and_return([6, 7])
+        expect(bishop.can_attack_king?).to be true
+      end
+    end
+
+    context 'when enemy king is not in attack range' do
+      it 'returns nil' do
+        allow(game).to receive(:enemy_king_location).and_return([7, 4])
+        expect(bishop.can_attack_king?).to be nil
+      end
+    end
+  end
 end
 
 describe Knight do
@@ -269,6 +333,22 @@ describe Knight do
     context 'when off board move is given' do
       it 'returns false' do
         expect(knight.legal_move?([-1, 16])).to be nil
+      end
+    end
+  end
+
+  describe '#can_attack_king?' do
+    context 'when enemy king is in attack range' do
+      it 'returns true' do
+        allow(game).to receive(:enemy_king_location).and_return([2, 2])
+        expect(knight.can_attack_king?).to be true
+      end
+    end
+
+    context 'when enemy king is not in attack range' do
+      it 'returns nil' do
+        allow(game).to receive(:enemy_king_location).and_return([7, 4])
+        expect(knight.can_attack_king?).to be nil
       end
     end
   end
@@ -345,6 +425,22 @@ describe Pawn do
     context 'when off board move is given' do
       it 'returns false' do
         expect(pawn.legal_move?([-1, 16])).to be nil
+      end
+    end
+  end
+
+  describe '#can_attack_king?' do
+    context 'when enemy king is in attack range' do
+      it 'returns true' do
+        allow(game).to receive(:enemy_king_location).and_return([2, 0])
+        expect(pawn.can_attack_king?).to be true
+      end
+    end
+
+    context 'when enemy king is not in attack range' do
+      it 'returns nil' do
+        allow(game).to receive(:enemy_king_location).and_return([7, 4])
+        expect(pawn.can_attack_king?).to be nil
       end
     end
   end

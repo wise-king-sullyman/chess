@@ -18,6 +18,7 @@ module Piece
   end
 
   def can_attack_king?
+    legal_move?(@game.enemy_king_location(self))
   end
 
   def clean_moves(moves)
