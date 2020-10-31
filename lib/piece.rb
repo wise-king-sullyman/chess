@@ -107,6 +107,12 @@ class Knight
   end
 
   def possible_moves
+    x = @location.first
+    y = @location.last
+    [
+      [x + 2, y + 1], [x - 2, y + 1], [x + 1, y + 2], [x - 1, y + 2],
+      [x + 2, y - 1], [x - 2, y - 1], [x + 1, y - 2], [x - 1, y - 2]
+    ].keep_if { |move| move.all? { |number| number.between?(0, 7) } }
   end
 end
 

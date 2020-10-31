@@ -241,6 +241,32 @@ describe Knight do
       expect(knight.instance_variable_get('@location')).to eql([0, 1])
     end
   end
+
+  describe '#legal_move?' do
+    context 'when legal move is given' do
+      it 'returns true' do
+        expect(knight.legal_move?([2, 2])).to be true
+      end
+    end
+
+    context 'when non-legal move is given' do
+      it 'returns false' do
+        expect(knight.legal_move?([0, 7])).to be nil
+      end
+    end
+
+    context 'when move is current location' do
+      it 'returns false' do
+        expect(knight.legal_move?([0, 1])).to be nil
+      end
+    end
+
+    context 'when off board move is given' do
+      it 'returns false' do
+        expect(knight.legal_move?([-1, 16])).to be nil
+      end
+    end
+  end
 end
 
 describe Pawn do
