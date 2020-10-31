@@ -21,6 +21,8 @@ module Piece
     legal_move?(@game.enemy_king_location(self))
   end
 
+  private
+
   def clean_moves(moves)
     moves.delete(@location)
     moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
@@ -38,6 +40,8 @@ class King
     color == 'white' ? "\u2654".encode : "\u265A".encode
   end
 
+  private
+
   def possible_moves(row, column)
     modifiers = [1, 0, -1].product([1, 0, -1])
     moves = apply_move_modifiers(modifiers, row, column)
@@ -51,6 +55,8 @@ class Queen
   def symbol(color)
     color == 'white' ? "\u2655".encode : "\u265B".encode
   end
+
+  private
 
   def possible_moves(row, column)
     moves = []
@@ -72,6 +78,8 @@ class Rook
     color == 'white' ? "\u2656".encode : "\u265C".encode
   end
 
+  private
+
   def possible_moves(row, column)
     moves = []
     8.times { |number| moves.push([number, column], [row, number]) }
@@ -85,6 +93,8 @@ class Bishop
   def symbol(color)
     color == 'white' ? "\u2657".encode : "\u265D".encode
   end
+
+  private
 
   def possible_moves(row, column)
     moves = []
@@ -104,6 +114,8 @@ class Knight
   def symbol(color)
     color == 'white' ? "\u2658".encode : "\u265E".encode
   end
+
+  private
 
   def possible_moves(row, column)
     modifiers = [2, -2].product([1, -1]) + [1, -1].product([2, -2])
