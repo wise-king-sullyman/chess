@@ -2,7 +2,7 @@
 
 # serves as the template for all unique pieces
 module Piece
-  def initialize(game = nil, location)
+  def initialize(game, location)
     @game = game
     @location = location
     @moved = false
@@ -14,10 +14,15 @@ module Piece
   end
 
   def legal_move?(move)
-    true if possible_moves.include?(move)
+    true if possible_moves(@location.first, @location.last).include?(move)
   end
 
   def can_attack_king?
+  end
+
+  def clean_moves(moves)
+    moves.delete(@location)
+    moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
   end
 end
 
@@ -28,13 +33,12 @@ class King
     color == 'white' ? "\u2654".encode : "\u265A".encode
   end
 
-  def possible_moves
-    x = @location.first
-    y = @location.last
-    [
-      [x + 1, y], [x, y + 1], [x + 1, y + 1], [x + 1, y - 1],
-      [x - 1, y], [x, y - 1], [x - 1, y - 1], [x - 1, x + 1]
-    ].keep_if { |move| move.all? { |number| number.between?(0, 7) } }
+  def possible_moves(row, column)
+    moves = [
+      [row + 1, column], [row, column + 1], [row + 1, column + 1], [row + 1, column - 1],
+      [row - 1, column], [row, column - 1], [row - 1, column - 1], [row - 1, column + 1]
+    ]
+    clean_moves(moves)
   end
 end
 
@@ -45,19 +49,16 @@ class Queen
     color == 'white' ? "\u2655".encode : "\u265B".encode
   end
 
-  def possible_moves
-    x = @location.first
-    y = @location.last
+  def possible_moves(row, column)
     moves = []
     8.times do |number|
-      moves.push([number, y], [x, number])
+      moves.push([number, column], [row, number])
       moves.push(
-        [x + number, y + number], [x + number, y - number],
-        [x - number, y + number], [x - number, y - number]
+        [row + number, column + number], [row + number, column - number],
+        [row - number, column + number], [row - number, column - number]
       )
     end
-    moves.delete(@location)
-    moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
+    clean_moves(moves)
   end
 end
 
@@ -68,13 +69,10 @@ class Rook
     color == 'white' ? "\u2656".encode : "\u265C".encode
   end
 
-  def possible_moves
-    x = @location.first
-    y = @location.last
+  def possible_moves(row, column)
     moves = []
-    8.times { |number| moves.push([number, y], [x, number]) }
-    moves.delete(@location)
-    moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
+    8.times { |number| moves.push([number, column], [row, number]) }
+    clean_moves(moves)
   end
 end
 
@@ -85,18 +83,15 @@ class Bishop
     color == 'white' ? "\u2657".encode : "\u265D".encode
   end
 
-  def possible_moves
-    x = @location.first
-    y = @location.last
+  def possible_moves(row, column)
     moves = []
     8.times do |number|
       moves.push(
-        [x + number, y + number], [x + number, y - number],
-        [x - number, y + number], [x - number, y - number]
+        [row + number, column + number], [row + number, column - number],
+        [row - number, column + number], [row - number, column - number]
       )
     end
-    moves.delete(@location)
-    moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
+    clean_moves(moves)
   end
 end
 
@@ -107,20 +102,19 @@ class Knight
     color == 'white' ? "\u2658".encode : "\u265E".encode
   end
 
-  def possible_moves
-    x = @location.first
-    y = @location.last
-    [
-      [x + 2, y + 1], [x - 2, y + 1], [x + 1, y + 2], [x - 1, y + 2],
-      [x + 2, y - 1], [x - 2, y - 1], [x + 1, y - 2], [x - 1, y - 2]
-    ].keep_if { |move| move.all? { |number| number.between?(0, 7) } }
+  def possible_moves(row, column)
+    moves = [
+      [row + 2, column + 1], [row - 2, column + 1], [row + 1, column + 2], [row - 1, column + 2],
+      [row + 2, column - 1], [row - 2, column - 1], [row + 1, column - 2], [row - 1, column - 2]
+    ]
+    clean_moves(moves)
   end
 end
 
 class Pawn
   include Piece
 
-  def initialize(game = nil, location)
+  def initialize(game, location)
     super
     @direction = @location.first == 1 ? 1 : -1
   end
@@ -129,17 +123,15 @@ class Pawn
     color == 'white' ? "\u2659".encode : "\u265F".encode
   end
 
-  def possible_moves
-    x = @location.first
-    y = @location.last
+  def possible_moves(row, column)
     moves = []
     unless @moved
-      moves.push([x + @direction + @direction, y])
+      moves.push([row + @direction + @direction, column])
       @moved = true
     end
-    moves.push([x + @direction, y])
-    moves.push([x + @direction, y + 1]) if @game.enemy_at?(self, [x + @direction, y + 1])
-    moves.push([x + @direction, y - 1]) if @game.enemy_at?(self, [x + @direction, y - 1])
-    moves
+    moves.push([row + @direction, column])
+    moves.push([row + @direction, column + 1]) if @game.enemy_at?(self, [row + @direction, column + 1])
+    moves.push([row + @direction, column - 1]) if @game.enemy_at?(self, [row + @direction, column - 1])
+    clean_moves(moves)
   end
 end

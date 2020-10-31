@@ -3,7 +3,8 @@
 require './lib/piece.rb'
 
 describe King do
-  subject(:king) { King.new([0, 4]) }
+  let(:game) { instance_double('game') }
+  subject(:king) { King.new(game, [0, 4]) }
 
   describe '#symbol' do
     context 'when white' do
@@ -54,7 +55,8 @@ describe King do
 end
 
 describe Queen do
-  subject(:queen) { Queen.new([0, 3]) }
+  let(:game) { instance_double('game') }
+  subject(:queen) { Queen.new(game, [0, 3]) }
 
   describe '#symbol' do
     context 'when white' do
@@ -117,7 +119,8 @@ describe Queen do
 end
 
 describe Rook do
-  subject(:rook) { Rook.new([0, 0]) }
+  let(:game) { instance_double('game') }
+  subject(:rook) { Rook.new(game, [0, 0]) }
 
   describe '#symbol' do
     context 'when white' do
@@ -168,7 +171,8 @@ describe Rook do
 end
 
 describe Bishop do
-  subject(:bishop) { Bishop.new([0, 1]) }
+  let(:game) { instance_double('game') }
+  subject(:bishop) { Bishop.new(game, [0, 1]) }
 
   describe '#symbol' do
     context 'when white' do
@@ -219,7 +223,8 @@ describe Bishop do
 end
 
 describe Knight do
-  subject(:knight) { Knight.new([0, 1]) }
+  let(:game) { instance_double('game') }
+  subject(:knight) { Knight.new(game, [0, 1]) }
 
   describe '#symbol' do
     context 'when white' do
