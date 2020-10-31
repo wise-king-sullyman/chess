@@ -270,7 +270,12 @@ describe Knight do
 end
 
 describe Pawn do
-  subject(:pawn) { Pawn.new([0, 1]) }
+  let(:game) { instance_double('game') }
+  subject(:pawn) { Pawn.new(game, [1, 1]) }
+
+  before do
+    allow(game).to receive(:enemy_at?).and_return(true)
+  end
 
   describe '#symbol' do
     context 'when white' do
@@ -290,6 +295,52 @@ describe Pawn do
     it 'sets @location to the new location' do
       pawn.move([0, 1])
       expect(pawn.instance_variable_get('@location')).to eql([0, 1])
+    end
+  end
+
+  describe '#legal_move?' do
+    context 'when legal 1 square positive first move is given' do
+      it 'returns true' do
+        expect(pawn.legal_move?([2, 1])).to be true
+      end
+    end
+
+    context 'when legal 2 square positive first move is given' do
+      it 'returns true' do
+        expect(pawn.legal_move?([3, 1])).to be true
+      end
+    end
+
+    context 'when legal 1 square negative first move is given' do
+      subject(:pawn) { Pawn.new(game, [6, 1]) }
+      it 'returns true' do
+        expect(pawn.legal_move?([5, 1])).to be true
+      end
+    end
+
+    context 'when legal attack move is given' do
+      it 'returns true' do
+
+        expect(pawn.legal_move?([2, 2])).to be true
+      end
+    end
+
+    context 'when non-legal move is given' do
+      it 'returns false' do
+        expect(pawn.legal_move?([0, 7])).to be nil
+      end
+    end
+
+    context 'when move is current location' do
+      it 'returns false' do
+        expect(pawn.legal_move?([0, 1])).to be nil
+      end
+    end
+
+    context 'when off board move is given' do
+      it 'returns false' do
+        expect(pawn.legal_move?([-1, 16])).to be nil
+      end
     end
   end
 end

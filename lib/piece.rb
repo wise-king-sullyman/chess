@@ -2,7 +2,8 @@
 
 # serves as the template for all unique pieces
 module Piece
-  def initialize(location)
+  def initialize(game = nil, location)
+    @game = game
     @location = location
     @moved = false
   end
@@ -119,10 +120,26 @@ end
 class Pawn
   include Piece
 
+  def initialize(game = nil, location)
+    super
+    @direction = @location.first == 1 ? 1 : -1
+  end
+
   def symbol(color)
     color == 'white' ? "\u2659".encode : "\u265F".encode
   end
 
   def possible_moves
+    x = @location.first
+    y = @location.last
+    moves = []
+    unless @moved
+      moves.push([x + @direction + @direction, y])
+      @moved = true
+    end
+    moves.push([x + @direction, y])
+    moves.push([x + @direction, y + 1]) if @game.enemy_at?(self, [x + @direction, y + 1])
+    moves.push([x + @direction, y - 1]) if @game.enemy_at?(self, [x + @direction, y - 1])
+    moves
   end
 end
