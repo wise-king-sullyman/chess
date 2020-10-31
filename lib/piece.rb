@@ -24,6 +24,10 @@ module Piece
     moves.delete(@location)
     moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
   end
+
+  def apply_move_modifiers(modifiers, row, column)
+    modifiers.map { |modifier| [row + modifier.first, column + modifier.last] }
+  end
 end
 
 class King
@@ -34,10 +38,8 @@ class King
   end
 
   def possible_moves(row, column)
-    moves = [
-      [row + 1, column], [row, column + 1], [row + 1, column + 1], [row + 1, column - 1],
-      [row - 1, column], [row, column - 1], [row - 1, column - 1], [row - 1, column + 1]
-    ]
+    modifiers = [1, 0, -1].product([1, 0, -1])
+    moves = apply_move_modifiers(modifiers, row, column)
     clean_moves(moves)
   end
 end
@@ -103,10 +105,8 @@ class Knight
   end
 
   def possible_moves(row, column)
-    moves = [
-      [row + 2, column + 1], [row - 2, column + 1], [row + 1, column + 2], [row - 1, column + 2],
-      [row + 2, column - 1], [row - 2, column - 1], [row + 1, column - 2], [row - 1, column - 2]
-    ]
+    modifiers = [2, -2].product([1, -1]) + [1, -1].product([2, -2])
+    moves = apply_move_modifiers(modifiers, row, column)
     clean_moves(moves)
   end
 end
