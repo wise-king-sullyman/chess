@@ -4,7 +4,8 @@ require './lib/piece.rb'
 
 describe King do
   let(:game) { instance_double('game') }
-  subject(:king) { King.new(game, [0, 4]) }
+  let(:player) { instance_double('player') }
+  subject(:king) { King.new(game, player, [0, 4]) }
 
   describe '#symbol' do
     context 'when white' do
@@ -72,7 +73,8 @@ end
 
 describe Queen do
   let(:game) { instance_double('game') }
-  subject(:queen) { Queen.new(game, [0, 3]) }
+  let(:player) { instance_double('player') }
+  subject(:queen) { Queen.new(game, player, [0, 3]) }
 
   describe '#symbol' do
     context 'when white' do
@@ -152,7 +154,8 @@ end
 
 describe Rook do
   let(:game) { instance_double('game') }
-  subject(:rook) { Rook.new(game, [0, 0]) }
+  let(:player) { instance_double('player') }
+  subject(:rook) { Rook.new(game, player, [0, 0]) }
 
   describe '#symbol' do
     context 'when white' do
@@ -220,7 +223,8 @@ end
 
 describe Bishop do
   let(:game) { instance_double('game') }
-  subject(:bishop) { Bishop.new(game, [0, 1]) }
+  let(:player) { instance_double('player') }
+  subject(:bishop) { Bishop.new(game, player, [0, 1]) }
 
   describe '#symbol' do
     context 'when white' do
@@ -288,7 +292,8 @@ end
 
 describe Knight do
   let(:game) { instance_double('game') }
-  subject(:knight) { Knight.new(game, [0, 1]) }
+  let(:player) { instance_double('player') }
+  subject(:knight) { Knight.new(game, player, [0, 1]) }
 
   describe '#symbol' do
     context 'when white' do
@@ -356,7 +361,8 @@ end
 
 describe Pawn do
   let(:game) { instance_double('game') }
-  subject(:pawn) { Pawn.new(game, [1, 1]) }
+  let(:player) { instance_double('player') }
+  subject(:pawn) { Pawn.new(game, player, [1, 1]) }
 
   before do
     allow(game).to receive(:enemy_at?).and_return(true)
@@ -397,7 +403,7 @@ describe Pawn do
     end
 
     context 'when legal 1 square negative first move is given' do
-      subject(:pawn) { Pawn.new(game, [6, 1]) }
+      subject(:pawn) { Pawn.new(game, player, [6, 1]) }
       it 'returns true' do
         expect(pawn.legal_move?([5, 1])).to be true
       end

@@ -2,8 +2,9 @@
 
 # serves as the template for all unique pieces
 module Piece
-  def initialize(game, location)
+  def initialize(game, player, location)
     @game = game
+    @player = player
     @location = location
     @moved = false
   end
@@ -127,7 +128,7 @@ end
 class Pawn
   include Piece
 
-  def initialize(game, location)
+  def initialize(game, player, location)
     super
     @direction = @location.first == 1 ? 1 : -1
   end
