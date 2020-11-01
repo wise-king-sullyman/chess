@@ -14,4 +14,38 @@ describe Game do
       expect(game.enemy_king_location(player)).to eql([7, 5])
     end
   end
+
+  describe '#enemy_at?' do
+    let(:board) { instance_double('board') }
+    let(:player2) { instance_double('player') }
+    let(:piece) { instance_double('piece') }
+
+    before do
+      game.instance_variable_set('@players', [player, player2])
+      game.instance_variable_set('@board', board)
+    end
+
+    context 'when an enemy piece is at the location' do
+      it 'returns true' do
+        allow(board).to receive(:piece_at).and_return(piece)
+        allow(piece).to receive(:parent).and_return(player2)
+        expect(game.enemy_at?(player, [7, 1])).to be true
+      end
+    end
+
+    context 'when no piece is at the location' do
+      it 'returns false' do
+        allow(board).to receive(:piece_at).and_return(nil)
+        expect(game.enemy_at?(player, [7, 1])).to be false
+      end
+    end
+
+    context 'when a friendly piece is at the location' do
+      it 'returns false' do
+        allow(board).to receive(:piece_at).and_return(piece)
+        allow(piece).to receive(:parent).and_return(player)
+        expect(game.enemy_at?(player, [7, 1])).to be false
+      end
+    end
+  end
 end
