@@ -2,6 +2,8 @@
 
 # keep state of and execute actions for the player
 class Player
+  attr_reader :color
+
   def initialize(name, color)
     @name = name
     @color = color
