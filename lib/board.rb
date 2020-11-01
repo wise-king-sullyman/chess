@@ -7,8 +7,8 @@ class Board
     @game_board = make_blank_board
   end
 
-  def update(row, column, id)
-    @game_board[row][column] = id
+  def update(row, column, piece)
+    @game_board[row][column] = piece
   end
 
   def to_s
@@ -20,6 +20,10 @@ class Board
       s += "\n"
     end
     s
+  end
+
+  def piece_at(location)
+    @game_board[location.first][location.last]
   end
 
   private

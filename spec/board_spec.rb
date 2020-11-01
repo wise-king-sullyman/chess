@@ -42,4 +42,14 @@ describe Board do
       expect(board.instance_variable_get('@game_board')[1][0]).to eql(1)
     end
   end
+
+  describe '#piece_at' do
+    let(:piece) { instance_double('piece') }
+    context 'when a piece is present' do
+      it 'returns the piece' do
+        board.update(0, 4, piece)
+        expect(board.piece_at([0, 4])).to eql(piece)
+      end
+    end
+  end
 end
