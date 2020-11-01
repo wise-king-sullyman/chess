@@ -3,7 +3,7 @@
 # create/update board and reply if a space is occupied
 class Board
   def initialize
-    @symbol_ids = { 0 => "\u25A1", 1 => "\u2659" }
+    @empty_tile = "\u25A1".encode + ' '
     @game_board = make_blank_board
   end
 
@@ -14,8 +14,8 @@ class Board
   def to_s
     s = ''
     @game_board.each do |row|
-      row.each do |id|
-        s += @symbol_ids[id].encode + ' '
+      row.each do |tile|
+        s += tile ? tile.symbol(tile.player.color) + ' ' : @empty_tile
       end
       s += "\n"
     end
@@ -32,7 +32,7 @@ class Board
     board = []
     8.times { board.push([]) }
     board.each do |row|
-      row.push(0) until row.size == 8
+      row.push(nil) until row.size == 8
     end
     board
   end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/board.rb'
+require './lib/piece.rb'
 
 describe Board do
   subject(:board) { Board.new }
@@ -9,7 +10,7 @@ describe Board do
     before do
       allow($stdout).to receive(:write)
     end
-  
+
     context 'when board is blank' do
       it 'prints a blank board' do
         output_string =
@@ -23,8 +24,12 @@ describe Board do
     end
 
     context 'after a piece is added' do
+      let(:player) { instance_double('player') }
+      let(:game) { instance_double('game')}
+      let(:piece) { Pawn.new(game, player, [1, 0]) }
       it 'prints the piece in place' do
-        board.update(1, 0, 1)
+        allow(player).to receive(:color).and_return('white')
+        board.update(1, 0, piece)
         output_string =
           "□ □ □ □ □ □ □ □ \n♙ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n"\
           "□ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n"\
@@ -35,7 +40,7 @@ describe Board do
       end
     end
   end
-  
+
   describe '#update' do
     it 'adds a piece to the board when requested' do
       board.update(1, 0, 1)
