@@ -9,7 +9,10 @@ class Game
     @over = false
     @winner = nil
     @board = Board.new
-    @players = [Player.new('player 1', 'white'), Player.new('player 2', 'black')]
+    @players = [
+      Player.new('player 1', 'white'),
+      Player.new('player 2', 'black')
+    ]
   end
 
   def game_over?
@@ -25,12 +28,16 @@ class Game
   end
 
   def enemy_king_location(calling_player)
-    @players.first == calling_player ? @players.last.king_location : @players.first.king_location
+    player1 = @players.first
+    player2 = @players.last
+    player1 == calling_player ? player2.king_location : player1.king_location
   end
 
   def enemy_at?(calling_player, location)
-    enemy_player = @players.first == calling_player ? @players.last : @players.first
+    player1 = @players.first
+    player2 = @players.last
+    enemy_player = player1 == calling_player ? player2 : player1
     at_location = @board.piece_at(location)
-    at_location.respond_to?(:parent) && at_location.parent == enemy_player
+    at_location.respond_to?(:player) && at_location.player == enemy_player
   end
 end
