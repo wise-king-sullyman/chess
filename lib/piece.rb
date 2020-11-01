@@ -2,7 +2,7 @@
 
 # serves as the template for all unique pieces
 module Piece
-  attr_reader player
+  attr_reader :player
 
   def initialize(game, player, location)
     @game = game
