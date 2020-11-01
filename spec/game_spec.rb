@@ -28,7 +28,7 @@ describe Game do
     context 'when an enemy piece is at the location' do
       it 'returns true' do
         allow(board).to receive(:piece_at).and_return(piece)
-        allow(piece).to receive(:parent).and_return(player2)
+        allow(piece).to receive(:player).and_return(player2)
         expect(game.enemy_at?(player, [7, 1])).to be true
       end
     end
