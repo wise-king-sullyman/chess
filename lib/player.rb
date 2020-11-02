@@ -4,9 +4,10 @@
 class Player
   attr_reader :color
 
-  def initialize(name, color)
+  def initialize(name, color, game)
     @name = name
     @color = color
+    @game = game
     @pieces = get_pieces
     @lost_pieces = []
     @check = false

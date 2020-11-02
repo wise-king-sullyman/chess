@@ -3,8 +3,8 @@
 require './lib/player.rb'
 
 describe Player do
-  subject(:player) { Player.new('player 1', 'white') }
   let(:game) { instance_double('game') }
+  subject(:player) { Player.new('player 1', 'white', game) }
   let(:piece) { instance_double('piece') }
   let(:board) { instance_double('board') }
   let(:location) { [] }

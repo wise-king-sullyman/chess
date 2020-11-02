@@ -10,8 +10,8 @@ class Game
     @winner = nil
     @board = Board.new
     @players = [
-      Player.new('player 1', 'white'),
-      Player.new('player 2', 'black')
+      Player.new('player 1', 'white', self),
+      Player.new('player 2', 'black', self)
     ]
   end
 
