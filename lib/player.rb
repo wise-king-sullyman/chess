@@ -21,4 +21,8 @@ class Player
 
   def get_pieces
   end
+
+  def valid?(piece, location)
+    piece.legal_move?(location) && @game.available?(self, location) && @game.reachable(piece, location)
+  end
 end
