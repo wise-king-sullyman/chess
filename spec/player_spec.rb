@@ -22,7 +22,7 @@ describe Player do
       end
 
       it 'calls game.move_piece' do
-        player.move(piece, location)
+        player.move
         expect(game).to receive(:move_piece)
       end
     end
@@ -34,14 +34,8 @@ describe Player do
         allow(game).to receive(:reachable?).and_return(false, true)
       end
 
-      it 'prints "unable to complete move"' do
-        expect do
-          player.move(piece, location)
-        end.to output("unable to complete move\n").to_stdout
-      end
-
-      it 'requests input again until a valid move is given' do
-        expect(game).to receive(:move_piece)
+      it 'calls #valid? until a valid move is given' do
+        expect(player).to receive(:valid?).twice
       end
     end
 
@@ -52,14 +46,8 @@ describe Player do
         allow(game).to receive(:reachable?).and_return(true)
       end
 
-      it 'prints "unable to complete move"' do
-        expect do
-          player.move(piece, location)
-        end.to output("unable to complete move\n").to_stdout
-      end
-
-      it 'requests input again until a valid move is given' do
-        expect(game).to receive(:move_piece)
+      it 'calls #valid? until a valid move is given' do
+        expect(player).to receive(:valid?).twice
       end
     end
 
@@ -70,14 +58,8 @@ describe Player do
         allow(game).to receive(:reachable?).and_return(true)
       end
 
-      it 'prints "unable to complete move"' do
-        expect do
-          player.move(piece, location)
-        end.to output("unable to complete move\n").to_stdout
-      end
-
-      it 'requests input again until a valid move is given' do
-        expect(game).to receive(:move_piece)
+      it 'calls #valid? until a valid move is given' do
+        expect(player).to receive(:valid?).twice
       end
     end
   end
