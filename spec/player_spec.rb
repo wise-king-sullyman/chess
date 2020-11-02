@@ -17,8 +17,8 @@ describe Player do
     context 'when a legal, available, and reachable move is given' do
       before do
         allow(piece).to receive(:legal_move?).and_return(true)
-        allow(board).to receive(:piece_at).and_return(nil)
-        allow(board).to receive(:reachable?).and_return(true)
+        allow(game).to receive(:available?).and_return(true)
+        allow(game).to receive(:reachable?).and_return(true)
       end
 
       it 'calls game.move_piece' do
@@ -30,8 +30,8 @@ describe Player do
     context 'when a legal, available, but unreachable move is given' do
       before do
         allow(piece).to receive(:legal_move?).and_return(true)
-        allow(board).to receive(:piece_at).and_return(nil)
-        allow(board).to receive(:reachable?).and_return(false, true)
+        allow(game).to receive(:available?).and_return(true)
+        allow(game).to receive(:reachable?).and_return(false, true)
       end
 
       it 'prints "unable to complete move"' do
@@ -48,8 +48,8 @@ describe Player do
     context 'when a legal, reachable, but unavailable move is given' do
       before do
         allow(piece).to receive(:legal_move?).and_return(true)
-        allow(board).to receive(:piece_at).and_return(piece, nil)
-        allow(board).to receive(:reachable?).and_return(true)
+        allow(game).to receive(:available?).and_return(false, true)
+        allow(game).to receive(:reachable?).and_return(true)
       end
 
       it 'prints "unable to complete move"' do
@@ -66,8 +66,8 @@ describe Player do
     context 'when a reachable, available, but non legal move is given' do
       before do
         allow(piece).to receive(:legal_move?).and_return(nil, true)
-        allow(board).to receive(:piece_at).and_return(nil)
-        allow(board).to receive(:reachable?).and_return(true)
+        allow(game).to receive(:available?).and_return(true)
+        allow(game).to receive(:reachable?).and_return(true)
       end
 
       it 'prints "unable to complete move"' do
