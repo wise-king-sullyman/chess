@@ -23,6 +23,8 @@ class Player
   end
 
   def valid?(piece, location)
-    piece.legal_move?(location) && @game.available?(self, location) && @game.reachable(piece, location)
+    piece.legal_move?(location) \
+    && @game.available?(self, location) \
+    && @game.reachable?(piece, location)
   end
 end
