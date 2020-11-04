@@ -40,4 +40,11 @@ class Game
     at_location = @board.piece_at(location)
     at_location.respond_to?(:player) && at_location.player == enemy_player
   end
+
+  def available?(player, location)
+    at_location = @board.piece_at(location)
+    return false if at_location.respond_to?(:player) && at_location.player == player
+
+    true
+  end
 end
