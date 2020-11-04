@@ -3,7 +3,10 @@
 require './lib/game.rb'
 
 describe Game do
-  let(:player) { instance_double('player') }
+  let(:board) { double('board') }
+  let(:player) { double('player') }
+  let(:player2) { double('player') }
+  let(:piece) { double('piece') }
   subject(:game) { Game.new }
 
   describe '#enemy_king_location' do
@@ -16,10 +19,6 @@ describe Game do
   end
 
   describe '#enemy_at?' do
-    let(:board) { instance_double('board') }
-    let(:player2) { instance_double('player') }
-    let(:piece) { instance_double('piece') }
-
     before do
       game.instance_variable_set('@players', [player, player2])
       game.instance_variable_set('@board', board)
@@ -50,9 +49,12 @@ describe Game do
   end
 
   describe '#available?' do
-    let(:board) { instance_double('board') }
-    let(:player2) { instance_double('player') }
-    let(:piece) { instance_double('piece') }
+    let(:location) { 'foo' }
+
+    before do
+      game.instance_variable_set('@players', [player, player2])
+      game.instance_variable_set('@board', board)
+    end
 
     context 'when a player selects an empty space' do
       it 'returns true' do
