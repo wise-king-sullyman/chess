@@ -48,4 +48,33 @@ describe Game do
       end
     end
   end
+
+  describe '#available?' do
+    let(:board) { instance_double('board') }
+    let(:player2) { instance_double('player') }
+    let(:piece) { instance_double('piece') }
+
+    context 'when a player selects an empty space' do
+      it 'returns true' do
+        allow(board).to receive(:piece_at).and_return(nil)
+        expect(game.available?(player, location)).to be true
+      end
+    end
+
+    context 'when a player selects a space with an enemy piece' do
+      it 'returns true' do
+        allow(board).to receive(:piece_at).and_return(piece)
+        allow(piece).to receive(:player).and_return(player2)
+        expect(game.available?(player, location)).to be true
+      end
+    end
+
+    context 'when a player selects a space with one of their pieces' do
+      it 'returns false' do
+        allow(board).to receive(:piece_at).and_return(piece)
+        allow(piece).to receive(:player).and_return(player)
+        expect(game.available?(player, location)).to be false
+      end
+    end
+  end
 end
