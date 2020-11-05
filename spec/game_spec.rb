@@ -79,4 +79,28 @@ describe Game do
       end
     end
   end
+
+  describe '#reachable?' do
+    let(:board) { game.instance_variable_get(@board) }
+    let(:piece2) { double('piece') }
+
+    context 'when the piece can reach the location unobstructed' do
+      it 'returns true' do
+        board[0][0] = piece
+        game.instance_variable_set('@board', board)
+        location = [0, 8]
+        expect(game.reachable?(piece, location)).to be true
+      end
+    end
+
+    context 'when the piece can not reach the location unobstructed' do
+      it 'returns false' do
+        board[0][0] = piece
+        board[0][4] = piece2
+        game.instance_variable_set('@board', board)
+        location = [0, 8]
+        expect(game.reachable?(piece, location)).to be false
+      end
+    end
+  end
 end
