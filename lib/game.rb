@@ -47,4 +47,31 @@ class Game
 
     true
   end
+
+  def reachable?(piece, destination)
+    return true if piece.class == Knight
+
+    from_row = piece.location.first
+    from_column = piece.location.first
+    to_row = destination.first
+    to_column = destination.last
+    row_range = from_row < to_row ? (from_row...to_row) : (to_row...from_row)
+    column_range = from_column < to_column ? (from_column...to_column) : (to_column...from_column)
+    if from_row == to_row 
+      column_range.each do |column| 
+        return false if enemy_at?(piece.player, [from_row, column])
+      end
+    elsif from_column == to_column
+      row_range.each do |row|
+        return false if enemy_at?(piece.player, [row, from_column])
+      end
+    else
+      row_direction = from_row < to_row ? 1 : -1
+      column_direction = from_column < to_column ? 1 : -1
+      until from_row == to_row && from_column == to_column
+        return false if enemy_at?(piece.player, [from_row += row_direction, from_column += column_direction])
+      end
+    end
+    true
+  end
 end
