@@ -3,63 +3,69 @@
 require './lib/player.rb'
 
 describe Player do
-  let(:game) { instance_double('game') }
-  subject(:player) { Player.new('player 1', 'white', game) }
-  let(:piece) { instance_double('piece') }
-  let(:board) { instance_double('board') }
+  let(:game) { double('game') }
+  let(:board) { double('board') }
+  subject(:player) { Player.new('player 1', 'white', game, board) }
+  let(:piece) { double('piece') }
   let(:location) { [] }
 
   before do
     allow($stdout).to receive(:write)
+    allow(board).to receive(:piece_at).and_return(piece)
+    allow(piece).to receive(:player).and_return(player)
+    allow(player).to receive(:gets).and_return('foo')
+    allow(game).to receive(:move_piece)
   end
 
   describe '#move' do
-    context 'when a legal, available, and reachable move is given' do
+    context 'when a valid move is given to an owned piece' do
       before do
-        allow(piece).to receive(:legal_move?).and_return(true)
-        allow(game).to receive(:available?).and_return(true)
-        allow(game).to receive(:reachable?).and_return(true)
+        allow(player).to receive(:valid?).and_return(true)
+        allow(player).to receive(:piece_is_mine?).and_return(true)
+      end
+
+      it 'calls #valid? until a valid move is given' do
+        expect(player).to receive(:valid?).once
+        player.move
       end
 
       it 'calls game.move_piece' do
-        player.move
         expect(game).to receive(:move_piece)
+        player.move
       end
     end
 
-    context 'when a legal, available, but unreachable move is given' do
+    context 'when a valid move is given to an unowned piece' do
       before do
-        allow(piece).to receive(:legal_move?).and_return(true)
-        allow(game).to receive(:available?).and_return(true)
-        allow(game).to receive(:reachable?).and_return(false, true)
+        allow(player).to receive(:valid?).and_return(true)
+        allow(player).to receive(:piece_is_mine?).and_return(false, true)
+      end
+
+      it 'calls #piece_is_mine? until a valid move is given' do
+        expect(player).to receive(:piece_is_mine?).twice
+        player.move
+      end
+
+      it 'calls game.move_piece once passing conditions are met' do
+        expect(game).to receive(:move_piece).once
+        player.move
+      end
+    end
+
+    context 'when an invalid move is given to an owned piece' do
+      before do
+        allow(player).to receive(:valid?).and_return(false, true)
+        allow(player).to receive(:piece_is_mine?).and_return(true)
       end
 
       it 'calls #valid? until a valid move is given' do
         expect(player).to receive(:valid?).twice
-      end
-    end
-
-    context 'when a legal, reachable, but unavailable move is given' do
-      before do
-        allow(piece).to receive(:legal_move?).and_return(true)
-        allow(game).to receive(:available?).and_return(false, true)
-        allow(game).to receive(:reachable?).and_return(true)
+        player.move
       end
 
-      it 'calls #valid? until a valid move is given' do
-        expect(player).to receive(:valid?).twice
-      end
-    end
-
-    context 'when a reachable, available, but non legal move is given' do
-      before do
-        allow(piece).to receive(:legal_move?).and_return(nil, true)
-        allow(game).to receive(:available?).and_return(true)
-        allow(game).to receive(:reachable?).and_return(true)
-      end
-
-      it 'calls #valid? until a valid move is given' do
-        expect(player).to receive(:valid?).twice
+      it 'calls game.move_piece once passing conditions are met' do
+        expect(game).to receive(:move_piece).once
+        player.move
       end
     end
   end
