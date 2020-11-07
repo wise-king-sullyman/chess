@@ -51,26 +51,46 @@ class Game
   def reachable?(piece, destination)
     return true if piece.class == Knight
 
+    return false unless column_reachable?(piece, destination)
+
+    return false unless row_reachable?(piece, destination)
+
+    return false unless diagonal_reachable?(piece, destination)
+
+    true
+  end
+
+  private
+
+  def column_reachable?(piece, to)
+    from_column = piece.location.last
+    ranges = [(from_column...to.last), (to.last...from_column)]
+    ranges.each do |range|
+      range.each do |column|
+        return false if enemy_at?(piece.player, [piece.location.last, column])
+      end
+    end
+    true
+  end
+
+  def row_reachable?(piece, to)
     from_row = piece.location.first
-    from_column = piece.location.first
-    to_row = destination.first
-    to_column = destination.last
-    row_range = from_row < to_row ? (from_row...to_row) : (to_row...from_row)
-    column_range = from_column < to_column ? (from_column...to_column) : (to_column...from_column)
-    if from_row == to_row 
-      column_range.each do |column| 
-        return false if enemy_at?(piece.player, [from_row, column])
+    ranges = [(from_row...to.first), (to.first...from_row)]
+    ranges.each do |range|
+      range.each do |row|
+        return false if enemy_at?(piece.player, [row, piece.location.first])
       end
-    elsif from_column == to_column
-      row_range.each do |row|
-        return false if enemy_at?(piece.player, [row, from_column])
-      end
-    else
-      row_direction = from_row < to_row ? 1 : -1
-      column_direction = from_column < to_column ? 1 : -1
-      until from_row == to_row && from_column == to_column
-        return false if enemy_at?(piece.player, [from_row += row_direction, from_column += column_direction])
-      end
+    end
+    true
+  end
+
+  def diagonal_reachable?(piece, to)
+    from_row = piece.location.first
+    from_column = piece.location.last
+    row_direction = from_row < to.first ? 1 : -1
+    column_direction = from_column < to.last ? 1 : -1
+    until from_row == to.first
+      return false if enemy_at?(piece.player, [from_row += row_direction, from_column += column_direction])
     end
     true
   end
