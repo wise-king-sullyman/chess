@@ -27,6 +27,18 @@ class Board
     @game_board[location.first][location.last]
   end
 
+  def refresh
+    @game_board = make_blank_board
+    @players.each do |player|
+      player.pieces.each do |piece|
+        row = piece.location.first
+        column = piece.location.last
+        @game_board[row][column] = piece
+      end
+    end
+    @game_board
+  end
+
   private
 
   def make_blank_board
