@@ -15,6 +15,13 @@ class Game
     @board = Board.new(@players)
   end
 
+  def move_piece(piece, location)
+    at_location = @board.piece_at(location)
+    at_location&.player&.remove_piece(at_location)
+    piece.move(location)
+    @board.refresh
+  end
+
   def game_over?
   end
 
