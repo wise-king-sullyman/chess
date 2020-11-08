@@ -2,7 +2,8 @@
 
 # create/update board and reply if a space is occupied
 class Board
-  def initialize
+  def initialize(players)
+    @players = players
     @empty_tile = "\u25A1".encode + ' '
     @game_board = make_blank_board
   end

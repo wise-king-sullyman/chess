@@ -4,7 +4,8 @@ require './lib/board.rb'
 require './lib/piece.rb'
 
 describe Board do
-  subject(:board) { Board.new }
+  let(:players) { [] }
+  subject(:board) { Board.new(players) }
 
   describe '#to_s' do
     before do

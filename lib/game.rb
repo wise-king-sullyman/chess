@@ -8,11 +8,11 @@ class Game
   def initialize
     @over = false
     @winner = nil
-    @board = Board.new
     @players = [
       Player.new('player 1', 'white', self, @board),
       Player.new('player 2', 'black', self, @board)
     ]
+    @board = Board.new(@players)
   end
 
   def game_over?
