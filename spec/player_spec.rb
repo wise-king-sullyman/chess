@@ -69,4 +69,30 @@ describe Player do
       end
     end
   end
+
+  describe '#assign_pieces' do
+    let(:pieces) { player.instance_variable_get('@pieces') }
+    let(:player2) { Player.new('player 2', 'black', game, board) }
+    let(:player2_pieces) { player2.instance_variable_get('@pieces') }
+
+    context 'when player is white' do
+      it 'has a size of 16' do
+        expect(pieces.size).to eql(16)
+      end
+
+      it 'gives the king the right location' do
+        expect(pieces[7].location).to eql([7, 4])
+      end
+    end
+
+    context 'when player is black' do
+      it 'has a size of 16' do
+        expect(player2_pieces.size).to eql(16)
+      end
+
+      it 'gives the king the right location' do
+        expect(player2_pieces[7].location).to eql([0, 4])
+      end
+    end
+  end
 end
