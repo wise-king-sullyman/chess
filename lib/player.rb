@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'piece.rb'
+
 # keep state of and execute actions for the player
 class Player
   attr_reader :color
@@ -9,7 +11,7 @@ class Player
     @color = color
     @game = game
     @board = board
-    @pieces = get_pieces
+    @pieces = assign_pieces
     @lost_pieces = []
     @check = false
     @check_mate = false
@@ -28,7 +30,61 @@ class Player
 
   private
 
-  def get_pieces
+  def assign_pieces
+    pieces = []
+    assign_rooks(pieces)
+    assign_knights(pieces)
+    assign_bishops(pieces)
+    assign_queen(pieces)
+    assign_king(pieces)
+    assign_pawns(pieces)
+    pieces
+  end
+
+  def assign_rooks(pieces)
+    locations = []
+    @color == 'white' ? locations.push([7, 0], [7, 7]) : locations.push([0, 0], [0, 7])
+    locations.each do |location|
+      pieces.push(Rook.new(@game, self, location))
+    end
+  end
+
+  def assign_knights(pieces)
+    locations = []
+    @color == 'white' ? locations.push([7, 1], [7, 6]) : locations.push([0, 1], [0, 6])
+    locations.each do |location|
+      pieces.push(Knight.new(@game, self, location))
+    end
+  end
+
+  def assign_bishops(pieces)
+    locations = []
+    @color == 'white' ? locations.push([7, 2], [7, 5]) : locations.push([0, 2], [0, 5])
+    locations.each do |location|
+      pieces.push(Bishop.new(@game, self, location))
+    end
+  end
+
+  def assign_queen(pieces)
+    location = @color == 'white' ? [7, 3] : [0, 3]
+    pieces.push(Queen.new(@game, self, location))
+  end
+
+  def assign_king(pieces)
+    location = @color == 'white' ? [7, 4] : [0, 4]
+    pieces.push(King.new(@game, self, location))
+  end
+
+  def assign_pawns(pieces)
+    locations = []
+    if @color == 'white'
+      8.times { |column| locations.push([6, column]) }
+    else
+      8.times { |column| locations.push([1, column]) }
+    end
+    locations.each do |location|
+      pieces.push(Pawn.new(@game, self, location))
+    end
   end
 
   def piece_choice
