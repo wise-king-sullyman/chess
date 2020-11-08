@@ -7,6 +7,7 @@ describe Player do
   let(:board) { double('board') }
   subject(:player) { Player.new('player 1', 'white', game, board) }
   let(:piece) { double('piece') }
+  let(:pieces) { player.instance_variable_get('@pieces') }
   let(:location) { [] }
 
   before do
@@ -71,7 +72,6 @@ describe Player do
   end
 
   describe '#assign_pieces' do
-    let(:pieces) { player.instance_variable_get('@pieces') }
     let(:player2) { Player.new('player 2', 'black', game, board) }
     let(:player2_pieces) { player2.instance_variable_get('@pieces') }
 
@@ -93,6 +93,20 @@ describe Player do
       it 'gives the king the right location' do
         expect(player2_pieces[7].location).to eql([0, 4])
       end
+    end
+  end
+
+  describe '#remove_piece' do
+    let(:piece) { pieces[7] }
+    let(:lost_pieces) { player.instance_variable_get('@lost_pieces') }
+    it 'removes the piece from @pieces' do
+      player.remove_piece(piece)
+      expect(pieces).not_to include(piece)
+    end
+
+    it 'adds the piece to @lost_piece' do
+      player.remove_piece(piece)
+      expect(lost_pieces).to include(piece)
     end
   end
 end

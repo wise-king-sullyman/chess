@@ -28,6 +28,11 @@ class Player
     @game.move_piece(piece, location)
   end
 
+  def remove_piece(piece)
+    @lost_pieces.push(piece)
+    @pieces.delete(piece)
+  end
+
   private
 
   def assign_pieces
