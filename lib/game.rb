@@ -32,6 +32,11 @@ class Game
   end
 
   def play
+    @players.each do |player|
+      @board.refresh
+      puts @board
+      player.move
+    end
   end
 
   def enemy_king_location(calling_player)
