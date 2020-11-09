@@ -15,9 +15,15 @@ describe Board do
     context 'when board is blank' do
       it 'prints a blank board' do
         output_string =
-          "□ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n"\
-          "□ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n"\
-          "□ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n"
+          "  0 1 2 3 4 5 6 7 \n"\
+          "0 □ □ □ □ □ □ □ □ \n"\
+          "1 □ □ □ □ □ □ □ □ \n"\
+          "2 □ □ □ □ □ □ □ □ \n"\
+          "3 □ □ □ □ □ □ □ □ \n"\
+          "4 □ □ □ □ □ □ □ □ \n"\
+          "5 □ □ □ □ □ □ □ □ \n"\
+          "6 □ □ □ □ □ □ □ □ \n"\
+          "7 □ □ □ □ □ □ □ □ \n"
         expect do
           puts board
         end.to output(output_string).to_stdout
@@ -32,9 +38,15 @@ describe Board do
         allow(player).to receive(:color).and_return('white')
         board.update(1, 0, piece)
         output_string =
-          "□ □ □ □ □ □ □ □ \n♙ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n"\
-          "□ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n"\
-          "□ □ □ □ □ □ □ □ \n□ □ □ □ □ □ □ □ \n"
+          "  0 1 2 3 4 5 6 7 \n"\
+          "0 □ □ □ □ □ □ □ □ \n"\
+          "1 ♙ □ □ □ □ □ □ □ \n"\
+          "2 □ □ □ □ □ □ □ □ \n"\
+          "3 □ □ □ □ □ □ □ □ \n"\
+          "4 □ □ □ □ □ □ □ □ \n"\
+          "5 □ □ □ □ □ □ □ □ \n"\
+          "6 □ □ □ □ □ □ □ □ \n"\
+          "7 □ □ □ □ □ □ □ □ \n"
         expect do
           puts board
         end.to output(output_string).to_stdout

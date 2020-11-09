@@ -4,15 +4,14 @@ require './lib/player.rb'
 
 describe Player do
   let(:game) { double('game') }
-  let(:board) { double('board') }
-  subject(:player) { Player.new('player 1', 'white', game, board) }
+  subject(:player) { Player.new('player 1', 'white', game) }
   let(:piece) { double('piece') }
   let(:pieces) { player.instance_variable_get('@pieces') }
   let(:location) { [] }
 
   before do
     allow($stdout).to receive(:write)
-    allow(board).to receive(:piece_at).and_return(piece)
+    allow(game).to receive(:piece_at).and_return(piece)
     allow(piece).to receive(:player).and_return(player)
     allow(player).to receive(:gets).and_return('foo')
     allow(game).to receive(:move_piece)
@@ -72,7 +71,7 @@ describe Player do
   end
 
   describe '#assign_pieces' do
-    let(:player2) { Player.new('player 2', 'black', game, board) }
+    let(:player2) { Player.new('player 2', 'black', game) }
     let(:player2_pieces) { player2.instance_variable_get('@pieces') }
 
     context 'when player is white' do
