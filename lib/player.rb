@@ -94,12 +94,14 @@ class Player
 
   def piece_choice
     puts "#{@name} enter piece selection location:"
-    piece_at_location(gets.chomp)
+    input = gets.chomp
+    piece_at_location([input[0].to_i, input[-1].to_i])
   end
 
   def location_choice
     puts "#{@name} enter move location:"
-    gets.chomp
+    input = gets.chomp
+    [input[0].to_i, input[-1].to_i]
   end
 
   def piece_at_location(location)
