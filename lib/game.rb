@@ -9,8 +9,8 @@ class Game
     @over = false
     @winner = nil
     @players = [
-      Player.new('player 1', 'white', self, @board),
-      Player.new('player 2', 'black', self, @board)
+      Player.new('player 1', 'white', self),
+      Player.new('player 2', 'black', self)
     ]
     @board = Board.new(@players)
   end
@@ -32,10 +32,12 @@ class Game
   end
 
   def play
-    @players.each do |player|
-      @board.refresh
-      puts @board
-      player.move
+    loop do
+      @players.each do |player|
+        @board.refresh
+        puts @board
+        player.move
+      end
     end
   end
 
@@ -70,6 +72,10 @@ class Game
     return false unless diagonal_reachable?(piece, destination)
 
     true
+  end
+
+  def piece_at(location)
+    @board.piece_at(location)
   end
 
   private
