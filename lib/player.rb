@@ -6,11 +6,10 @@ require_relative 'piece.rb'
 class Player
   attr_accessor :color, :pieces
 
-  def initialize(name, color, game, board)
+  def initialize(name, color, game)
     @name = name
     @color = color
     @game = game
-    @board = board
     @pieces = assign_pieces
     @lost_pieces = []
     @check = false
@@ -105,7 +104,7 @@ class Player
   end
 
   def piece_at_location(location)
-    @board.piece_at(location)
+    @game.piece_at(location)
   end
 
   def piece_is_mine?(piece)
