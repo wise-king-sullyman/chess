@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'board.rb'
-require 'player.rb'
+require_relative 'board.rb'
+require_relative 'player.rb'
 
 # manage the game
 class Game
