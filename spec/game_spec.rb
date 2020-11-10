@@ -121,6 +121,16 @@ describe Game do
       end
     end
 
+    context 'when the piece can reach a diagonal location with an enemy' do
+      it 'returns true' do
+        game_board[0][0] = piece
+        game_board[6][6] = piece2
+        game.instance_variable_set('@board', board)
+        location = [6, 6]
+        expect(game.reachable?(piece, location)).to be true
+      end
+    end
+
     context 'when the piece can reach an upper diagonal location unobstructed' do
       it 'returns true' do
         game_board[6][6] = piece
