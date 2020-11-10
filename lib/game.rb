@@ -63,11 +63,16 @@ class Game
   end
 
   def reachable?(piece, destination)
+    from_row = piece.location.first
+    from_column = piece.location.last
+    to_row = destination.first
+    to_column = destination.last
+
     return true if piece.class == Knight
 
-    return false unless column_reachable?(piece, destination)
+    return column_reachable?(piece, destination) if from_row == to_row
 
-    return false unless row_reachable?(piece, destination)
+    return row_reachable?(piece, destination) if from_column == to_column
 
     return false unless diagonal_reachable?(piece, destination)
 
