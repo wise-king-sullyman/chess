@@ -70,9 +70,9 @@ class Game
 
     return true if piece.class == Knight
 
-    return column_reachable?(piece, destination) if from_row == to_row
+    return row_reachable?(piece, destination) if from_row == to_row
 
-    return row_reachable?(piece, destination) if from_column == to_column
+    return column_reachable?(piece, destination) if from_column == to_column
 
     return false unless diagonal_reachable?(piece, destination)
 
@@ -85,24 +85,20 @@ class Game
 
   private
 
-  def column_reachable?(piece, to)
+  def row_reachable?(piece, to)
     from_column = piece.location.last
-    ranges = [(from_column...to.last), (to.last...from_column)]
-    ranges.each do |range|
-      range.each do |column|
-        return false if enemy_at?(piece.player, [piece.location.last, column])
-      end
+    range = to.last > from_column ? (from_column + 1...to.last) : (from_column - 1...to.last)
+    range.each do |column|
+      return false if piece_at([piece.location.first, column])
     end
     true
   end
 
-  def row_reachable?(piece, to)
+  def column_reachable?(piece, to)
     from_row = piece.location.first
-    ranges = [(from_row...to.first), (to.first...from_row)]
-    ranges.each do |range|
-      range.each do |row|
-        return false if enemy_at?(piece.player, [row, piece.location.first])
-      end
+    range = to.first > from_row ? (from_row + 1...to.first) : (from_row - 1...to.first)
+    range.each do |row|
+      return false if piece_at([row, piece.location.last])
     end
     true
   end
@@ -112,8 +108,8 @@ class Game
     from_column = piece.location.last
     row_direction = from_row < to.first ? 1 : -1
     column_direction = from_column < to.last ? 1 : -1
-    until from_row == to.first
-      return false if enemy_at?(piece.player, [from_row += row_direction, from_column += column_direction])
+    until from_row + row_direction == to.first && from_column + column_direction == to.last
+      return false if piece_at([from_row += row_direction, from_column += column_direction])
     end
     true
   end
