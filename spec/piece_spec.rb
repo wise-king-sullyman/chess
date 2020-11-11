@@ -409,6 +409,19 @@ describe Pawn do
       end
     end
 
+    context 'when legal attack move from top to bottom is given' do
+      it 'returns true' do
+        expect(pawn.legal_move?([2, 2])).to be true
+      end
+    end
+
+    context 'when legal attack move from bottom to top is given' do
+      let(:pawn) { Pawn.new(game, player, [6, 1]) }
+      it 'returns true' do
+        expect(pawn.legal_move?([5, 2])).to be true
+      end
+    end
+
     context 'when non-legal move is given' do
       it 'returns false' do
         expect(pawn.legal_move?([0, 7])).to be false
