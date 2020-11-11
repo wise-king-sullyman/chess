@@ -21,7 +21,7 @@ module Piece
   end
 
   def can_attack_king?
-    legal_move?(@game.enemy_king_location(self))
+    legal_move?(@game.enemy_king_location(@player))
   end
 
   private
@@ -146,8 +146,8 @@ class Pawn
       @moved = true
     end
     moves.push([row + @direction, column])
-    moves.push([row + @direction, column + 1]) if @game.enemy_at?(self, [row + @direction, column + 1])
-    moves.push([row + @direction, column - 1]) if @game.enemy_at?(self, [row + @direction, column - 1])
+    moves.push([row + @direction, column + 1]) if @game.enemy_at?(@player, [row + @direction, column + 1])
+    moves.push([row + @direction, column - 1]) if @game.enemy_at?(@player, [row + @direction, column - 1])
     clean_moves(moves)
   end
 end
