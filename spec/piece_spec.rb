@@ -37,19 +37,19 @@ describe King do
 
     context 'when non-legal move is given' do
       it 'returns false' do
-        expect(king.legal_move?([4, 7])).to be nil
+        expect(king.legal_move?([4, 7])).to be false
       end
     end
 
     context 'when move is current location' do
       it 'returns false' do
-        expect(king.legal_move?([0, 4])).to be nil
+        expect(king.legal_move?([0, 4])).to be false
       end
     end
 
     context 'when off board move is given' do
       it 'returns false' do
-        expect(king.legal_move?([-1, 16])).to be nil
+        expect(king.legal_move?([-1, 16])).to be false
       end
     end
   end
@@ -63,9 +63,9 @@ describe King do
     end
 
     context 'when enemy king is not in attack range' do
-      it 'returns nil' do
+      it 'returns false' do
         allow(game).to receive(:enemy_king_location).and_return([7, 4])
-        expect(king.can_attack_king?).to be nil
+        expect(king.can_attack_king?).to be false
       end
     end
   end
@@ -118,19 +118,19 @@ describe Queen do
 
     context 'when non-legal move is given' do
       it 'returns false' do
-        expect(queen.legal_move?([4, 8])).to be nil
+        expect(queen.legal_move?([4, 8])).to be false
       end
     end
 
     context 'when move is current location' do
       it 'returns false' do
-        expect(queen.legal_move?([0, 3])).to be nil
+        expect(queen.legal_move?([0, 3])).to be false
       end
     end
 
     context 'when off board move is given' do
       it 'returns false' do
-        expect(queen.legal_move?([-1, 16])).to be nil
+        expect(queen.legal_move?([-1, 16])).to be false
       end
     end
   end
@@ -144,9 +144,9 @@ describe Queen do
     end
 
     context 'when enemy king is not in attack range' do
-      it 'returns nil' do
+      it 'returns false' do
         allow(game).to receive(:enemy_king_location).and_return([7, 4])
-        expect(queen.can_attack_king?).to be nil
+        expect(queen.can_attack_king?).to be false
       end
     end
   end
@@ -187,19 +187,19 @@ describe Rook do
 
     context 'when non-legal move is given' do
       it 'returns false' do
-        expect(rook.legal_move?([1, 2])).to be nil
+        expect(rook.legal_move?([1, 2])).to be false
       end
     end
 
     context 'when move is current location' do
       it 'returns false' do
-        expect(rook.legal_move?([0, 0])).to be nil
+        expect(rook.legal_move?([0, 0])).to be false
       end
     end
 
     context 'when off board move is given' do
       it 'returns false' do
-        expect(rook.legal_move?([-1, 16])).to be nil
+        expect(rook.legal_move?([-1, 16])).to be false
       end
     end
   end
@@ -213,9 +213,9 @@ describe Rook do
     end
 
     context 'when enemy king is not in attack range' do
-      it 'returns nil' do
+      it 'returns false' do
         allow(game).to receive(:enemy_king_location).and_return([7, 4])
-        expect(rook.can_attack_king?).to be nil
+        expect(rook.can_attack_king?).to be false
       end
     end
   end
@@ -256,19 +256,19 @@ describe Bishop do
 
     context 'when non-legal move is given' do
       it 'returns false' do
-        expect(bishop.legal_move?([0, 7])).to be nil
+        expect(bishop.legal_move?([0, 7])).to be false
       end
     end
 
     context 'when move is current location' do
       it 'returns false' do
-        expect(bishop.legal_move?([0, 1])).to be nil
+        expect(bishop.legal_move?([0, 1])).to be false
       end
     end
 
     context 'when off board move is given' do
       it 'returns false' do
-        expect(bishop.legal_move?([-1, 16])).to be nil
+        expect(bishop.legal_move?([-1, 16])).to be false
       end
     end
   end
@@ -282,9 +282,9 @@ describe Bishop do
     end
 
     context 'when enemy king is not in attack range' do
-      it 'returns nil' do
+      it 'returns false' do
         allow(game).to receive(:enemy_king_location).and_return([7, 4])
-        expect(bishop.can_attack_king?).to be nil
+        expect(bishop.can_attack_king?).to be false
       end
     end
   end
@@ -325,19 +325,19 @@ describe Knight do
 
     context 'when non-legal move is given' do
       it 'returns false' do
-        expect(knight.legal_move?([0, 7])).to be nil
+        expect(knight.legal_move?([0, 7])).to be false
       end
     end
 
     context 'when move is current location' do
       it 'returns false' do
-        expect(knight.legal_move?([0, 1])).to be nil
+        expect(knight.legal_move?([0, 1])).to be false
       end
     end
 
     context 'when off board move is given' do
       it 'returns false' do
-        expect(knight.legal_move?([-1, 16])).to be nil
+        expect(knight.legal_move?([-1, 16])).to be false
       end
     end
   end
@@ -351,9 +351,9 @@ describe Knight do
     end
 
     context 'when enemy king is not in attack range' do
-      it 'returns nil' do
+      it 'returns false' do
         allow(game).to receive(:enemy_king_location).and_return([7, 4])
-        expect(knight.can_attack_king?).to be nil
+        expect(knight.can_attack_king?).to be false
       end
     end
   end
@@ -409,28 +409,21 @@ describe Pawn do
       end
     end
 
-    context 'when legal attack move is given' do
-      it 'returns true' do
-
-        expect(pawn.legal_move?([2, 2])).to be true
-      end
-    end
-
     context 'when non-legal move is given' do
       it 'returns false' do
-        expect(pawn.legal_move?([0, 7])).to be nil
+        expect(pawn.legal_move?([0, 7])).to be false
       end
     end
 
     context 'when move is current location' do
       it 'returns false' do
-        expect(pawn.legal_move?([0, 1])).to be nil
+        expect(pawn.legal_move?([0, 1])).to be false
       end
     end
 
     context 'when off board move is given' do
       it 'returns false' do
-        expect(pawn.legal_move?([-1, 16])).to be nil
+        expect(pawn.legal_move?([-1, 16])).to be false
       end
     end
   end
@@ -444,9 +437,9 @@ describe Pawn do
     end
 
     context 'when enemy king is not in attack range' do
-      it 'returns nil' do
+      it 'returns false' do
         allow(game).to receive(:enemy_king_location).and_return([7, 4])
-        expect(pawn.can_attack_king?).to be nil
+        expect(pawn.can_attack_king?).to be false
       end
     end
   end

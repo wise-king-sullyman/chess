@@ -17,7 +17,7 @@ module Piece
   end
 
   def legal_move?(move)
-    true if possible_moves(@location.first, @location.last).include?(move)
+    possible_moves(@location.first, @location.last).include?(move)
   end
 
   def can_attack_king?
