@@ -27,6 +27,12 @@ class Player
     @game.move_piece(piece, location)
   end
 
+  def king_location
+    @pieces.each do |piece|
+      return piece.location if piece.class == King
+    end
+  end
+
   def remove_piece(piece)
     @lost_pieces.push(piece)
     @pieces.delete(piece)

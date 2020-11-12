@@ -108,4 +108,10 @@ describe Player do
       expect(lost_pieces).to include(piece)
     end
   end
+
+  describe '#king_location' do
+    it 'returns the kings location' do
+      expect(player.king_location).to eql([7, 4])
+    end
+  end
 end
