@@ -114,6 +114,8 @@ class Player
   end
 
   def piece_is_mine?(piece)
+    return false unless piece
+
     piece.player == self
   end
 
