@@ -42,9 +42,8 @@ class Game
   end
 
   def enemy_king_location(calling_player)
-    player1 = @players.first
-    player2 = @players.last
-    player1 == calling_player ? player2.king_location : player1.king_location
+    enemy_player = other_player(calling_player)
+    enemy_player.king_location
   end
 
   def enemy_at?(calling_player, location)
