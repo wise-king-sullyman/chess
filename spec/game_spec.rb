@@ -182,4 +182,24 @@ describe Game do
       end
     end
   end
+
+  describe '#enemy_in_check?' do
+    before do
+      allow(player).to receive(:pieces).and_return([piece])
+    end
+
+    context 'when the enemy player is in check' do
+      it 'returns true' do
+        allow(piece).to receive(:can_attack_king?).and_return(true)
+        expect(game.enemy_in_check?(player)).to be true
+      end
+    end
+
+    context 'when the enemy player is not in check' do
+      it 'returns false' do
+        allow(piece).to receive(:can_attack_king?).and_return(false)
+        expect(game.enemy_in_check?(player)).to be false
+      end
+    end
+  end
 end
