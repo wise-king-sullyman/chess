@@ -48,9 +48,7 @@ class Game
   end
 
   def enemy_at?(calling_player, location)
-    player1 = @players.first
-    player2 = @players.last
-    enemy_player = player1 == calling_player ? player2 : player1
+    enemy_player = other_player(calling_player)
     at_location = @board.piece_at(location)
     at_location.respond_to?(:player) && at_location.player == enemy_player
   end
@@ -112,5 +110,11 @@ class Game
       return false if piece_at([from_row += row_direction, from_column += column_direction])
     end
     true
+  end
+
+  def other_player(calling_player)
+    player1 = @players.first
+    player2 = @players.last
+    player1 == calling_player ? player2 : player1
   end
 end
