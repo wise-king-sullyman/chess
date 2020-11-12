@@ -114,4 +114,28 @@ describe Player do
       expect(player.king_location).to eql([7, 4])
     end
   end
+
+  describe '#mated?' do
+    let(:king) { double('king') }
+
+    before do
+      pieces[0] = king
+      allow(king).to receive(:class).and_return(King)
+      player.instance_variable_set('@pieces', pieces)
+    end
+
+    context 'when mated' do
+      it 'returns true' do
+        allow(king).to receive(:possible_moves).and_return([])
+        expect(player.mated?).to be true
+      end
+    end
+
+    context 'when not mated' do
+      it 'returns false' do
+        allow(king).to receive(:possible_moves).and_return([[1, 2]])
+        expect(player.mated?).to be false
+      end
+    end
+  end
 end
