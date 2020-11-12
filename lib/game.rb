@@ -41,6 +41,13 @@ class Game
     end
   end
 
+  def enemy_in_check?(calling_player)
+    calling_player.pieces.each do |piece|
+      return true if piece.can_attack_king?
+    end
+    false
+  end
+
   def enemy_king_location(calling_player)
     enemy_player = other_player(calling_player)
     enemy_player.king_location
