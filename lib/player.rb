@@ -4,7 +4,7 @@ require_relative 'piece.rb'
 
 # keep state of and execute actions for the player
 class Player
-  attr_accessor :color, :pieces
+  attr_accessor :name, :color, :pieces
 
   def initialize(name, color, game)
     @name = name
