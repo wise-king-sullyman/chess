@@ -37,6 +37,7 @@ class Game
         @board.refresh
         puts @board
         player.move
+        puts "#{other_player(player).name} in check" if enemy_in_check?(player)
       end
     end
   end
