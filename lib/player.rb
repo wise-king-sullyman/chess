@@ -33,6 +33,11 @@ class Player
     end
   end
 
+  def mated?
+    king = @pieces.select { |piece| piece.class == King }.first
+    king.possible_moves.empty? ? true : false
+  end
+
   def remove_piece(piece)
     @lost_pieces.push(piece)
     @pieces.delete(piece)
