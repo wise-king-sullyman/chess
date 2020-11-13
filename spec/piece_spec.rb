@@ -69,6 +69,22 @@ describe King do
       end
     end
   end
+
+  describe '#can_move?' do
+    context 'when the king can move' do
+      it 'returns true' do
+        allow(king).to receive(:possible_moves).and_return([[1, 2]])
+        expect(king.can_move?).to be true
+      end
+    end
+
+    context 'when the king cannot move' do
+      it 'returns false' do
+        allow(king).to receive(:possible_moves).and_return([])
+        expect(king.can_move?).to be false
+      end
+    end
+  end
 end
 
 describe Queen do
