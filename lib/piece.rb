@@ -43,6 +43,10 @@ class King
     color == 'white' ? "\u2654".encode : "\u265A".encode
   end
 
+  def can_move?
+    possible_moves(@location.first, @location.last).empty? ? false : true
+  end
+
   private
 
   def possible_moves(row, column)
