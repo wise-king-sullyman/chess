@@ -36,7 +36,7 @@ module Piece
   end
 
   def valid_move?(location)
-    piece.legal_move?(location) \
+    legal_move?(location) \
     && @game.available?(@player, location) \
     && @game.reachable?(self, location)
   end
