@@ -34,6 +34,12 @@ module Piece
   def apply_move_modifiers(modifiers, row, column)
     modifiers.map { |modifier| [row + modifier.first, column + modifier.last] }
   end
+
+  def valid_move?(location)
+    piece.legal_move?(location) \
+    && @game.available?(@player, location) \
+    && @game.reachable?(self, location)
+  end
 end
 
 class King
