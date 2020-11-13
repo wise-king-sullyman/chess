@@ -7,6 +7,11 @@ describe King do
   let(:player) { instance_double('player') }
   subject(:king) { King.new(game, player, [0, 4]) }
 
+  before do
+    allow(game).to receive(:available?).and_return(true)
+    allow(game).to receive(:reachable?).and_return(true)
+  end
+
   describe '#symbol' do
     context 'when white' do
       it 'returns the white king symbol' do
@@ -92,6 +97,11 @@ describe Queen do
   let(:player) { instance_double('player') }
   subject(:queen) { Queen.new(game, player, [0, 3]) }
 
+  before do
+    allow(game).to receive(:available?).and_return(true)
+    allow(game).to receive(:reachable?).and_return(true)
+  end
+
   describe '#symbol' do
     context 'when white' do
       it 'returns the white queen symbol' do
@@ -173,6 +183,11 @@ describe Rook do
   let(:player) { instance_double('player') }
   subject(:rook) { Rook.new(game, player, [0, 0]) }
 
+  before do
+    allow(game).to receive(:available?).and_return(true)
+    allow(game).to receive(:reachable?).and_return(true)
+  end
+
   describe '#symbol' do
     context 'when white' do
       it 'returns the white rook symbol' do
@@ -241,6 +256,11 @@ describe Bishop do
   let(:game) { instance_double('game') }
   let(:player) { instance_double('player') }
   subject(:bishop) { Bishop.new(game, player, [0, 1]) }
+
+  before do
+    allow(game).to receive(:available?).and_return(true)
+    allow(game).to receive(:reachable?).and_return(true)
+  end
 
   describe '#symbol' do
     context 'when white' do
@@ -311,6 +331,11 @@ describe Knight do
   let(:player) { instance_double('player') }
   subject(:knight) { Knight.new(game, player, [0, 1]) }
 
+  before do
+    allow(game).to receive(:available?).and_return(true)
+    allow(game).to receive(:reachable?).and_return(true)
+  end
+
   describe '#symbol' do
     context 'when white' do
       it 'returns the white knight symbol' do
@@ -379,6 +404,11 @@ describe Pawn do
   let(:game) { instance_double('game') }
   let(:player) { instance_double('player') }
   subject(:pawn) { Pawn.new(game, player, [1, 1]) }
+
+  before do
+    allow(game).to receive(:available?).and_return(true)
+    allow(game).to receive(:reachable?).and_return(true)
+  end
 
   before do
     allow(game).to receive(:enemy_at?).and_return(true)

@@ -21,7 +21,7 @@ module Piece
   end
 
   def can_attack_king?
-    legal_move?(@game.enemy_king_location(@player))
+    valid_move?(@game.enemy_king_location(@player))
   end
 
   private
