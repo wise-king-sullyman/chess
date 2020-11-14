@@ -10,6 +10,7 @@ describe King do
   before do
     allow(game).to receive(:available?).and_return(true)
     allow(game).to receive(:reachable?).and_return(true)
+    allow(game).to receive(:in_check_at?).and_return(false)
   end
 
   describe '#symbol' do
