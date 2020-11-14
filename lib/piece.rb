@@ -61,6 +61,7 @@ class King
 
   def clean_moves(moves)
     super
+    moves.delete_if { |move| @game.in_check_at?(@player, move) }
   end
 
   def possible_moves(row, column)
