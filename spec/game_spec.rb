@@ -202,4 +202,27 @@ describe Game do
       end
     end
   end
+
+  describe '#in_check_at?' do
+    let(:players) { [player, player2] }
+
+    before do
+      allow(player2).to receive(:pieces).and_return([piece])
+      game.instance_variable_set('@players', players)
+    end
+
+    context 'when move would be in check' do
+      it 'returns true' do
+        allow(piece).to receive(:can_attack_location?).and_return(true)
+        expect(game.in_check_at?(player, [0, 0])).to be true
+      end
+    end
+
+    context 'when move would not be in check' do
+      it 'returns true' do
+        allow(piece).to receive(:can_attack_location?).and_return(false)
+        expect(game.in_check_at?(player, [0, 0])).to be false
+      end
+    end
+  end
 end
