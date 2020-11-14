@@ -24,6 +24,10 @@ module Piece
     valid_move?(@game.enemy_king_location(@player))
   end
 
+  def can_attack_location?(location)
+    valid_move?(location)
+  end
+
   private
 
   def clean_moves(moves)
@@ -57,7 +61,6 @@ class King
 
   def clean_moves(moves)
     super
-    moves.delete_if { |move| @game.in_check_at(move) }
   end
 
   def possible_moves(row, column)
