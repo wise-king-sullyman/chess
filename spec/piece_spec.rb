@@ -61,18 +61,9 @@ describe King do
   end
 
   describe '#can_attack_king?' do
-    context 'when enemy king is in attack range' do
-      it 'returns true' do
-        allow(game).to receive(:enemy_king_location).and_return([0, 5])
-        expect(king.can_attack_king?).to be true
-      end
-    end
-
-    context 'when enemy king is not in attack range' do
-      it 'returns false' do
-        allow(game).to receive(:enemy_king_location).and_return([7, 4])
-        expect(king.can_attack_king?).to be false
-      end
+    it 'returns false' do
+      allow(game).to receive(:enemy_king_location).and_return([7, 4])
+      expect(king.can_attack_king?).to be false
     end
   end
 
