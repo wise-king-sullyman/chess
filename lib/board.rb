@@ -13,14 +13,16 @@ class Board
   end
 
   def to_s
-    s = "  0 1 2 3 4 5 6 7 \n"
+    s = "  a b c d e f g h \n"
     @game_board.each_with_index do |row, index|
-      s += index.to_s + ' '
+      s += (8 - index).to_s + ' '
       row.each do |tile|
         s += tile ? tile.symbol(tile.player.color) + ' ' : @empty_tile
       end
+      s += ' ' + (8 - index).to_s
       s += "\n"
     end
+    s += "  a b c d e f g h \n"
     s
   end
 
