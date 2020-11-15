@@ -28,6 +28,10 @@ module Piece
     valid_move?(location)
   end
 
+  def can_move?
+    possible_moves(@location.first, @location.last).empty? ? false : true
+  end
+
   private
 
   def clean_moves(moves)
@@ -51,10 +55,6 @@ class King
 
   def symbol(color)
     color == 'white' ? "\u2654".encode : "\u265A".encode
-  end
-
-  def can_move?
-    possible_moves(@location.first, @location.last).empty? ? false : true
   end
 
   def can_attack_king?
