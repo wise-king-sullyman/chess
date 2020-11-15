@@ -104,14 +104,21 @@ class Player
 
   def piece_choice
     puts "#{@name} enter piece selection location:"
-    input = gets.chomp
-    piece_at_location([input[0].to_i, input[-1].to_i])
+    input = translate_input(gets.chomp)
+    piece_at_location([input.first, input.last])
   end
 
   def location_choice
     puts "#{@name} enter move location:"
-    input = gets.chomp
-    [input[0].to_i, input[-1].to_i]
+    input = translate_input(gets.chomp)
+    [input.first, input.last]
+  end
+
+  def translate_input(input)
+    column_hash = { 'a' => 0, 'b' => 1, 'c' => 2, 'd' => 3, 'e' => 4, 'f' => 5, 'g' => 6, 'h' => 7 }
+    column = column_hash.fetch(input[0])
+    row = 8 - input[1].to_i
+    [row, column]
   end
 
   def piece_at_location(location)
