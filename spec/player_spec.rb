@@ -138,4 +138,24 @@ describe Player do
       end
     end
   end
+
+  describe '#in_stalemate?' do
+    before do
+      player.instance_variable_set('@pieces', [piece, piece, piece, piece])
+    end
+
+    context 'when in stalemate' do
+      it 'returns true' do
+        allow(piece).to receive(:can_move?).and_return(false)
+        expect(player.in_stalemate?).to be true
+      end
+    end
+
+    context 'when not in stalemate' do
+      it 'returns false' do
+        allow(piece).to receive(:can_move?).and_return(false, false, true)
+        expect(player.in_stalemate?).to be false
+      end
+    end
+  end
 end
