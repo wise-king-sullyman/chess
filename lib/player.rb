@@ -43,6 +43,13 @@ class Player
     @pieces.delete(piece)
   end
 
+  def in_stalemate?
+    @pieces.each do |piece|
+      return false if piece.can_move?
+    end
+    true
+  end
+
   private
 
   def assign_pieces
