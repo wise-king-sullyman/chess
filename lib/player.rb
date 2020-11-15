@@ -127,6 +127,14 @@ class Player
     translate_input(validated_input)
   end
 
+  def validate_input(input)
+    until input.match?(/^[a-h][0-9]$/)
+      puts 'invalid location input; please try again'
+      input = gets.chomp
+    end
+    input
+  end
+
   def piece_at_location(location)
     @game.piece_at(location)
   end
