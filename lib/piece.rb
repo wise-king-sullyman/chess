@@ -168,7 +168,6 @@ class Pawn
     moves = []
     unless @moved
       moves.push([row + @direction + @direction, column])
-      @moved = true
     end
     moves.push([row + @direction, column])
     moves.push([row + @direction, column + 1]) if @game.enemy_at?(@player, [row + @direction, column + 1])
