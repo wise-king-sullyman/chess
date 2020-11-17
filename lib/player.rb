@@ -35,7 +35,7 @@ class Player
 
   def mated?
     king = @pieces.select { |piece| piece.class == King }.first
-    king.possible_moves.empty? ? true : false
+    king.can_move? ? false : true
   end
 
   def remove_piece(piece)

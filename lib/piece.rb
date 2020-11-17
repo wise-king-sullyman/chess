@@ -37,6 +37,8 @@ module Piece
   def clean_moves(moves)
     moves.delete(@location)
     moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
+    moves.keep_if { |move| @game.available?(@player, move) }
+    moves.keep_if { |move| @game.reachable?(self, move) }
   end
 
   def apply_move_modifiers(modifiers, row, column)

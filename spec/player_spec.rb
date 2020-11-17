@@ -126,14 +126,14 @@ describe Player do
 
     context 'when mated' do
       it 'returns true' do
-        allow(king).to receive(:possible_moves).and_return([])
+        allow(king).to receive(:can_move?).and_return(false)
         expect(player.mated?).to be true
       end
     end
 
     context 'when not mated' do
       it 'returns false' do
-        allow(king).to receive(:possible_moves).and_return([[1, 2]])
+        allow(king).to receive(:can_move?).and_return(true)
         expect(player.mated?).to be false
       end
     end

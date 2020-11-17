@@ -37,7 +37,11 @@ class Game
         @board.refresh
         puts @board
         player.move
-        puts "#{other_player(player).name} in check" if enemy_in_check?(player)
+        if enemy_in_check?(player)
+          puts "#{other_player(player).name} in check"
+          return player if other_player(player).mated?
+        end
+        break if player.in_stalemate?
       end
     end
   end
@@ -52,6 +56,7 @@ class Game
   def in_check_at?(player, location)
     enemy_pieces = other_player(player).pieces
     enemy_pieces.each do |piece|
+      next if piece.class == King
       return true if piece.can_attack_location?(location)
     end
     false
