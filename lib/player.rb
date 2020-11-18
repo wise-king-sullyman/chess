@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'piece.rb'
+require 'pry'
 
 # keep state of and execute actions for the player
 class Player
@@ -130,6 +131,7 @@ class Player
 
   def player_input
     unvalidated_input = gets.chomp
+    binding.pry if unvalidated_input == 'admin'
     validated_input = validate_input(unvalidated_input)
     translate_input(validated_input)
   end
