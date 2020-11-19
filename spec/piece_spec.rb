@@ -400,6 +400,7 @@ describe Pawn do
   before do
     allow(game).to receive(:available?).and_return(true)
     allow(game).to receive(:reachable?).and_return(true)
+    allow(game).to receive(:piece_at).and_return(nil)
   end
 
   before do
@@ -475,6 +476,13 @@ describe Pawn do
     context 'when off board move is given' do
       it 'returns false' do
         expect(pawn.legal_move?([-1, 16])).to be false
+      end
+    end
+
+    context 'when enemy is in front of pawn' do
+      it 'returns false' do
+        allow(game).to receive(:piece_at).and_return(true)
+        expect(pawn.legal_move?([2, 1])).to be false
       end
     end
   end

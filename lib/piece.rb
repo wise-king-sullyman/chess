@@ -167,10 +167,10 @@ class Pawn
 
   def possible_moves(row, column)
     moves = []
-    unless @moved
+    unless @moved || @game.piece_at([row + @direction, column]) || @game.piece_at([row + @direction + @direction, column])
       moves.push([row + @direction + @direction, column])
     end
-    moves.push([row + @direction, column])
+    moves.push([row + @direction, column]) unless @game.piece_at([row + @direction, column])
     moves.push([row + @direction, column + 1]) if @game.enemy_at?(@player, [row + @direction, column + 1])
     moves.push([row + @direction, column - 1]) if @game.enemy_at?(@player, [row + @direction, column - 1])
     clean_moves(moves)
