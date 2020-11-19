@@ -2,6 +2,7 @@
 
 require_relative 'board.rb'
 require_relative 'player.rb'
+require 'yaml'
 
 # manage the game
 class Game
@@ -13,6 +14,7 @@ class Game
       Player.new('player 2', 'black', self)
     ]
     @board = Board.new(@players)
+    @file_name = 'chess_save.yaml'
   end
 
   def move_piece(piece, location)
@@ -25,15 +27,33 @@ class Game
   def game_over?
   end
 
-  def save
+  def save_game(current_player)
+    current_state = {
+      players: @players,
+      board: @board,
+      player: current_player
+    }
+    File.open(@file_name, 'w') { |file| file.write(current_state.to_yaml) }
   end
 
-  def load
+  def load_game
+    save = YAML.load_file(@file_name)
+    @players = save.fetch(:players)
+    @board = save.fetch(:board)
+    player = save.fetch(:player)
+    @players.reverse! unless @players.first == player
+  end
+
+  def ask_to_load_game
+    puts 'Save game detected. Load previous game? y/n'
+    load_game if gets.chomp == 'y'
   end
 
   def play
+    ask_to_load_game if File.exist?(@file_name)
     loop do
       @players.each do |player|
+        save_game(player)
         @board.refresh
         puts @board
         player.move
