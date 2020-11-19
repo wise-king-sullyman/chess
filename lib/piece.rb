@@ -25,7 +25,8 @@ module Piece
   end
 
   def can_attack_location?(location)
-    valid_move?(location)
+    legal_move?(location) \
+    && @game.reachable?(self, location)
   end
 
   def can_move?
@@ -37,8 +38,6 @@ module Piece
   def clean_moves(moves)
     moves.delete(@location)
     moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
-    moves.keep_if { |move| @game.available?(@player, move) }
-    moves.keep_if { |move| @game.reachable?(self, move) }
   end
 
   def apply_move_modifiers(modifiers, row, column)
@@ -67,7 +66,9 @@ class King
 
   def clean_moves(moves)
     super
+    moves.keep_if { |move| @game.available?(@player, move) }
     moves.delete_if { |move| @game.in_check_at?(@player, move) }
+    moves.keep_if { |move| @game.reachable?(self, move) }
   end
 
   def possible_moves(row, column)
@@ -185,7 +186,6 @@ class Pawn
 
   def valid_pawn_move?(location)
     legal_pawn_move?(location) \
-    && @game.available?(@player, location) \
     && @game.reachable?(self, location)
   end
 
