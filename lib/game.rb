@@ -57,6 +57,11 @@ class Game
         @board.refresh
         puts @board
         player.move
+        if enemy_in_check?(other_player(player))
+          puts 'You must move out of check'
+          load_game
+          break
+        end
         if enemy_in_check?(player)
           puts "#{other_player(player).name} in check"
           return player if other_player(player).mated?
