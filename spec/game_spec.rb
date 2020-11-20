@@ -103,7 +103,7 @@ describe Game do
       end
     end
 
-        context 'when the piece can reach a vertical location unobstructed' do
+    context 'when the piece can reach a vertical location unobstructed' do
       it 'returns true' do
         game_board[0][0] = piece
         game.instance_variable_set('@board', board)
