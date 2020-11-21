@@ -112,4 +112,36 @@ describe Pawn do
       end
     end
   end
+
+  describe '#eligible_for_promotion?' do
+    context 'when piece starting in row 1 reaches row 7' do
+      it 'returns true' do
+        pawn.move([7, 1])
+        expect(pawn.eligible_for_promotion?).to be true
+      end
+    end
+
+    context 'when piece starting in row 6 reaches row 0' do
+      subject(:pawn) { Pawn.new(game, player, [6, 1]) }
+      it 'returns true' do
+        pawn.move([0, 1])
+        expect(pawn.eligible_for_promotion?).to be true
+      end
+    end
+
+    context 'when piece starting in row 1 has not reached row 7' do
+      it 'returns false' do
+        pawn.move([6, 1])
+        expect(pawn.eligible_for_promotion?).to be false
+      end
+    end
+
+    context 'when piece starting in row 6 has not reached row 0' do
+      subject(:pawn) { Pawn.new(game, player, [6, 1]) }
+      it 'returns false' do
+        pawn.move([1, 1])
+        expect(pawn.eligible_for_promotion?).to be false
+      end
+    end
+  end
 end
