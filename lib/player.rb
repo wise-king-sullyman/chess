@@ -31,7 +31,7 @@ class Player
       location = location_choice
     end
     @game.move_piece(piece, location)
-    piece.promote if piece.eligible_for_promotion?
+    promote(piece) if piece.eligible_for_promotion?
   end
 
   def king_location
@@ -164,5 +164,33 @@ class Player
     piece.legal_move?(location) \
     && @game.available?(self, location) \
     && @game.reachable?(piece, location)
+  end
+
+  def promote(piece)
+    puts 'Pawn promoted! Select 0 to become a queen, 1 to become a rook'\
+    '2 to become a bishop, or 3 to become a knight'
+    add_promotion_piece(piece, validate_promotion_choice(gets.chomp))
+    @pieces.delete(piece)
+  end
+
+  def validate_promotion_choice(promotion_choice)
+    until promotion_choice.match?(/^[0-3]$/)
+      puts 'invalid selection; please try again'
+      promotion_choice = gets.chomp
+    end
+    promotion_choice.to_i
+  end
+
+  def add_promotion_piece(old_piece, new_piece_selection)
+    case new_piece_selection
+    when 0
+      @pieces.push(Queen.new(@game, self, old_piece.location))
+    when 1
+      @pieces.push(Rook.new(@game, self, old_piece.location))
+    when 2
+      @pieces.push(Bishop.new(@game, self, old_piece.location))
+    when 3
+      @pieces.push(Knight.new(@game, self, old_piece.location))
+    end
   end
 end
