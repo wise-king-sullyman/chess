@@ -13,6 +13,7 @@ describe Player do
     allow($stdout).to receive(:write)
     allow(game).to receive(:piece_at).and_return(piece)
     allow(piece).to receive(:player).and_return(player)
+    allow(piece).to receive(:eligible_for_promotion?).and_return(false)
     allow(player).to receive(:gets).and_return('a4')
     allow(game).to receive(:move_piece)
   end
