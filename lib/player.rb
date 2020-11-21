@@ -31,6 +31,7 @@ class Player
       location = location_choice
     end
     @game.move_piece(piece, location)
+    piece.promote if piece.eligible_for_promotion?
   end
 
   def king_location

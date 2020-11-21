@@ -33,6 +33,16 @@ class Pawn
     valid_pawn_move?(@game.enemy_king_location(@player))
   end
 
+  def eligible_for_promotion?
+    return true if @direction.positive? && @location.first == 7
+
+    return true if @direction.negative? && @location.first.zero?
+
+    false
+  end
+
+  private
+
   def valid_pawn_move?(location)
     legal_pawn_move?(location) \
     && @game.reachable?(self, location)

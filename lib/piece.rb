@@ -33,6 +33,10 @@ module Piece
     possible_moves(@location.first, @location.last).empty? ? false : true
   end
 
+  def eligible_for_promotion?
+    false
+  end
+
   private
 
   def clean_moves(moves)
