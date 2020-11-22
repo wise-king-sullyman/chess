@@ -130,7 +130,7 @@ class Game
 
   def row_reachable?(piece, to)
     from_column = piece.location.last
-    range = to.last > from_column ? (from_column + 1...to.last) : (from_column - 1...to.last)
+    range = to.last > from_column ? (from_column + 1...to.last) : (to.last + 1...from_column)
     range.each do |column|
       return false if piece_at([piece.location.first, column])
     end
@@ -139,7 +139,7 @@ class Game
 
   def column_reachable?(piece, to)
     from_row = piece.location.first
-    range = to.first > from_row ? (from_row + 1...to.first) : (from_row - 1...to.first)
+    range = to.first > from_row ? (from_row + 1...to.first) : (to.first + 1...from_row)
     range.each do |row|
       return false if piece_at([row, piece.location.last])
     end
