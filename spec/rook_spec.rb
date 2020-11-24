@@ -10,6 +10,7 @@ describe Rook do
   before do
     allow(game).to receive(:available?).and_return(true)
     allow(game).to receive(:reachable?).and_return(true)
+    allow(game).to receive(:move_checks_self?).and_return(false)
   end
 
   describe '#symbol' do

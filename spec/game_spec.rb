@@ -7,6 +7,7 @@ describe Game do
   let(:player) { double('player') }
   let(:player2) { double('player') }
   let(:piece) { double('piece') }
+  let(:piece2) { double('piece') }
   subject(:game) { Game.new }
 
   describe '#enemy_king_location' do
@@ -86,7 +87,7 @@ describe Game do
     let(:players) { game.instance_variable_get('@players') }
     let(:player1) { players.first }
     let(:player2) { players.last }
-    let(:piece2) { double('piece') }
+
 
     before do
       allow(piece).to receive(:location).and_return([0, 0])
@@ -243,6 +244,31 @@ describe Game do
       it 'returns true' do
         allow(piece).to receive(:can_attack_location?).and_return(false)
         expect(game.in_check_at?(player, [0, 0])).to be false
+      end
+    end
+  end
+
+  describe '#move_checks_self?' do
+    let(:location) { [0, 0] }
+    let(:players) { [player, player2] }
+
+    before do
+      allow(piece).to receive(:move)
+      allow(piece).to receive(:player).and_return(player)
+      allow(player2).to receive(:pieces).and_return([piece2])
+      game.instance_variable_set('@players', players)
+    end
+    context 'when move puts self into check' do
+      it 'reutrns true' do
+        allow(piece2).to receive(:can_attack_king?).and_return(true)
+        expect(game.move_checks_self?(piece, location)).to be true
+      end
+    end
+
+    context 'when move does not put self into check' do
+      it 'reutrns false' do
+        allow(piece2).to receive(:can_attack_king?).and_return(false)
+        expect(game.move_checks_self?(piece, location)).to be false
       end
     end
   end
