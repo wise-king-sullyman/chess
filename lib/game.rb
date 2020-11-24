@@ -57,7 +57,7 @@ class Game
         @board.refresh
         puts @board
         player.move
-        if enemy_in_check?(other_player(player))
+        if player_in_check?(player)
           puts 'You must move out of check'
           load_game
           break
@@ -69,6 +69,10 @@ class Game
         break if player.in_stalemate?
       end
     end
+  end
+
+  def player_in_check?(player)
+    enemy_in_check?(other_player(player))
   end
 
   def enemy_in_check?(calling_player)
