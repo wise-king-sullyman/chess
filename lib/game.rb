@@ -2,6 +2,7 @@
 
 require_relative 'board.rb'
 require_relative 'player.rb'
+require_relative 'ai.rb'
 require 'yaml'
 
 # manage the game
@@ -9,10 +10,7 @@ class Game
   def initialize
     @over = false
     @winner = nil
-    @players = [
-      Player.new('player 1', 'white', self),
-      Player.new('player 2', 'black', self)
-    ]
+    @players = []
     @board = Board.new(@players)
     @file_name = 'chess_save.yaml'
   end
@@ -49,8 +47,41 @@ class Game
     load_game if gets.chomp == 'y'
   end
 
+  def player_input_1_or_2
+    input = gets.chomp.to_i
+    until input.between?(1, 2)
+      puts 'Choice must be "1" or "2"'
+      input = gets.chomp.to_i
+    end
+    input
+  end
+
+  def add_players
+    puts 'Enter 1 for single player (against computer) or 2 for two player game'
+    player_input_1_or_2 == 1 ? setup_single_player_game : setup_two_player_game
+  end
+
+  def setup_single_player_game
+    puts 'Enter 1 to be the white player, 2 to be the black player'
+    if player_input_1_or_2 == 1
+      white = Player.new('player 1', 'white', self)
+      black = AI.new('player 2', 'black', self)
+    else
+      white = AI.new('player 1', 'white', self)
+      black = Player.new('player 2', 'black', self)
+    end
+    @players.push(white, black)
+  end
+
+  def setup_two_player_game
+    white = Player.new('player 1', 'white', self)
+    black = Player.new('player 2', 'black', self)
+    @players.push(white, black)
+  end
+
   def play
     ask_to_load_game if File.exist?(@file_name)
+    add_players if @players.empty?
     loop do
       @players.each do |player|
         save_game(player)
