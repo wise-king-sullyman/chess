@@ -13,17 +13,10 @@ class Board
   end
 
   def to_s
-    s = "  a b c d e f g h \n"
-    @game_board.each_with_index do |row, index|
-      s += (8 - index).to_s + ' '
-      row.each do |tile|
-        s += tile ? tile.symbol(tile.player.color) + ' ' : @empty_tile
-      end
-      s += ' ' + (8 - index).to_s
-      s += "\n"
-    end
-    s += "  a b c d e f g h \n"
-    s
+    board_string = "  a b c d e f g h \n"
+    board_string = draw_rows(@game_board, board_string)
+    board_string += "  a b c d e f g h \n"
+    board_string
   end
 
   def piece_at(location)
@@ -51,5 +44,22 @@ class Board
       row.push(nil) until row.size == 8
     end
     board
+  end
+
+  def draw_rows(board_array, board_string)
+    board_array.each_with_index do |row, index|
+      board_string += (8 - index).to_s + ' '
+      board_string = draw_tiles(row, board_string)
+      board_string += ' ' + (8 - index).to_s
+      board_string += "\n"
+    end
+    board_string
+  end
+
+  def draw_tiles(row, board_string)
+    row.each do |tile|
+      board_string += tile ? tile.symbol(tile.player.color) + ' ' : @empty_tile
+    end
+    board_string
   end
 end
