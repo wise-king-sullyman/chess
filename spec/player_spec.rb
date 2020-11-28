@@ -21,12 +21,12 @@ describe Player do
   describe '#move' do
     context 'when a valid move is given to an owned piece' do
       before do
-        allow(player).to receive(:valid?).and_return(true)
+        allow(piece).to receive(:valid_move?).and_return(true)
         allow(player).to receive(:piece_is_mine?).and_return(true)
       end
 
       it 'calls #valid? until a valid move is given' do
-        expect(player).to receive(:valid?).once
+        expect(piece).to receive(:valid_move?).once
         player.move
       end
 
@@ -38,7 +38,7 @@ describe Player do
 
     context 'when a valid move is given to an unowned piece' do
       before do
-        allow(player).to receive(:valid?).and_return(true)
+        allow(piece).to receive(:valid_move?).and_return(true)
         allow(player).to receive(:piece_is_mine?).and_return(false, true)
       end
 
@@ -55,12 +55,12 @@ describe Player do
 
     context 'when an invalid move is given to an owned piece' do
       before do
-        allow(player).to receive(:valid?).and_return(false, true)
+        allow(piece).to receive(:valid_move?).and_return(false, true)
         allow(player).to receive(:piece_is_mine?).and_return(true)
       end
 
       it 'calls #valid? until a valid move is given' do
-        expect(player).to receive(:valid?).twice
+        expect(piece).to receive(:valid_move?).twice
         player.move
       end
 
