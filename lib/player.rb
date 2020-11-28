@@ -7,7 +7,7 @@ require 'pry'
 class Player
   include AssignPieces
 
-  attr_accessor :name, :color, :pieces
+  attr_reader :name, :color, :pieces
 
   def initialize(name, color, game)
     @name = name
