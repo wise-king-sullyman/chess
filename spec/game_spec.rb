@@ -255,6 +255,7 @@ describe Game do
     before do
       allow(piece).to receive(:move)
       allow(piece).to receive(:player).and_return(player)
+      allow(piece).to receive(:location)
       allow(player2).to receive(:pieces).and_return([piece2])
       game.instance_variable_set('@players', players)
     end
