@@ -15,8 +15,6 @@ class Player
     @game = game
     @pieces = assign_pieces(self, @game)
     @lost_pieces = []
-    @check = false
-    @check_mate = false
   end
 
   def move
