@@ -22,6 +22,13 @@ class Game
     @board.refresh
   end
 
+  def test_move_piece(piece, location)
+    at_location = @board.piece_at(location)
+    at_location&.player&.remove_piece(at_location)
+    piece.move(location, true)
+    @board.refresh
+  end
+
   def game_over?
   end
 
@@ -111,6 +118,15 @@ class Game
       return true if piece.can_attack_king?
     end
     false
+  end
+
+  def move_checks_self?(piece, location)
+    starting_location = piece.location
+    test_move_piece(piece, location)
+    output = player_in_check?(piece.player) ? true : false
+    load_game
+    test_move_piece(piece, starting_location)
+    output
   end
 
   def in_check_at?(player, location)
