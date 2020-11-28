@@ -7,7 +7,7 @@ class AI < Player
   def move
     piece = piece_choice
     location = location_choice
-    until piece_is_mine?(piece) && valid?(piece, location)
+    until piece_is_mine?(piece) && piece.valid_move?(location)
       piece = piece_choice
       location = location_choice
     end
