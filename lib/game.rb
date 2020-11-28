@@ -144,7 +144,7 @@ class Game
 
   def available?(player, location)
     at_location = @board.piece_at(location)
-    return false if at_location.respond_to?(:player) && at_location.player.color == player.color
+    return false if at_location.respond_to?(:player) && at_location.player == player
 
     true
   end
