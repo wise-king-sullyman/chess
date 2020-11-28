@@ -23,8 +23,6 @@ class Game
   end
 
   def test_move_piece(piece, location)
-    at_location = @board.piece_at(location)
-    at_location&.player&.remove_piece(at_location)
     piece.move(location, true)
     @board.refresh
   end
@@ -94,17 +92,13 @@ class Game
         save_game(player)
         @board.refresh
         puts @board
+        return nil if player.in_stalemate?
+
         player.move
-        if player_in_check?(player)
-          puts 'You must move out of check'
-          load_game
-          break
-        end
         if enemy_in_check?(player)
           puts "#{other_player(player).name} in check"
           return player if other_player(player).mated?
         end
-        break if player.in_stalemate?
       end
     end
   end
@@ -124,7 +118,6 @@ class Game
     starting_location = piece.location
     test_move_piece(piece, location)
     output = player_in_check?(piece.player) ? true : false
-    load_game
     test_move_piece(piece, starting_location)
     output
   end
