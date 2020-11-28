@@ -22,7 +22,7 @@ class Player
   def move
     piece = piece_choice
     location = location_choice
-    until piece_is_mine?(piece) && valid?(piece, location)
+    until piece_is_mine?(piece) && piece.valid_move?(location)
       puts 'Invalid piece and/or location selected, please choose again'
       piece = piece_choice
       location = location_choice
@@ -98,12 +98,6 @@ class Player
     return false unless piece
 
     piece.player == self
-  end
-
-  def valid?(piece, location)
-    piece.legal_move?(location) \
-    && @game.available?(self, location) \
-    && @game.reachable?(piece, location)
   end
 
   def promote(piece)
