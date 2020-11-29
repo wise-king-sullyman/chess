@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'assign_pieces.rb'
+require_relative 'move_validation.rb'
 require 'pry'
 
 # keep state of and execute actions for the player
 class Player
   include AssignPieces
+  include MoveValidation
 
   attr_reader :name, :color, :pieces
 
@@ -20,7 +22,7 @@ class Player
   def move
     piece = piece_choice
     location = location_choice
-    until piece_is_mine?(piece) && piece.valid_move?(location)
+    until piece_is_mine?(piece) && valid_move?(piece, location, @game.board)
       puts 'Invalid piece and/or location selected, please choose again'
       piece = piece_choice
       location = location_choice

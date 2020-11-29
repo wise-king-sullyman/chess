@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require_relative 'move_validation.rb'
+
 # serves as the template for all unique pieces
 module Piece
+  include MoveValidation
+
   attr_reader :player, :location
 
   def initialize(game, player, location)
@@ -21,26 +25,20 @@ module Piece
   end
 
   def can_attack_king?
-    valid_move?(@game.enemy_king_location(@player))
+    valid_move?(self, @game.enemy_king_location(@player), @game.board)
   end
 
   def can_attack_location?(location)
     legal_move?(location) \
-    && @game.reachable?(self, location)
+    && reachable?(self, location, @game.board)
   end
 
   def can_move?
-    valid_moves(@location).empty? ? false : true
+    valid_moves(self, @location, @game.board).empty? ? false : true
   end
 
   def eligible_for_promotion?
     false
-  end
-
-  def valid_move?(location)
-    legal_move?(location) \
-    && @game.available?(@player, location) \
-    && @game.reachable?(self, location)
   end
 
   private
@@ -59,11 +57,5 @@ module Piece
 
   def apply_move_modifiers(modifiers, row, column)
     modifiers.map { |modifier| [row + modifier.first, column + modifier.last] }
-  end
-
-  def valid_moves(location)
-    possible_moves(location.first, location.last).select do |move|
-      @game.available?(@player, move) && @game.reachable?(self, move)
-    end
   end
 end

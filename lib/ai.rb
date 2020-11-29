@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 require_relative 'player.rb'
+require_relative 'move_validation.rb'
 
 # keep state of and execute actions for the ai
 class AI < Player
+  include MoveValidation
+
   def move
     piece = piece_choice
     location = location_choice
-    until piece_is_mine?(piece) && piece.valid_move?(location)
+    until piece_is_mine?(piece) && valid_move?(piece, location, @game.board)
       piece = piece_choice
       location = location_choice
     end

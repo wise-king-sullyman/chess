@@ -45,7 +45,7 @@ class Pawn
 
   def valid_pawn_move?(location)
     legal_pawn_move?(location) \
-    && @game.reachable?(self, location)
+    && reachable?(self, location, @game.board)
   end
 
   def legal_pawn_move?(move)
