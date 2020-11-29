@@ -22,7 +22,6 @@ class Game
     at_location = @board.piece_at(location)
     at_location&.player&.remove_piece(at_location)
     piece.move(location)
-    @board.refresh
   end
 
   def test_move_piece(piece, location)
@@ -87,24 +86,35 @@ class Game
   def play
     ask_to_load_game if File.exist?(@file_name)
     add_players if @players.empty?
+    game_loop
+  end
+
+  def game_loop
     loop do
       @players.each do |player|
-        save_game(player)
-        @board.refresh
-        puts @board
-        return nil if player.in_stalemate?
+        ply_setup(player)
+        break if player.in_stalemate?
+
+        return other_player(player) if player_in_checkmate?(player)
 
         player.move
-        if enemy_in_check?(player)
-          puts "#{other_player(player).name} in check"
-          return player if other_player(player).mated?
-        end
       end
     end
   end
 
+  def ply_setup(player)
+    save_game(player)
+    @board.refresh
+    puts @board
+    puts "#{player.name} in check" if player_in_check?(player)
+  end
+
   def player_in_check?(player)
     enemy_in_check?(other_player(player))
+  end
+
+  def player_in_checkmate?(player)
+    player_in_check?(player) && player.mated?
   end
 
   def enemy_in_check?(calling_player)
