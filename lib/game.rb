@@ -86,7 +86,15 @@ class Game
   def play
     ask_to_load_game if File.exist?(@file_name)
     add_players if @players.empty?
-    game_loop
+    announce_winner(game_loop)
+  end
+
+  def announce_winner(winner)
+    if winner
+      puts "#{other_player(winner).name} in checkmate! #{winner.name} won!"
+    else
+      puts 'Draw game'
+    end
   end
 
   def game_loop
