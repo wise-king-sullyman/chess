@@ -60,7 +60,7 @@ describe Game do
     context 'when a player selects an empty space' do
       it 'returns true' do
         allow(board).to receive(:piece_at).and_return(nil)
-        expect(game.available?(player, location)).to be true
+        expect(game.available?(player, location, board)).to be true
       end
     end
 
@@ -68,7 +68,7 @@ describe Game do
       it 'returns true' do
         allow(board).to receive(:piece_at).and_return(piece)
         allow(piece).to receive(:player).and_return(player2)
-        expect(game.available?(player, location)).to be true
+        expect(game.available?(player, location, board)).to be true
       end
     end
 
@@ -76,7 +76,7 @@ describe Game do
       it 'returns false' do
         allow(board).to receive(:piece_at).and_return(piece)
         allow(piece).to receive(:player).and_return(player)
-        expect(game.available?(player, location)).to be false
+        expect(game.available?(player, location, board)).to be false
       end
     end
   end
@@ -100,7 +100,7 @@ describe Game do
         game_board[0][0] = piece
         game.instance_variable_set('@board', board)
         location = [0, 6]
-        expect(game.reachable?(piece, location)).to be true
+        expect(game.reachable?(piece, location, board)).to be true
       end
     end
 
@@ -109,7 +109,7 @@ describe Game do
         game_board[0][0] = piece
         game.instance_variable_set('@board', board)
         location = [6, 0]
-        expect(game.reachable?(piece, location)).to be true
+        expect(game.reachable?(piece, location, board)).to be true
       end
     end
 
@@ -119,7 +119,7 @@ describe Game do
         game_board[6][0] = piece
         game.instance_variable_set('@board', board)
         location = [0, 0]
-        expect(game.reachable?(piece, location)).to be true
+        expect(game.reachable?(piece, location, board)).to be true
       end
     end
 
@@ -128,7 +128,7 @@ describe Game do
         game_board[0][0] = piece
         game.instance_variable_set('@board', board)
         location = [6, 6]
-        expect(game.reachable?(piece, location)).to be true
+        expect(game.reachable?(piece, location, board)).to be true
       end
     end
 
@@ -138,7 +138,7 @@ describe Game do
         game_board[6][6] = piece2
         game.instance_variable_set('@board', board)
         location = [6, 6]
-        expect(game.reachable?(piece, location)).to be true
+        expect(game.reachable?(piece, location, board)).to be true
       end
     end
 
@@ -148,7 +148,7 @@ describe Game do
         allow(piece).to receive(:location).and_return([6, 6])
         game.instance_variable_set('@board', board)
         location = [0, 0]
-        expect(game.reachable?(piece, location)).to be true
+        expect(game.reachable?(piece, location, board)).to be true
       end
     end
 
@@ -158,7 +158,7 @@ describe Game do
         game_board[0][4] = piece2
         game.instance_variable_set('@board', board)
         location = [0, 6]
-        expect(game.reachable?(piece, location)).to be false
+        expect(game.reachable?(piece, location, board)).to be false
       end
     end
 
@@ -168,7 +168,7 @@ describe Game do
         game_board[4][0] = piece2
         game.instance_variable_set('@board', board)
         location = [6, 0]
-        expect(game.reachable?(piece, location)).to be false
+        expect(game.reachable?(piece, location, board)).to be false
       end
     end
 
@@ -179,7 +179,7 @@ describe Game do
         game_board[4][0] = piece2
         game.instance_variable_set('@board', board)
         location = [0, 0]
-        expect(game.reachable?(piece, location)).to be false
+        expect(game.reachable?(piece, location, board)).to be false
       end
     end
 
@@ -189,7 +189,7 @@ describe Game do
         game_board[4][4] = piece2
         game.instance_variable_set('@board', board)
         location = [6, 6]
-        expect(game.reachable?(piece, location)).to be false
+        expect(game.reachable?(piece, location, board)).to be false
       end
     end
 
@@ -200,7 +200,7 @@ describe Game do
         game_board[4][4] = piece2
         game.instance_variable_set('@board', board)
         location = [0, 0]
-        expect(game.reachable?(piece, location)).to be false
+        expect(game.reachable?(piece, location, board)).to be false
       end
     end
   end

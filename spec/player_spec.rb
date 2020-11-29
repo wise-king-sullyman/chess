@@ -8,25 +8,32 @@ describe Player do
   let(:piece) { double('piece') }
   let(:pieces) { player.instance_variable_get('@pieces') }
   let(:location) { [] }
+  let(:board) { double('board') }
 
   before do
     allow($stdout).to receive(:write)
     allow(game).to receive(:piece_at).and_return(piece)
     allow(piece).to receive(:player).and_return(player)
+    allow(piece).to receive(:location).and_return([1, 1])
     allow(piece).to receive(:eligible_for_promotion?).and_return(false)
     allow(player).to receive(:gets).and_return('a4')
     allow(game).to receive(:move_piece)
+    allow(game).to receive(:board).and_return(board)
+    allow(board).to receive(:piece_at)
   end
 
   describe '#move' do
+    before do
+      allow(piece).to receive(:legal_move?).and_return(true)
+    end
     context 'when a valid move is given to an owned piece' do
       before do
-        allow(piece).to receive(:valid_move?).and_return(true)
+        allow(player).to receive(:valid_move?).and_return(true)
         allow(player).to receive(:piece_is_mine?).and_return(true)
       end
 
       it 'calls #valid? until a valid move is given' do
-        expect(piece).to receive(:valid_move?).once
+        expect(player).to receive(:valid_move?).once
         player.move
       end
 
@@ -38,7 +45,7 @@ describe Player do
 
     context 'when a valid move is given to an unowned piece' do
       before do
-        allow(piece).to receive(:valid_move?).and_return(true)
+        allow(player).to receive(:valid_move?).and_return(true)
         allow(player).to receive(:piece_is_mine?).and_return(false, true)
       end
 
@@ -55,12 +62,12 @@ describe Player do
 
     context 'when an invalid move is given to an owned piece' do
       before do
-        allow(piece).to receive(:valid_move?).and_return(false, true)
+        allow(player).to receive(:valid_move?).and_return(false, true)
         allow(player).to receive(:piece_is_mine?).and_return(true)
       end
 
       it 'calls #valid? until a valid move is given' do
-        expect(piece).to receive(:valid_move?).twice
+        expect(player).to receive(:valid_move?).twice
         player.move
       end
 

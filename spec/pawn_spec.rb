@@ -5,6 +5,7 @@ require './lib/pawn.rb'
 describe Pawn do
   let(:game) { instance_double('game') }
   let(:player) { instance_double('player') }
+  let(:board) { double('board') }
   subject(:pawn) { Pawn.new(game, player, [1, 1]) }
 
   before do
@@ -12,6 +13,8 @@ describe Pawn do
     allow(game).to receive(:reachable?).and_return(true)
     allow(game).to receive(:piece_at).and_return(nil)
     allow(game).to receive(:move_checks_self?).and_return(false)
+    allow(game).to receive(:board).and_return(board)
+    allow(board).to receive(:piece_at)
   end
 
   before do

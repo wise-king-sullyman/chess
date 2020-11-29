@@ -5,12 +5,15 @@ require './lib/rook.rb'
 describe Rook do
   let(:game) { instance_double('game') }
   let(:player) { instance_double('player') }
+  let(:board) { double('board') }
   subject(:rook) { Rook.new(game, player, [0, 0]) }
 
   before do
     allow(game).to receive(:available?).and_return(true)
     allow(game).to receive(:reachable?).and_return(true)
     allow(game).to receive(:move_checks_self?).and_return(false)
+    allow(game).to receive(:board).and_return(board)
+    allow(board).to receive(:piece_at)
   end
 
   describe '#symbol' do
