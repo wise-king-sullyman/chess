@@ -4,11 +4,12 @@ require_relative 'board.rb'
 require_relative 'player.rb'
 require_relative 'ai.rb'
 require_relative 'move_validation.rb'
-require 'yaml'
+require_relative 'saving_and_loading.rb'
 
 # manage the game
 class Game
   include MoveValidation
+  include SavingAndLoading
 
   attr_reader :board
 
@@ -27,28 +28,6 @@ class Game
   def test_move_piece(piece, location)
     piece.move(location, true)
     @board.refresh
-  end
-
-  def save_game(current_player)
-    current_state = {
-      players: @players,
-      board: @board,
-      player: current_player
-    }
-    File.open(@file_name, 'w') { |file| file.write(current_state.to_yaml) }
-  end
-
-  def load_game
-    save = YAML.load_file(@file_name)
-    @players = save.fetch(:players)
-    @board = save.fetch(:board)
-    player = save.fetch(:player)
-    @players.reverse! unless @players.first == player
-  end
-
-  def ask_to_load_game
-    puts 'Save game detected. Load previous game? y/n'
-    load_game if gets.chomp == 'y'
   end
 
   def player_input_1_or_2
