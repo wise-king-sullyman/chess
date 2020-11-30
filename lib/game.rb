@@ -80,9 +80,9 @@ class Game
     loop do
       @players.each do |player|
         ply_setup(player)
-        break if player.in_stalemate?
-
         return other_player(player) if player_in_checkmate?(player)
+
+        return nil if player.in_stalemate?
 
         player.move
       end
