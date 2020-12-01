@@ -25,8 +25,7 @@ module Piece
   end
 
   def can_attack_king?
-    legal_move?(@game.enemy_king_location(@player)) \
-    && reachable?(self, @game.enemy_king_location(@player), @game.board)
+    can_attack_location?(@game.enemy_king_location(@player))
   end
 
   def can_attack_location?(location)
