@@ -10,14 +10,18 @@ class King
   end
 
   def can_attack_king?
-    false
+    moves = uncleaned_moves(@location.first, @location.last)
+    moves.include?(@game.enemy_king_location(@player)) ? true : false
   end
 
   private
 
-  def possible_moves(row, column)
+  def uncleaned_moves(row, column)
     modifiers = [1, 0, -1].product([1, 0, -1])
-    moves = apply_move_modifiers(modifiers, row, column)
-    clean_moves(moves)
+    apply_move_modifiers(modifiers, row, column)
+  end
+
+  def possible_moves(row, column)
+    clean_moves(uncleaned_moves(row, column))
   end
 end
