@@ -18,6 +18,11 @@ class AI < Player
     promote(piece) if piece.eligible_for_promotion?
   end
 
+  def promote(piece)
+    add_promotion_piece(piece, rand(4))
+    @pieces.delete(piece)
+  end
+
   private
 
   def piece_choice
