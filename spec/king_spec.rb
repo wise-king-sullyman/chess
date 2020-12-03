@@ -94,4 +94,56 @@ describe King do
       end
     end
   end
+
+  describe '#can_castle?' do
+    let(:rook) { double('rook') }
+
+    before do
+      allow(rook).to receive(:moved).and_return(false)
+      allow(rook).to receive(:location).and_return([0,7])
+      allow(king).to receive(:reachable?).and_return(true)
+      allow(game).to receive(:player_in_check?).and_return(false)
+    end
+
+    context 'when king has moved' do
+      it 'returns false' do
+        king.move([0, 4])
+        expect(king.can_castle?(rook)).to be false
+      end
+    end
+
+    context 'when rook has moved' do
+      it 'returns false' do
+        allow(rook).to receive(:moved).and_return(true)
+        expect(king.can_castle?(rook)).to be false
+      end
+    end
+
+    context 'when piece is between king and rook' do
+      it 'returns false' do
+        allow(king).to receive(:reachable?).and_return(false)
+        expect(king.can_castle?(rook)).to be false
+      end
+    end
+
+    context 'when king is in check' do
+      it 'returns false' do
+        allow(game).to receive(:player_in_check?).and_return(true)
+        expect(king.can_castle?(rook)).to be false
+      end
+    end
+
+    context 'when king would move into check' do
+      it 'returns false' do
+        allow(game).to receive(:move_checks_self?).and_return(false, true)
+        expect(king.can_castle?(rook)).to be false
+      end
+    end
+
+    context 'when castling is permissable' do
+      it 'returns true' do
+        expect(king.can_castle?(rook)).to be true
+      end
+    end
+  end
 end
