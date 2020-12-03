@@ -6,7 +6,7 @@ require_relative 'move_validation.rb'
 module Piece
   include MoveValidation
 
-  attr_reader :player, :location
+  attr_reader :player, :location, :moved
 
   def initialize(game, player, location)
     @game = game

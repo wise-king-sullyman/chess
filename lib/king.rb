@@ -14,6 +14,14 @@ class King
     moves.include?(@game.enemy_king_location(@player)) ? true : false
   end
 
+  def can_castle?(rook)
+    if castle_pieces_moved?(rook) || castle_prevented_by_check?(rook)
+      false
+    else
+      reachable?(self, rook.location, @game.board)
+    end
+  end
+
   private
 
   def uncleaned_moves(row, column)
@@ -23,5 +31,18 @@ class King
 
   def possible_moves(row, column)
     clean_moves(uncleaned_moves(row, column))
+  end
+
+  def castle_pieces_moved?(rook)
+    @moved || rook.moved
+  end
+
+  def castle_prevented_by_check?(rook)
+    rook_direction = rook.location.last == 7 ? 1 : -1
+    toward_rook = [@location.first, @location.last + rook_direction]
+    toward_rook_second_move = [toward_rook.first, (toward_rook.last + 1)]
+    @game.player_in_check? \
+    || @game.move_checks_self?(self, toward_rook) \
+    || @game.move_checks_self?(self, toward_rook_second_move)
   end
 end
