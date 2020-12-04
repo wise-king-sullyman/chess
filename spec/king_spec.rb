@@ -146,4 +146,36 @@ describe King do
       end
     end
   end
+
+  describe '#add_castle_move' do
+    let(:rook) { double('rook') }
+
+    before do
+      allow(king).to receive(:can_castle?).and_return(true)
+      allow(rook).to receive(:location).and_return([0, 7])
+    end
+
+    context 'when castling is permissable and rook is board right' do
+      let(:moves) { [[0, 5]] }
+      it 'returns board right castle added to move array' do
+        expect(king.add_castle_move(rook, moves)).to eql([[0, 5], [0, 6]])
+      end
+    end
+
+    context 'when castling is permissable and rook is board left' do
+      let(:moves) { [[0, 4]] }
+      it 'returns board right castle added to move array' do
+        allow(rook).to receive(:location).and_return([0, 0])
+        expect(king.add_castle_move(rook, moves)).to eql([[0, 4], [0, 2]])
+      end
+    end
+
+    context 'when castling is not permissable' do
+      let(:moves) { [[0, 4]] }
+      it 'returns the move array' do
+        allow(king).to receive(:can_castle?).and_return(false)
+        expect(king.add_castle_move(rook, moves)).to eql([[0, 4]])
+      end
+    end
+  end
 end
