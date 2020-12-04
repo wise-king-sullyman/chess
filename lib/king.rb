@@ -22,6 +22,12 @@ class King
     end
   end
 
+  def add_castle_move(rook, moves)
+    castle_column = rook.location.last == 7 ? 6 : 2
+    moves.push([location.first, castle_column]) if can_castle?(rook)
+    moves
+  end
+
   private
 
   def uncleaned_moves(row, column)
