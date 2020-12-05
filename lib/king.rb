@@ -47,7 +47,7 @@ class King
     rook_direction = rook.location.last == 7 ? 1 : -1
     toward_rook = [@location.first, @location.last + rook_direction]
     toward_rook_second_move = [toward_rook.first, (toward_rook.last + 1)]
-    @game.player_in_check? \
+    @game.player_in_check?(player) \
     || @game.move_checks_self?(self, toward_rook) \
     || @game.move_checks_self?(self, toward_rook_second_move)
   end
