@@ -28,6 +28,20 @@ class King
     moves
   end
 
+  def move_castling_rook(king_to_location)
+    rook_column = king_to_location.last > 5 ? 7 : 0
+    rook = @game.board.piece_at([king_to_location.first, rook_column])
+    rook_column_destination = rook.location.last == 7 ? 5 : 3
+    rook.move([rook.location.first, rook_column_destination])
+  end
+
+  def move(to_location, test_move = false)
+    columns_traversed = (to_location.last - @location.last).abs
+    move_castling_rook(to_location) unless columns_traversed < 2 || test_move
+    @location = to_location
+    @moved = true unless test_move
+  end
+
   private
 
   def uncleaned_moves(row, column)
@@ -36,7 +50,11 @@ class King
   end
 
   def possible_moves(row, column)
-    clean_moves(uncleaned_moves(row, column))
+    moves = clean_moves(uncleaned_moves(row, column))
+    @player.pieces.each do |piece|
+      add_castle_move(piece, moves) if piece.class == Rook
+    end
+    moves
   end
 
   def castle_pieces_moved?(rook)
