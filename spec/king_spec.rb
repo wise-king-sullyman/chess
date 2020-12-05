@@ -15,6 +15,7 @@ describe King do
     allow(game).to receive(:move_checks_self?).and_return(false)
     allow(game).to receive(:board).and_return(board)
     allow(board).to receive(:piece_at)
+    allow(player).to receive(:pieces).and_return([])
   end
 
   describe '#symbol' do
