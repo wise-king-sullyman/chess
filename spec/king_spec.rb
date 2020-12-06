@@ -34,8 +34,8 @@ describe King do
 
   describe '#move' do
     it 'sets @location to the new location' do
-      king.move([0, 1])
-      expect(king.instance_variable_get('@location')).to eql([0, 1])
+      king.move([0, 3])
+      expect(king.instance_variable_get('@location')).to eql([0, 3])
     end
   end
 
