@@ -40,6 +40,20 @@ describe Pawn do
       pawn.move([0, 1])
       expect(pawn.instance_variable_get('@location')).to eql([0, 1])
     end
+
+    context 'when a double move is performed' do
+      it 'sets @vulnerable_to_en_passant to true' do
+        pawn.move([3, 1])
+        expect(pawn.vulnerable_to_en_passant).to be true
+      end
+    end
+
+    context 'when a single move is performed' do
+      it 'leaves @vulnerable_to_en_passant false' do
+        pawn.move([2, 1])
+        expect(pawn.vulnerable_to_en_passant).to be false
+      end
+    end
   end
 
   describe '#legal_move?' do
