@@ -20,6 +20,7 @@ class Player
   end
 
   def move
+    reset_en_passant_vulnerabilities
     piece = piece_choice
     location = location_choice
     until piece_is_mine?(piece) && valid_move?(piece, location, @game.board)
@@ -29,6 +30,12 @@ class Player
     end
     @game.move_piece(piece, location)
     promote(piece) if piece.eligible_for_promotion?
+  end
+
+  def reset_en_passant_vulnerabilities
+    @pieces.each do |piece|
+      piece.falsify_en_passant_vulnerability if piece.class == Pawn
+    end
   end
 
   def king_location

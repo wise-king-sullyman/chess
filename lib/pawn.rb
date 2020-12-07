@@ -5,9 +5,12 @@ require_relative 'piece.rb'
 class Pawn
   include Piece
 
+  attr_reader :vulnerable_to_en_passant
+
   def initialize(game, player, location)
     super
     @direction = @location.first == 1 ? 1 : -1
+    @vulnerable_to_en_passant = false
   end
 
   def symbol(color)
@@ -39,6 +42,16 @@ class Pawn
     return true if @direction.negative? && @location.first.zero?
 
     false
+  end
+
+  def move(to_location, test_move = false)
+    @vulnerable_to_en_passant = true if (to_location.first - @location.first).abs == 2
+    @location = to_location
+    @moved = true unless test_move
+  end
+
+  def falsify_en_passant_vulnerability
+    @vulnerable_to_en_passant = false
   end
 
   private
