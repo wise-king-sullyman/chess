@@ -19,13 +19,31 @@ class Pawn
 
   def possible_moves(row, column)
     moves = []
-    unless @moved || @game.piece_at([row + @direction, column]) || @game.piece_at([row + @direction + @direction, column])
-      moves.push([row + @direction + @direction, column])
-    end
-    moves.push([row + @direction, column]) unless @game.piece_at([row + @direction, column])
-    moves.push([row + @direction, column + 1]) if @game.enemy_at?(@player, [row + @direction, column + 1])
-    moves.push([row + @direction, column - 1]) if @game.enemy_at?(@player, [row + @direction, column - 1])
+    add_single_move_if_applicable(moves, row, column)
+    add_double_move_if_applicable(moves, row, column)
+    add_attack_moves_if_applicable(moves, row, column)
     clean_moves(moves)
+  end
+
+  def add_single_move_if_applicable(moves, row, column)
+    single_move = [row + @direction, column]
+    return if @game.piece_at(single_move)
+
+    moves.push(single_move)
+  end
+
+  def add_double_move_if_applicable(moves, row, column)
+    return if @moved
+
+    double_move = [row + (@direction * 2), column]
+    moves.push(double_move) if reachable?(self, double_move, @game.board)
+  end
+
+  def add_attack_moves_if_applicable(moves, row, column)
+    attack_right = [row + @direction, column + 1]
+    attack_left = [row + @direction, column - 1]
+    moves.push(attack_right) if @game.enemy_at?(@player, attack_right)
+    moves.push(attack_left) if @game.enemy_at?(@player, attack_left)
   end
 
   def can_attack_location?(location)
