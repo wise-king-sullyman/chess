@@ -49,7 +49,7 @@ module Piece
     moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
     unless calling_method_name == "`can_attack_king?'"
       moves.delete_if do |move|
-        @game.move_checks_self?(self, move)
+        @game.move_checks_self?(self, move, @game.board)
       end
     end
     moves

@@ -54,6 +54,11 @@ class Player
     @pieces.delete(piece)
   end
 
+  def revive_piece(piece)
+    @pieces.push(piece)
+    @lost_pieces.delete(piece)
+  end
+
   def in_stalemate?
     @pieces.each do |piece|
       return false if piece.can_move?

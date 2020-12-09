@@ -258,18 +258,20 @@ describe Game do
       allow(piece).to receive(:location)
       allow(player2).to receive(:pieces).and_return([piece2])
       game.instance_variable_set('@players', players)
+      allow(board).to receive(:piece_at)
+      allow(board).to receive(:refresh)
     end
     context 'when move puts self into check' do
       it 'reutrns true' do
         allow(piece2).to receive(:can_attack_king?).and_return(true)
-        expect(game.move_checks_self?(piece, location)).to be true
+        expect(game.move_checks_self?(piece, location, board)).to be true
       end
     end
 
     context 'when move does not put self into check' do
       it 'reutrns false' do
         allow(piece2).to receive(:can_attack_king?).and_return(false)
-        expect(game.move_checks_self?(piece, location)).to be false
+        expect(game.move_checks_self?(piece, location, board)).to be false
       end
     end
   end
