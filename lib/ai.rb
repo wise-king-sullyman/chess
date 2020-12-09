@@ -8,6 +8,7 @@ class AI < Player
   include MoveValidation
 
   def move
+    reset_en_passant_vulnerabilities
     piece = piece_choice
     location = location_choice
     until piece_is_mine?(piece) && valid_move?(piece, location, @game.board)
