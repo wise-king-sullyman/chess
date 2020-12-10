@@ -84,7 +84,7 @@ class Game
         ply_setup(player)
         return other_player(player) if player_in_checkmate?(player)
 
-        return nil if player.in_stalemate?
+        return nil if player.mated?
 
         player.move
       end

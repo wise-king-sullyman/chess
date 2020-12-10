@@ -44,11 +44,6 @@ class Player
     end
   end
 
-  def mated?
-    king = @pieces.select { |piece| piece.class == King }.first
-    king.can_move? ? false : true
-  end
-
   def remove_piece(piece)
     @lost_pieces.push(piece)
     @pieces.delete(piece)
@@ -59,7 +54,7 @@ class Player
     @lost_pieces.delete(piece)
   end
 
-  def in_stalemate?
+  def mated?
     @pieces.each do |piece|
       return false if piece.can_move?
     end
