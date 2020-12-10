@@ -127,42 +127,20 @@ describe Player do
     let(:king) { double('king') }
 
     before do
-      pieces[0] = king
-      allow(king).to receive(:class).and_return(King)
-      player.instance_variable_set('@pieces', pieces)
+      player.instance_variable_set('@pieces', [piece, piece, piece, piece])
     end
 
     context 'when mated' do
       it 'returns true' do
-        allow(king).to receive(:can_move?).and_return(false)
+        allow(piece).to receive(:can_move?).and_return(false)
         expect(player.mated?).to be true
       end
     end
 
     context 'when not mated' do
       it 'returns false' do
-        allow(king).to receive(:can_move?).and_return(true)
-        expect(player.mated?).to be false
-      end
-    end
-  end
-
-  describe '#in_stalemate?' do
-    before do
-      player.instance_variable_set('@pieces', [piece, piece, piece, piece])
-    end
-
-    context 'when in stalemate' do
-      it 'returns true' do
-        allow(piece).to receive(:can_move?).and_return(false)
-        expect(player.in_stalemate?).to be true
-      end
-    end
-
-    context 'when not in stalemate' do
-      it 'returns false' do
         allow(piece).to receive(:can_move?).and_return(false, false, true)
-        expect(player.in_stalemate?).to be false
+        expect(player.mated?).to be false
       end
     end
   end
