@@ -35,8 +35,11 @@ class Pawn
   def add_double_move_if_applicable(moves, row, column)
     return if @moved
 
+    single_move = [row + @direction, column]
     double_move = [row + (@direction * 2), column]
-    moves.push(double_move) if reachable?(self, double_move, @game.board)
+    return if @game.piece_at(single_move) || @game.piece_at(double_move)
+
+    moves.push(double_move)
   end
 
   def add_attack_moves_if_applicable(moves, row, column)
