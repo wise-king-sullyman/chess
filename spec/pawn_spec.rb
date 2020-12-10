@@ -113,6 +113,13 @@ describe Pawn do
         expect(pawn.legal_move?([2, 1])).to be false
       end
     end
+
+    context 'when double move is attempted but an emeny is two squares ahead' do
+      it 'returns false' do
+        allow(game).to receive(:piece_at).and_return(true)
+        expect(pawn.legal_move?([3, 1])).to be false
+      end
+    end
   end
 
   describe '#can_attack_king?' do
