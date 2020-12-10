@@ -95,7 +95,7 @@ class Player
   end
 
   def validate_input(input)
-    until input.match?(/^[a-h][0-9]$/)
+    until input.match?(/^[a-h][1-8]$/)
       puts 'invalid location input; please try again'
       input = gets.chomp
     end
