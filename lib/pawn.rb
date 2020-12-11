@@ -44,21 +44,43 @@ class Pawn
   end
 
   def add_attack_moves_if_applicable(moves, row, column)
-    attack_right = [row + @direction, column + 1]
-    attack_left = [row + @direction, column - 1]
-    moves.push(attack_right) if @game.enemy_at?(@player, attack_right)
-    moves.push(attack_left) if @game.enemy_at?(@player, attack_left)
+    right_diagonal = diagonal_right(row, column)
+    left_diagonal = diagonal_left(row, column)
+    moves.push(diagonal_right(row, column)) if can_attack?(right_diagonal)
+    moves.push(diagonal_left(row, column)) if can_attack?(left_diagonal)
   end
 
   def add_en_passant_moves_if_applicable(moves, row, column)
-    attack_right = [row + @direction, column + 1]
-    right_of_piece = @game.piece_at([row, column + 1])
-    attack_left = [row + @direction, column - 1]
-    left_of_piece = @game.piece_at([row, column - 1])
-    right_piece_vulnerable = right_of_piece&.vulnerable_to_en_passant
-    left_piece_vulnerable = left_of_piece&.vulnerable_to_en_passant
-    moves.push(attack_right) if right_piece_vulnerable
-    moves.push(attack_left) if left_piece_vulnerable
+    right_piece = orthogonal_right_piece(row, column)
+    left_piece = orthogonal_left_piece(row, column)
+    moves.push(diagonal_right(row, column)) if can_en_passant?(right_piece)
+    moves.push(diagonal_left(row, column)) if can_en_passant?(left_piece)
+  end
+
+  def diagonal_right(row, column)
+    [row + @direction, column + 1]
+  end
+
+  def diagonal_left(row, column)
+    [row + @direction, column - 1]
+  end
+
+  def can_attack?(location)
+    @game.enemy_at?(@player, location)
+  end
+
+  def orthogonal_right_piece(row, column)
+    @game.piece_at([row, column + 1])
+  end
+
+  def orthogonal_left_piece(row, column)
+    @game.piece_at([row, column - 1])
+  end
+
+  def can_en_passant?(piece)
+    piece.respond_to?('vulnerable_to_en_passant') \
+    && @game.enemy_at?(@player, piece.location) \
+    && piece.vulnerable_to_en_passant
   end
 
   def can_attack_location?(location)
