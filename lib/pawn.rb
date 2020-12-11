@@ -22,6 +22,7 @@ class Pawn
     add_single_move_if_applicable(moves, row, column)
     add_double_move_if_applicable(moves, row, column)
     add_attack_moves_if_applicable(moves, row, column)
+    add_en_passant_moves_if_applicable(moves, row, column)
     clean_moves(moves)
   end
 
@@ -47,6 +48,17 @@ class Pawn
     attack_left = [row + @direction, column - 1]
     moves.push(attack_right) if @game.enemy_at?(@player, attack_right)
     moves.push(attack_left) if @game.enemy_at?(@player, attack_left)
+  end
+
+  def add_en_passant_moves_if_applicable(moves, row, column)
+    attack_right = [row + @direction, column + 1]
+    right_of_piece = @game.piece_at([row, column + 1])
+    attack_left = [row + @direction, column - 1]
+    left_of_piece = @game.piece_at([row, column - 1])
+    right_piece_vulnerable = right_of_piece&.vulnerable_to_en_passant
+    left_piece_vulnerable = left_of_piece&.vulnerable_to_en_passant
+    moves.push(attack_right) if right_piece_vulnerable
+    moves.push(attack_left) if left_piece_vulnerable
   end
 
   def can_attack_location?(location)
