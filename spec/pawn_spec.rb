@@ -15,11 +15,8 @@ describe Pawn do
     allow(game).to receive(:piece_at).and_return(nil)
     allow(game).to receive(:move_checks_self?).and_return(false)
     allow(game).to receive(:board).and_return(board)
-    allow(knight).to receive(:vulnerable_to_en_passant).and_return(false)
+    allow(knight).to receive(:location)
     allow(board).to receive(:piece_at)
-  end
-
-  before do
     allow(game).to receive(:enemy_at?).and_return(true)
   end
 
@@ -173,6 +170,12 @@ describe Pawn do
   end
 
   describe '#add_en_passant_moves_if_applicable' do
+    let(:enemy_pawn) { double('pawn') }
+
+    before do
+      allow(enemy_pawn).to receive(:location)
+    end
+
     context 'when no piece is to the side' do
       it 'does not change moves' do
         moves = []
@@ -209,7 +212,6 @@ describe Pawn do
     end
 
     context 'when a non en passant vulnerable pawn is to the right' do
-      let(:enemy_pawn) { double('pawn') }
       it 'does not change moves' do
         allow(game).to receive(:piece_at).and_return(enemy_pawn, nil)
         allow(enemy_pawn).to receive(:vulnerable_to_en_passant).and_return(false)
@@ -220,7 +222,6 @@ describe Pawn do
     end
 
     context 'when a non en passant vulnerable pawn is to the left' do
-      let(:enemy_pawn) { double('pawn') }
       it 'does not change moves' do
         allow(game).to receive(:piece_at).and_return(nil, enemy_pawn)
         allow(enemy_pawn).to receive(:vulnerable_to_en_passant).and_return(false)
@@ -231,7 +232,6 @@ describe Pawn do
     end
 
     context 'when non en passant vulnerable pawns are to the left and right' do
-      let(:enemy_pawn) { double('pawn') }
       it 'adds the en pasant move' do
         allow(game).to receive(:piece_at).and_return(enemy_pawn)
         allow(enemy_pawn).to receive(:vulnerable_to_en_passant).and_return(false)
