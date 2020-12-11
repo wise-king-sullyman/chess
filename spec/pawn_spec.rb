@@ -6,6 +6,7 @@ describe Pawn do
   let(:game) { instance_double('game') }
   let(:player) { instance_double('player') }
   let(:board) { double('board') }
+  let(:knight) { double('knight') }
   subject(:pawn) { Pawn.new(game, player, [1, 1]) }
 
   before do
@@ -14,6 +15,7 @@ describe Pawn do
     allow(game).to receive(:piece_at).and_return(nil)
     allow(game).to receive(:move_checks_self?).and_return(false)
     allow(game).to receive(:board).and_return(board)
+    allow(knight).to receive(:vulnerable_to_en_passant).and_return(false)
     allow(board).to receive(:piece_at)
   end
 
@@ -109,14 +111,14 @@ describe Pawn do
 
     context 'when enemy is in front of pawn' do
       it 'returns false' do
-        allow(game).to receive(:piece_at).and_return(true)
+        allow(game).to receive(:piece_at).and_return(knight)
         expect(pawn.legal_move?([2, 1])).to be false
       end
     end
 
     context 'when double move is attempted but an emeny is two squares ahead' do
       it 'returns false' do
-        allow(game).to receive(:piece_at).and_return(true)
+        allow(game).to receive(:piece_at).and_return(knight)
         expect(pawn.legal_move?([3, 1])).to be false
       end
     end
@@ -166,6 +168,109 @@ describe Pawn do
       it 'returns false' do
         pawn.move([1, 1])
         expect(pawn.eligible_for_promotion?).to be false
+      end
+    end
+  end
+
+  describe '#add_en_passant_moves_if_applicable' do
+    context 'when no piece is to the side' do
+      it 'does not change moves' do
+        moves = []
+        pawn.add_en_passant_moves_if_applicable(moves, 1, 1)
+        expect(moves).to eq([])
+      end
+    end
+
+    context 'when a non pawn piece is to the right' do
+      it 'does not change moves' do
+        allow(game).to receive(:piece_at).and_return(knight, nil)
+        moves = []
+        pawn.add_en_passant_moves_if_applicable(moves, 1, 1)
+        expect(moves).to eq([])
+      end
+    end
+
+    context 'when a non pawn piece is to the left' do
+      it 'does not change moves' do
+        allow(game).to receive(:piece_at).and_return(nil, knight)
+        moves = []
+        pawn.add_en_passant_moves_if_applicable(moves, 1, 1)
+        expect(moves).to eq([])
+      end
+    end
+
+    context 'when a non pawn piece is on both sides' do
+      it 'adds the en pasant move' do
+        allow(game).to receive(:piece_at).and_return(knight)
+        moves = []
+        pawn.add_en_passant_moves_if_applicable(moves, 1, 1)
+        expect(moves).to eq([])
+      end
+    end
+
+    context 'when a non en passant vulnerable pawn is to the right' do
+      let(:enemy_pawn) { double('pawn') }
+      it 'does not change moves' do
+        allow(game).to receive(:piece_at).and_return(enemy_pawn, nil)
+        allow(enemy_pawn).to receive(:vulnerable_to_en_passant).and_return(false)
+        moves = []
+        pawn.add_en_passant_moves_if_applicable(moves, 1, 1)
+        expect(moves).to eq([])
+      end
+    end
+
+    context 'when a non en passant vulnerable pawn is to the left' do
+      let(:enemy_pawn) { double('pawn') }
+      it 'does not change moves' do
+        allow(game).to receive(:piece_at).and_return(nil, enemy_pawn)
+        allow(enemy_pawn).to receive(:vulnerable_to_en_passant).and_return(false)
+        moves = []
+        pawn.add_en_passant_moves_if_applicable(moves, 1, 1)
+        expect(moves).to eq([])
+      end
+    end
+
+    context 'when non en passant vulnerable pawns are to the left and right' do
+      let(:enemy_pawn) { double('pawn') }
+      it 'adds the en pasant move' do
+        allow(game).to receive(:piece_at).and_return(enemy_pawn)
+        allow(enemy_pawn).to receive(:vulnerable_to_en_passant).and_return(false)
+        moves = []
+        pawn.add_en_passant_moves_if_applicable(moves, 1, 1)
+        expect(moves).to eq([])
+      end
+    end
+
+    context 'when an en passant vulnerable pawn is to the right' do
+      let(:enemy_pawn) { double('pawn') }
+      it 'adds the en pasant move' do
+        allow(game).to receive(:piece_at).and_return(enemy_pawn, nil)
+        allow(enemy_pawn).to receive(:vulnerable_to_en_passant).and_return(true)
+        moves = []
+        pawn.add_en_passant_moves_if_applicable(moves, 1, 1)
+        expect(moves).to include([2, 2])
+      end
+    end
+
+    context 'when an en passant vulnerable pawn is to the left' do
+      let(:enemy_pawn) { double('pawn') }
+      it 'adds the en pasant move' do
+        allow(game).to receive(:piece_at).and_return(nil, enemy_pawn)
+        allow(enemy_pawn).to receive(:vulnerable_to_en_passant).and_return(true)
+        moves = []
+        pawn.add_en_passant_moves_if_applicable(moves, 1, 1)
+        expect(moves).to include([2, 0])
+      end
+    end
+
+    context 'when en passant vulnerable pawns are to the left and right' do
+      let(:enemy_pawn) { double('pawn') }
+      it 'adds the en pasant move' do
+        allow(game).to receive(:piece_at).and_return(enemy_pawn)
+        allow(enemy_pawn).to receive(:vulnerable_to_en_passant).and_return(true)
+        moves = []
+        pawn.add_en_passant_moves_if_applicable(moves, 1, 1)
+        expect(moves).to include([2, 0], [2, 2])
       end
     end
   end
