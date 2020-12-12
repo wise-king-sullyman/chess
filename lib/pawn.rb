@@ -101,8 +101,18 @@ class Pawn
 
   def move(to_location, test_move = false)
     @vulnerable_to_en_passant = true if (to_location.first - @location.first).abs == 2
+    en_passant_piece = @game.piece_at([to_location.first - @direction, to_location.last])
+    capture_en_passant(en_passant_piece) if en_passant_capturing?(en_passant_piece, to_location)
     @location = to_location
     @moved = true unless test_move
+  end
+
+  def en_passant_capturing?(piece, to_location)
+    can_en_passant?(piece) && piece.location == [to_location.first - @direction, to_location.last]
+  end
+
+  def capture_en_passant(piece)
+    piece.player.remove_piece(piece)
   end
 
   def falsify_en_passant_vulnerability
