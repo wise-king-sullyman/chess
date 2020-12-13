@@ -101,13 +101,12 @@ class Pawn
 
   def move(to_location, test_move = false)
     truthify_en_passant_vulnerability if double_move_performed?(to_location)
-    en_passant_piece = piece_behind_move(to_location)
-    capture(en_passant_piece) if en_passant_moved?(en_passant_piece, to_location)
+    capture_enemy_if_en_passant_performed(to_location)
     @location = to_location
     @moved = true unless test_move
   end
 
-  def en_passant_moved?(piece, to_location)
+  def en_passant_performed?(piece, to_location)
     can_en_passant?(piece) \
     && piece.location == [to_location.first - @direction, to_location.last]
   end
@@ -130,6 +129,13 @@ class Pawn
 
   def piece_behind_move(to_location)
     @game.piece_at([to_location.first - @direction, to_location.last])
+  end
+
+  def capture_enemy_if_en_passant_performed(move_location)
+    en_passant_piece = piece_behind_move(move_location)
+    return unless en_passant_performed?(en_passant_piece, move_location)
+
+    capture(en_passant_piece)
   end
 
   private
