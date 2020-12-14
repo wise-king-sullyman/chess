@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'king.rb'
-require_relative 'queen.rb'
-require_relative 'rook.rb'
-require_relative 'bishop.rb'
-require_relative 'knight.rb'
-require_relative 'pawn.rb'
+require_relative 'king'
+require_relative 'queen'
+require_relative 'rook'
+require_relative 'bishop'
+require_relative 'knight'
+require_relative 'pawn'
 
 # assign pieces to a player
 module AssignPieces

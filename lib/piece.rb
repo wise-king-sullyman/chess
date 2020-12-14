@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'move_validation.rb'
+require_relative 'move_validation'
 
 # serves as the template for all unique pieces
 module Piece

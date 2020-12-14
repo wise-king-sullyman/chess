@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'assign_pieces.rb'
-require_relative 'move_validation.rb'
+require_relative 'assign_pieces'
+require_relative 'move_validation'
 require 'pry'
 
 # keep state of and execute actions for the player

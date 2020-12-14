@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'player.rb'
-require_relative 'move_validation.rb'
+require_relative 'player'
+require_relative 'move_validation'
 
 # keep state of and execute actions for the ai
 class AI < Player

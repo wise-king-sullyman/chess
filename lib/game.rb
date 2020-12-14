@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'board.rb'
-require_relative 'player.rb'
-require_relative 'ai.rb'
-require_relative 'move_validation.rb'
-require_relative 'saving_and_loading.rb'
-require_relative 'check_detection.rb'
+require_relative 'board'
+require_relative 'player'
+require_relative 'ai'
+require_relative 'move_validation'
+require_relative 'saving_and_loading'
+require_relative 'check_detection'
 
 # manage the game
 class Game

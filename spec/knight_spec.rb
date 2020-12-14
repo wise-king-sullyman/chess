@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/knight.rb'
+require './lib/knight'
 
 describe Knight do
   let(:game) { instance_double('game') }
