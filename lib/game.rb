@@ -13,23 +13,23 @@ class Game
   include SavingAndLoading
   include CheckDetection
 
-  attr_reader :board
+  attr_reader :board, :players, :file_name
 
   def initialize
     @players = []
-    @board = Board.new(@players)
+    @board = Board.new(players)
     @file_name = 'chess_save.yaml'
   end
 
   def move_piece(piece, location)
-    at_location = @board.piece_at(location)
+    at_location = board.piece_at(location)
     at_location&.player&.remove_piece(at_location)
     piece.move(location)
   end
 
   def test_move_piece(piece, location)
     piece.move(location, true)
-    @board.refresh
+    board.refresh
   end
 
   def player_input_1_or_2
@@ -55,18 +55,18 @@ class Game
       white = AI.new('player 1', 'white', self)
       black = Player.new('player 2', 'black', self)
     end
-    @players.push(white, black)
+    players.push(white, black)
   end
 
   def setup_two_player_game
     white = Player.new('player 1', 'white', self)
     black = Player.new('player 2', 'black', self)
-    @players.push(white, black)
+    players.push(white, black)
   end
 
   def play
-    ask_to_load_game if File.exist?(@file_name)
-    add_players if @players.empty?
+    ask_to_load_game if File.exist?(file_name)
+    add_players if players.empty?
     announce_winner(game_loop)
   end
 
@@ -80,7 +80,7 @@ class Game
 
   def game_loop
     loop do
-      @players.each do |player|
+      players.each do |player|
         ply_setup(player)
         return other_player(player) if player_in_checkmate?(player)
 
@@ -93,8 +93,8 @@ class Game
 
   def ply_setup(player)
     save_game(player)
-    @board.refresh
-    puts @board
+    board.refresh
+    puts board
     puts "#{player.name} in check" if player_in_check?(player)
   end
 
@@ -105,19 +105,19 @@ class Game
 
   def enemy_at?(calling_player, location)
     enemy_player = other_player(calling_player)
-    at_location = @board.piece_at(location)
+    at_location = board.piece_at(location)
     at_location.respond_to?(:player) && at_location.player == enemy_player
   end
 
   def piece_at(location)
-    @board.piece_at(location)
+    board.piece_at(location)
   end
 
   private
 
   def other_player(calling_player)
-    player1 = @players.first
-    player2 = @players.last
+    player1 = players.first
+    player2 = players.last
     player1 == calling_player ? player2 : player1
   end
 end

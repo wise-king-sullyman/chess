@@ -11,11 +11,11 @@ class AI < Player
     reset_en_passant_vulnerabilities
     piece = piece_choice
     location = location_choice
-    until piece_is_mine?(piece) && valid_move?(piece, location, @game.board)
+    until piece_is_mine?(piece) && valid_move?(piece, location, game.board)
       piece = piece_choice
       location = location_choice
     end
-    @game.move_piece(piece, location)
+    game.move_piece(piece, location)
     promote(piece) if piece.eligible_for_promotion?
   end
 

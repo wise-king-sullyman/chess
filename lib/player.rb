@@ -9,13 +9,13 @@ class Player
   include AssignPieces
   include MoveValidation
 
-  attr_reader :name, :color, :pieces
+  attr_reader :name, :color, :pieces, :lost_pieces, :game
 
   def initialize(name, color, game)
     @name = name
     @color = color
     @game = game
-    @pieces = assign_pieces(self, @game)
+    @pieces = assign_pieces(self, game)
     @lost_pieces = []
   end
 
@@ -23,39 +23,39 @@ class Player
     reset_en_passant_vulnerabilities
     piece = piece_choice
     location = location_choice
-    until piece_is_mine?(piece) && valid_move?(piece, location, @game.board)
+    until piece_is_mine?(piece) && valid_move?(piece, location, game.board)
       puts 'Invalid piece and/or location selected, please choose again'
       piece = piece_choice
       location = location_choice
     end
-    @game.move_piece(piece, location)
+    game.move_piece(piece, location)
     promote(piece) if piece.eligible_for_promotion?
   end
 
   def reset_en_passant_vulnerabilities
-    @pieces.each do |piece|
+    pieces.each do |piece|
       piece.falsify_en_passant_vulnerability if piece.class == Pawn
     end
   end
 
   def king_location
-    @pieces.each do |piece|
+    pieces.each do |piece|
       return piece.location if piece.class == King
     end
   end
 
   def remove_piece(piece)
-    @lost_pieces.push(piece)
-    @pieces.delete(piece)
+    lost_pieces.push(piece)
+    pieces.delete(piece)
   end
 
   def revive_piece(piece)
-    @pieces.push(piece)
-    @lost_pieces.delete(piece)
+    pieces.push(piece)
+    lost_pieces.delete(piece)
   end
 
   def mated?
-    @pieces.each do |piece|
+    pieces.each do |piece|
       return false if piece.can_move?
     end
     true
@@ -64,13 +64,13 @@ class Player
   private
 
   def piece_choice
-    puts "#{@name} enter piece selection location:"
+    puts "#{name} enter piece selection location:"
     input = player_input
     piece_at_location([input.first, input.last])
   end
 
   def location_choice
-    puts "#{@name} enter move location:"
+    puts "#{name} enter move location:"
     input = player_input
     [input.first, input.last]
   end
@@ -98,7 +98,7 @@ class Player
   end
 
   def piece_at_location(location)
-    @game.piece_at(location)
+    game.piece_at(location)
   end
 
   def piece_is_mine?(piece)
@@ -111,7 +111,7 @@ class Player
     puts 'Pawn promoted! Select 0 to become a queen, 1 to become a rook'\
     '2 to become a bishop, or 3 to become a knight'
     add_promotion_piece(piece, validate_promotion_choice(gets.chomp))
-    @pieces.delete(piece)
+    pieces.delete(piece)
   end
 
   def validate_promotion_choice(promotion_choice)
@@ -125,13 +125,13 @@ class Player
   def add_promotion_piece(old_piece, new_piece_selection)
     case new_piece_selection
     when 0
-      @pieces.push(Queen.new(@game, self, old_piece.location))
+      pieces.push(Queen.new(game, self, old_piece.location))
     when 1
-      @pieces.push(Rook.new(@game, self, old_piece.location))
+      pieces.push(Rook.new(game, self, old_piece.location))
     when 2
-      @pieces.push(Bishop.new(@game, self, old_piece.location))
+      pieces.push(Bishop.new(game, self, old_piece.location))
     when 3
-      @pieces.push(Knight.new(@game, self, old_piece.location))
+      pieces.push(Knight.new(game, self, old_piece.location))
     end
   end
 end

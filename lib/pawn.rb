@@ -5,7 +5,7 @@ require_relative 'piece'
 class Pawn
   include Piece
 
-  attr_reader :vulnerable_to_en_passant
+  attr_reader :direction, :vulnerable_to_en_passant
 
   def initialize(game, player, location)
     super
@@ -27,18 +27,18 @@ class Pawn
   end
 
   def add_single_move_if_applicable(moves, row, column)
-    single_move = [row + @direction, column]
-    return if @game.piece_at(single_move)
+    single_move = [row + direction, column]
+    return if game.piece_at(single_move)
 
     moves.push(single_move)
   end
 
   def add_double_move_if_applicable(moves, row, column)
-    return if @moved
+    return if moved
 
-    single_move = [row + @direction, column]
-    double_move = [row + (@direction * 2), column]
-    return if @game.piece_at(single_move) || @game.piece_at(double_move)
+    single_move = [row + direction, column]
+    double_move = [row + (direction * 2), column]
+    return if game.piece_at(single_move) || game.piece_at(double_move)
 
     moves.push(double_move)
   end
@@ -58,28 +58,28 @@ class Pawn
   end
 
   def diagonal_right(row, column)
-    [row + @direction, column + 1]
+    [row + direction, column + 1]
   end
 
   def diagonal_left(row, column)
-    [row + @direction, column - 1]
+    [row + direction, column - 1]
   end
 
   def can_attack?(location)
-    @game.enemy_at?(@player, location)
+    game.enemy_at?(player, location)
   end
 
   def orthogonal_right_piece(row, column)
-    @game.piece_at([row, column + 1])
+    game.piece_at([row, column + 1])
   end
 
   def orthogonal_left_piece(row, column)
-    @game.piece_at([row, column - 1])
+    game.piece_at([row, column - 1])
   end
 
   def can_en_passant?(piece)
     piece.respond_to?('vulnerable_to_en_passant') \
-    && @game.enemy_at?(@player, piece.location) \
+    && game.enemy_at?(player, piece.location) \
     && piece.vulnerable_to_en_passant
   end
 
@@ -88,13 +88,13 @@ class Pawn
   end
 
   def can_attack_king?
-    valid_pawn_move?(@game.enemy_king_location(@player))
+    valid_pawn_move?(game.enemy_king_location(player))
   end
 
   def eligible_for_promotion?
-    return true if @direction.positive? && @location.first == 7
+    return true if direction.positive? && location.first == 7
 
-    return true if @direction.negative? && @location.first.zero?
+    return true if direction.negative? && location.first.zero?
 
     false
   end
@@ -108,7 +108,7 @@ class Pawn
 
   def en_passant_performed?(piece, to_location)
     can_en_passant?(piece) \
-    && piece.location == [to_location.first - @direction, to_location.last]
+    && piece.location == [to_location.first - direction, to_location.last]
   end
 
   def capture(piece)
@@ -124,11 +124,11 @@ class Pawn
   end
 
   def double_move_performed?(to_location)
-    (to_location.first - @location.first).abs == 2
+    (to_location.first - location.first).abs == 2
   end
 
   def piece_behind_move(to_location)
-    @game.piece_at([to_location.first - @direction, to_location.last])
+    game.piece_at([to_location.first - direction, to_location.last])
   end
 
   def capture_enemy_if_en_passant_performed(move_location)
@@ -142,17 +142,17 @@ class Pawn
 
   def valid_pawn_move?(location)
     legal_pawn_move?(location) \
-    && reachable?(self, location, @game.board)
+    && reachable?(self, location, game.board)
   end
 
   def legal_pawn_move?(move)
-    possible_pawn_attack_moves(@location.first, @location.last).include?(move)
+    possible_pawn_attack_moves(location.first, location.last).include?(move)
   end
 
   def possible_pawn_attack_moves(row, column)
     moves = []
-    moves.push([row + @direction, column + 1])
-    moves.push([row + @direction, column - 1])
+    moves.push([row + direction, column + 1])
+    moves.push([row + direction, column - 1])
     clean_moves(moves)
   end
 end
