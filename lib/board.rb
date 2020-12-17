@@ -2,7 +2,7 @@
 
 # create/update board and reply if a space is occupied
 class Board
-  attr_reader :players, :empty_tile, :current_board
+  attr_reader :players, :empty_tile
 
   def initialize(players)
     @players = players
@@ -11,7 +11,7 @@ class Board
   end
 
   def update(row, column, piece)
-    @current_board[row][column] = piece
+    current_board[row][column] = piece
   end
 
   def to_s
@@ -22,22 +22,24 @@ class Board
   end
 
   def piece_at(location)
-    @current_board[location.first][location.last]
+    current_board[location.first][location.last]
   end
 
   def refresh
-    @current_board = make_blank_board
+    refreshed_board = make_blank_board
     players.each do |player|
       player.pieces.each do |piece|
         row = piece.location.first
         column = piece.location.last
-        @current_board[row][column] = piece
+        refreshed_board[row][column] = piece
       end
     end
-    @current_board
+    self.current_board = refreshed_board
   end
 
   private
+
+  attr_accessor :current_board
 
   def make_blank_board
     board = []
