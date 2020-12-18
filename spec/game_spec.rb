@@ -83,7 +83,7 @@ describe Game do
 
   describe '#reachable?' do
     let(:board) { game.instance_variable_get('@board') }
-    let(:game_board) { board.instance_variable_get('@game_board') }
+    let(:current_board) { board.instance_variable_get('@current_board') }
     let(:players) { game.instance_variable_get('@players') }
     let(:player1) { players.first }
     let(:player2) { players.last }
@@ -97,7 +97,7 @@ describe Game do
 
     context 'when the piece can reach a horizontal location unobstructed' do
       it 'returns true' do
-        game_board[0][0] = piece
+        current_board[0][0] = piece
         game.instance_variable_set('@board', board)
         location = [0, 6]
         expect(game.reachable?(piece, location, board)).to be true
@@ -106,7 +106,7 @@ describe Game do
 
     context 'when the piece can reach a vertical location unobstructed' do
       it 'returns true' do
-        game_board[0][0] = piece
+        current_board[0][0] = piece
         game.instance_variable_set('@board', board)
         location = [6, 0]
         expect(game.reachable?(piece, location, board)).to be true
@@ -116,7 +116,7 @@ describe Game do
     context 'when the piece can reach a higher vertical location unobstructed' do
       it 'returns true' do
         allow(piece).to receive(:location).and_return([6, 0])
-        game_board[6][0] = piece
+        current_board[6][0] = piece
         game.instance_variable_set('@board', board)
         location = [0, 0]
         expect(game.reachable?(piece, location, board)).to be true
@@ -125,7 +125,7 @@ describe Game do
 
     context 'when the piece can reach a diagonal location unobstructed' do
       it 'returns true' do
-        game_board[0][0] = piece
+        current_board[0][0] = piece
         game.instance_variable_set('@board', board)
         location = [6, 6]
         expect(game.reachable?(piece, location, board)).to be true
@@ -134,8 +134,8 @@ describe Game do
 
     context 'when the piece can reach a diagonal location with an enemy' do
       it 'returns true' do
-        game_board[0][0] = piece
-        game_board[6][6] = piece2
+        current_board[0][0] = piece
+        current_board[6][6] = piece2
         game.instance_variable_set('@board', board)
         location = [6, 6]
         expect(game.reachable?(piece, location, board)).to be true
@@ -144,7 +144,7 @@ describe Game do
 
     context 'when the piece can reach an upper diagonal location unobstructed' do
       it 'returns true' do
-        game_board[6][6] = piece
+        current_board[6][6] = piece
         allow(piece).to receive(:location).and_return([6, 6])
         game.instance_variable_set('@board', board)
         location = [0, 0]
@@ -154,8 +154,8 @@ describe Game do
 
     context 'when the piece cant reach a horizontal location unobstructed' do
       it 'returns false' do
-        game_board[0][0] = piece
-        game_board[0][4] = piece2
+        current_board[0][0] = piece
+        current_board[0][4] = piece2
         game.instance_variable_set('@board', board)
         location = [0, 6]
         expect(game.reachable?(piece, location, board)).to be false
@@ -164,8 +164,8 @@ describe Game do
 
     context 'when the piece cant reach a vertical location unobstructed' do
       it 'returns false' do
-        game_board[0][0] = piece
-        game_board[4][0] = piece2
+        current_board[0][0] = piece
+        current_board[4][0] = piece2
         game.instance_variable_set('@board', board)
         location = [6, 0]
         expect(game.reachable?(piece, location, board)).to be false
@@ -175,8 +175,8 @@ describe Game do
     context 'when the piece cant reach a higher vertical location unobstructed' do
       it 'returns false' do
         allow(piece).to receive(:location).and_return([6, 0])
-        game_board[6][0] = piece
-        game_board[4][0] = piece2
+        current_board[6][0] = piece
+        current_board[4][0] = piece2
         game.instance_variable_set('@board', board)
         location = [0, 0]
         expect(game.reachable?(piece, location, board)).to be false
@@ -185,8 +185,8 @@ describe Game do
 
     context 'when the piece cant reach a diagonal location unobstructed' do
       it 'returns false' do
-        game_board[0][0] = piece
-        game_board[4][4] = piece2
+        current_board[0][0] = piece
+        current_board[4][4] = piece2
         game.instance_variable_set('@board', board)
         location = [6, 6]
         expect(game.reachable?(piece, location, board)).to be false
@@ -195,9 +195,9 @@ describe Game do
 
     context 'when the piece cant reach an upper diagonal location unobstructed' do
       it 'returns false' do
-        game_board[6][6] = piece
+        current_board[6][6] = piece
         allow(piece).to receive(:location).and_return([6, 6])
-        game_board[4][4] = piece2
+        current_board[4][4] = piece2
         game.instance_variable_set('@board', board)
         location = [0, 0]
         expect(game.reachable?(piece, location, board)).to be false

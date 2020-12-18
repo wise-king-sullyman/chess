@@ -59,7 +59,7 @@ describe Board do
   describe '#update' do
     it 'adds a piece to the board when requested' do
       board.update(1, 0, 1)
-      expect(board.instance_variable_get('@game_board')[1][0]).to eql(1)
+      expect(board.instance_variable_get('@current_board')[1][0]).to eql(1)
     end
   end
 
@@ -77,7 +77,7 @@ describe Board do
     context 'when no changes have been made' do
       it 'returns the same board' do
         board.refresh
-        expect(board.instance_variable_get('@game_board')[1][0]).to be nil
+        expect(board.instance_variable_get('@current_board')[1][0]).to be nil
       end
     end
 
@@ -90,7 +90,7 @@ describe Board do
         board.instance_variable_set('@players', players)
         allow(player).to receive(:pieces).and_return([piece])
         board.refresh
-        expect(board.instance_variable_get('@game_board')[1][0]).to be piece
+        expect(board.instance_variable_get('@current_board')[1][0]).to be piece
       end
     end
   end
