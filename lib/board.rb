@@ -10,6 +10,10 @@ class Board
     @current_board = make_blank_board
   end
 
+  def update(row, column, piece)
+    current_board[row][column] = piece
+  end
+
   def to_s
     board_string = "  a b c d e f g h \n"
     board_string = draw_rows(current_board, board_string)
@@ -22,20 +26,23 @@ class Board
   end
 
   def refresh
-    refreshed_board = make_blank_board
+    empty_current_board
     players.each do |player|
       player.pieces.each do |piece|
         row = piece.location.first
         column = piece.location.last
-        refreshed_board[row][column] = piece
+        update(row, column, piece)
       end
     end
-    self.current_board = refreshed_board
   end
 
   private
 
   attr_accessor :current_board
+
+  def empty_current_board
+    self.current_board = make_blank_board
+  end
 
   def make_blank_board
     board = []
