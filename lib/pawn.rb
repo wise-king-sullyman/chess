@@ -100,8 +100,8 @@ class Pawn
   end
 
   def move(to_location, test_move = false)
-    truthify_en_passant_vulnerability if double_move_performed?(to_location)
     capture_enemy_if_en_passant_performed(to_location)
+    truthify_en_passant_vulnerability if en_passantable?(to_location, test_move)
     @location = to_location
     @moved = true unless test_move
   end
@@ -125,6 +125,12 @@ class Pawn
 
   def double_move_performed?(to_location)
     (to_location.first - location.first).abs == 2
+  end
+
+  def en_passantable?(to_location, test_move)
+    return false if test_move
+
+    double_move_performed?(to_location)
   end
 
   def piece_behind_move(to_location)
