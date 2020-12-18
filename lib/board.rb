@@ -10,10 +10,6 @@ class Board
     @current_board = make_blank_board
   end
 
-  def update(row, column, piece)
-    current_board[row][column] = piece
-  end
-
   def to_s
     board_string = "  a b c d e f g h \n"
     board_string = draw_rows(current_board, board_string)
