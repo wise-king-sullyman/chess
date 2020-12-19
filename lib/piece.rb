@@ -16,8 +16,8 @@ module Piece
   end
 
   def move(location, test_move = false)
-    @location = location
-    @moved = true unless test_move
+    self.location = location
+    self.moved = true unless test_move
   end
 
   def legal_move?(move)
@@ -42,6 +42,8 @@ module Piece
   end
 
   private
+
+  attr_writer :location, :moved
 
   def clean_moves(moves)
     calling_method_name = caller_locations[3].to_s.split(' ').last

@@ -115,6 +115,8 @@ class Game
 
   private
 
+  attr_writer :players, :board
+
   def other_player(calling_player)
     player1 = players.first
     player2 = players.last

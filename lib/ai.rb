@@ -21,7 +21,7 @@ class AI < Player
 
   def promote(piece)
     add_promotion_piece(piece, rand(4))
-    @pieces.delete(piece)
+    pieces.delete(piece)
   end
 
   private

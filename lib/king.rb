@@ -5,6 +5,8 @@ require_relative 'piece'
 class King
   include Piece
 
+  attr_reader :location, :moved
+
   def symbol(color)
     color == 'white' ? "\u2654".encode : "\u265A".encode
   end
@@ -38,8 +40,8 @@ class King
   def move(to_location, test_move = false)
     columns_traversed = (to_location.last - location.last).abs
     move_castling_rook(to_location) unless columns_traversed < 2 || test_move
-    @location = to_location
-    @moved = true unless test_move
+    self.location = to_location
+    self.moved = true unless test_move
   end
 
   private

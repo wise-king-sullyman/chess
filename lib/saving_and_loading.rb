@@ -15,8 +15,8 @@ module SavingAndLoading
 
   def load_game
     save = YAML.load_file(file_name)
-    @players = save.fetch(:players)
-    @board = save.fetch(:board)
+    self.players = save.fetch(:players)
+    self.board = save.fetch(:board)
     player = save.fetch(:player)
     players.reverse! unless players.first == player
   end

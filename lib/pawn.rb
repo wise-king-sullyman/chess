@@ -9,7 +9,7 @@ class Pawn
 
   def initialize(game, player, location)
     super
-    @direction = @location.first == 1 ? 1 : -1
+    @direction = location.first == 1 ? 1 : -1
     @vulnerable_to_en_passant = false
   end
 
@@ -102,8 +102,8 @@ class Pawn
   def move(to_location, test_move = false)
     capture_enemy_if_en_passant_performed(to_location)
     truthify_en_passant_vulnerability if en_passantable?(to_location, test_move)
-    @location = to_location
-    @moved = true unless test_move
+    self.location = to_location
+    self.moved = true unless test_move
   end
 
   def en_passant_performed?(piece, to_location)
@@ -116,11 +116,11 @@ class Pawn
   end
 
   def falsify_en_passant_vulnerability
-    @vulnerable_to_en_passant = false
+    self.vulnerable_to_en_passant = false
   end
 
   def truthify_en_passant_vulnerability
-    @vulnerable_to_en_passant = true
+    self.vulnerable_to_en_passant = true
   end
 
   def double_move_performed?(to_location)
@@ -145,6 +145,8 @@ class Pawn
   end
 
   private
+
+  attr_writer :vulnerable_to_en_passant
 
   def valid_pawn_move?(location)
     legal_pawn_move?(location) \
