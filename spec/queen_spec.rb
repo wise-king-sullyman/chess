@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/queen'
+require './lib/pieces/queen'
 
 describe Queen do
   let(:game) { instance_double('game') }
