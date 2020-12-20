@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'tile'
+
 # create/update board and reply if a space is occupied
 class Board
   attr_reader :players, :empty_tile
