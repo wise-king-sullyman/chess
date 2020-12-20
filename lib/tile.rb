@@ -12,18 +12,18 @@ class Tile
   def colorize_background(text, color)
     case color
     when 'black'
-      "\e[40m#{text}\e[0m"
+      "\e[48;2;51;51;51m#{text}\e[0m"
     when 'white'
-      "\e[100m#{text}\e[0m"
+      "\e[48;2;128;128;128m#{text}\e[0m"
     end
   end
 
   def colorize_text(text, color)
     case color
     when 'black'
-      "\e[30m#{text}\e[0m"
+      "\e[38;2;0;0;0m#{text}\e[0m"
     when 'white'
-      "\e[37;1m#{text}\e[0m"
+      "\e[38;2;255;255;255m#{text}\e[0m"
     end
   end
 
