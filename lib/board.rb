@@ -4,11 +4,10 @@ require_relative 'tile'
 
 # create/update board and reply if a space is occupied
 class Board
-  attr_reader :players, :empty_tile
+  attr_reader :players
 
   def initialize(players)
     @players = players
-    @empty_tile = "\u25A1".encode + ' '
     @current_board = make_blank_board
   end
 
@@ -58,17 +57,38 @@ class Board
   def draw_rows(board_array, board_string)
     board_array.each_with_index do |row, index|
       board_string += (8 - index).to_s + ' '
-      board_string = draw_tiles(row, board_string)
+      board_string = draw_tiles(row, board_string, index)
       board_string += ' ' + (8 - index).to_s
       board_string += "\n"
     end
     board_string
   end
 
-  def draw_tiles(row, board_string)
-    row.each do |tile|
-      board_string += tile ? tile.symbol(tile.player.color) + ' ' : empty_tile
+  def draw_tiles(row, board_string, row_index)
+    row.each_with_index do |tile, tile_index|
+      background = background_color_set(row_index, tile_index)
+      new_tile = tile ? make_played_tile(tile, background) : make_empty_tile(background)
+      board_string += new_tile.to_s
     end
     board_string
+  end
+
+  def background_color_set(row_index, tile_index)
+    return 'white' if row_index.even? && tile_index.even?
+    return 'white' if row_index.odd? && tile_index.odd?
+
+    'black'
+  end
+
+  def make_empty_tile(background)
+    Tile.new(background_color: background)
+  end
+
+  def make_played_tile(tile, background)
+    Tile.new(
+      symbol: tile.symbol('black'),
+      symbol_color: tile.player.color,
+      background_color: background
+    )
   end
 end

@@ -3,8 +3,8 @@
 class Tile
   attr_reader :symbol, :symbol_color, :background_color
 
-  def initialize(symbol: '  ', symbol_color: nil, background_color:)
-    @symbol = symbol
+  def initialize(symbol: ' ', symbol_color: nil, background_color:)
+    @symbol = symbol + ' '
     @symbol_color =symbol_color
     @background_color = background_color
   end
@@ -12,9 +12,9 @@ class Tile
   def colorize_background(text, color)
     case color
     when 'black'
-      "\e[48;2;51;51;51m#{text}\e[0m"
+      "\e[48;2;102;102;102m#{text}\e[0m"
     when 'white'
-      "\e[48;2;128;128;128m#{text}\e[0m"
+      "\e[48;2;161;161;161m#{text}\e[0m"
     end
   end
 
@@ -23,7 +23,7 @@ class Tile
     when 'black'
       "\e[38;2;0;0;0m#{text}\e[0m"
     when 'white'
-      "\e[38;2;255;255;255m#{text}\e[0m"
+      "\e[38;2;247;247;247m#{text}\e[0m"
     end
   end
 
