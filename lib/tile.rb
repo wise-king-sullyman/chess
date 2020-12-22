@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
+# Used to colorize the tiles in the game board
 class Tile
   attr_reader :symbol, :symbol_color, :background_color
 
   def initialize(symbol: ' ', symbol_color: nil, background_color:)
     @symbol = symbol + ' '
-    @symbol_color =symbol_color
+    @symbol_color = symbol_color
     @background_color = background_color
   end
 
