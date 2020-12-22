@@ -94,6 +94,8 @@ class Game
 
   def ply_setup(player)
     save_game(player)
+    previous_move = other_player(player).last_move
+    puts "Last move: #{previous_move.first} to #{previous_move.last}" unless previous_move.empty?
     board.refresh
     puts board
     puts "#{player.name} in check" if player_in_check?(player)

@@ -9,7 +9,7 @@ class Player
   include AssignPieces
   include MoveValidation
 
-  attr_reader :name, :color, :pieces, :lost_pieces, :game
+  attr_reader :name, :color, :pieces, :lost_pieces, :game, :last_move
 
   def initialize(name, color, game)
     @name = name
@@ -17,6 +17,7 @@ class Player
     @game = game
     @pieces = assign_pieces(self, game)
     @lost_pieces = []
+    @last_move = []
   end
 
   def move
@@ -86,7 +87,13 @@ class Player
     unvalidated_input = gets.chomp
     binding.pry if unvalidated_input == 'admin'
     validated_input = validate_input(unvalidated_input)
+    update_last_move(validated_input)
     translate_input(validated_input)
+  end
+
+  def update_last_move(move)
+    last_move.clear if last_move.size == 2
+    last_move.push(move)
   end
 
   def validate_input(input)

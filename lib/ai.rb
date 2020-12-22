@@ -19,12 +19,18 @@ class AI < Player
     promote(piece) if piece.eligible_for_promotion?
   end
 
+  def random_tile
+    location = random_column_selection + random_row_selection
+    update_last_move(location)
+    translate_input(location)
+  end
+
+  private
+
   def promote(piece)
     add_promotion_piece(piece, rand(4))
     pieces.delete(piece)
   end
-
-  private
 
   def piece_choice
     input = random_tile
@@ -36,7 +42,11 @@ class AI < Player
     [input.first, input.last]
   end
 
-  def random_tile
-    [rand(8), rand(8)]
+  def random_row_selection
+    rand(1..8).to_s
+  end
+
+  def random_column_selection
+    ('a'..'h').to_a.sample
   end
 end
