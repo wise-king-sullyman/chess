@@ -87,6 +87,7 @@ class Game
         return nil if player.mated?
 
         player.move
+        clear_terminal
       end
     end
   end
@@ -121,5 +122,9 @@ class Game
     player1 = players.first
     player2 = players.last
     player1 == calling_player ? player2 : player1
+  end
+
+  def clear_terminal
+    system('clear') || system('cls')
   end
 end
