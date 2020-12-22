@@ -68,18 +68,15 @@ class Board
 
   def draw_tiles(row, board_string, row_index)
     row.each_with_index do |tile, tile_index|
-      background = background_color_set(row_index, tile_index)
+      background = tile_background_white_or_black(row_index, tile_index)
       new_tile = tile ? make_played_tile(tile, background) : make_empty_tile(background)
       board_string += new_tile
     end
     board_string
   end
 
-  def background_color_set(row_index, tile_index)
-    return 'white' if row_index.even? && tile_index.even?
-    return 'white' if row_index.odd? && tile_index.odd?
-
-    'black'
+  def tile_background_white_or_black(row_index, tile_index)
+    row_index.even? == tile_index.even? ? 'white' : 'black'
   end
 
   def make_empty_tile(background)
