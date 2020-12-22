@@ -1,15 +1,7 @@
 # frozen_string_literal: true
 
 # Used to colorize the tiles in the game board
-class Tile
-  attr_reader :symbol, :symbol_color, :background_color
-
-  def initialize(symbol: ' ', symbol_color: nil, background_color:)
-    @symbol = symbol + ' '
-    @symbol_color = symbol_color
-    @background_color = background_color
-  end
-
+module Tile
   def colorize_background(text, color)
     case color
     when 'black'
@@ -28,7 +20,8 @@ class Tile
     end
   end
 
-  def to_s
+  def colorize_tile(symbol: ' ', symbol_color: nil, background_color:)
+    symbol += ' '
     content = symbol_color ? colorize_text(symbol, symbol_color) : symbol
     colorize_background(content, background_color)
   end

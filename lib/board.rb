@@ -4,6 +4,8 @@ require_relative 'tile'
 
 # create/update board and reply if a space is occupied
 class Board
+  include Tile
+
   attr_reader :players
 
   def initialize(players)
@@ -68,7 +70,7 @@ class Board
     row.each_with_index do |tile, tile_index|
       background = background_color_set(row_index, tile_index)
       new_tile = tile ? make_played_tile(tile, background) : make_empty_tile(background)
-      board_string += new_tile.to_s
+      board_string += new_tile
     end
     board_string
   end
@@ -81,11 +83,11 @@ class Board
   end
 
   def make_empty_tile(background)
-    Tile.new(background_color: background)
+    colorize_tile(background_color: background)
   end
 
   def make_played_tile(tile, background)
-    Tile.new(
+    colorize_tile(
       symbol: tile.symbol('black'),
       symbol_color: tile.player.color,
       background_color: background
