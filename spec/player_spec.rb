@@ -130,6 +130,20 @@ describe Player do
     end
   end
 
+  describe '#revive_piece' do
+    let(:piece) { pieces[7] }
+    let(:lost_pieces) { player.instance_variable_get('@lost_pieces') }
+    it 'adds the piece to @pieces' do
+      player.revive_piece(piece)
+      expect(pieces).to include(piece)
+    end
+
+    it 'removes the piece from @lost_piece' do
+      player.revive_piece(piece)
+      expect(lost_pieces).not_to include(piece)
+    end
+  end
+
   describe '#king_location' do
     it 'returns the kings location' do
       expect(player.king_location).to eql([7, 4])
