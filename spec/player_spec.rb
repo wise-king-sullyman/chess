@@ -297,4 +297,26 @@ describe Player do
       end
     end
   end
+
+  describe '#piece_is_mine?' do
+    context 'when nil argument is given' do
+      it 'returns false' do
+        expect(player.piece_is_mine?(nil)).to be(false)
+      end
+    end
+
+    context 'when non owned piece argument is given' do
+      it 'returns false' do
+        allow(piece).to receive(:player).and_return(double('player'))
+        expect(player.piece_is_mine?(piece)).to be(false)
+      end
+    end
+
+    context 'when owned piece argument is given' do
+      it 'returns true' do
+        allow(piece).to receive(:player).and_return(player)
+        expect(player.piece_is_mine?(piece)).to be(true)
+      end
+    end
+  end
 end

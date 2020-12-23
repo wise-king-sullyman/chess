@@ -85,6 +85,12 @@ class Player
     input
   end
 
+  def piece_is_mine?(piece)
+    return false unless piece
+
+    piece.player == self
+  end
+
   private
 
   def piece_choice
@@ -109,12 +115,6 @@ class Player
 
   def piece_at_location(location)
     game.piece_at(location)
-  end
-
-  def piece_is_mine?(piece)
-    return false unless piece
-
-    piece.player == self
   end
 
   def promote(piece)
