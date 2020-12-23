@@ -319,4 +319,50 @@ describe Player do
       end
     end
   end
+
+  describe '#validate_promotion_choice' do
+    context 'when valid input is given initially' do
+      let(:promotion_choice) { '1' }
+      it 'returns the input as an integer' do
+        expect(player.validate_promotion_choice(promotion_choice)).to eq(1)
+      end
+
+      it 'does not call #gets' do
+        expect(player).not_to receive(:gets)
+        player.validate_promotion_choice(promotion_choice)
+      end
+    end
+
+    context 'when no input is given' do
+      let(:promotion_choice) { '' }
+      before do
+        allow(player).to receive(:gets).and_return(promotion_choice, promotion_choice, '1')
+      end
+
+      it 'returns the input as an integer when valid' do
+        expect(player.validate_promotion_choice(promotion_choice)).to eq(1)
+      end
+
+      it 'calls #gets until valid input is given' do
+        expect(player).to receive(:gets).exactly(3).times
+        player.validate_promotion_choice(promotion_choice)
+      end
+    end
+
+    context 'when other invalid input is given' do
+      let(:input) { '#' }
+      before do
+        allow(player).to receive(:gets).and_return('4', 'foo', '1')
+      end
+
+      it 'returns the input as an integer when valid' do
+        expect(player.validate_promotion_choice(input)).to eq(1)
+      end
+
+      it 'calls #gets until valid input is given' do
+        expect(player).to receive(:gets).exactly(3).times
+        player.validate_promotion_choice(input)
+      end
+    end
+  end
 end

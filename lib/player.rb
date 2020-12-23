@@ -91,6 +91,14 @@ class Player
     piece.player == self
   end
 
+  def validate_promotion_choice(promotion_choice)
+    until promotion_choice.match?(/^[0-3]$/)
+      puts 'invalid selection; please try again'
+      promotion_choice = gets.chomp
+    end
+    promotion_choice.to_i
+  end
+
   private
 
   def piece_choice
@@ -122,14 +130,6 @@ class Player
     '2 to become a bishop, or 3 to become a knight'
     add_promotion_piece(piece, validate_promotion_choice(gets.chomp))
     pieces.delete(piece)
-  end
-
-  def validate_promotion_choice(promotion_choice)
-    until promotion_choice.match?(/^[0-3]$/)
-      puts 'invalid selection; please try again'
-      promotion_choice = gets.chomp
-    end
-    promotion_choice.to_i
   end
 
   def add_promotion_piece(old_piece, new_piece_selection)
