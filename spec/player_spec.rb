@@ -78,6 +78,19 @@ describe Player do
     end
   end
 
+  describe '#reset_en_passant_vulnerabilities' do
+    before do
+      player.instance_variable_set('@pieces', [piece, piece, piece, piece])
+      allow(piece).to receive(:class).and_return(Pawn, Queen, King, Pawn)
+      allow(piece).to receive(:falsify_en_passant_vulnerability)
+    end
+
+    it 'calls #falsify_en_passant_vulnerability on all pawns' do
+      expect(piece).to receive(:falsify_en_passant_vulnerability).twice
+      player.reset_en_passant_vulnerabilities
+    end
+  end
+
   describe '#assign_pieces' do
     let(:player2) { Player.new('player 2', 'black', game) }
     let(:player2_pieces) { player2.instance_variable_get('@pieces') }
