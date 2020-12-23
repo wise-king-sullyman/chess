@@ -72,6 +72,11 @@ class Player
     [row, column]
   end
 
+  def update_last_move(move)
+    last_move.clear if last_move.size == 2
+    last_move.push(move)
+  end
+
   private
 
   def piece_choice
@@ -92,11 +97,6 @@ class Player
     validated_input = validate_input(unvalidated_input)
     update_last_move(validated_input)
     translate_input(validated_input)
-  end
-
-  def update_last_move(move)
-    last_move.clear if last_move.size == 2
-    last_move.push(move)
   end
 
   def validate_input(input)

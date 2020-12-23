@@ -177,4 +177,46 @@ describe Player do
       expect(player.translate_input('b3')).to eq([5, 1])
     end
   end
+
+  describe '#update_last_move' do
+    context 'when last_move is "full" already' do
+      let(:move) { 'a1' }
+      before do
+        player.instance_variable_set('@last_move', %w[b3 b4])
+        player.update_last_move(move)
+      end
+
+      it 'removes the first logged move' do
+        expect(player.last_move).not_to include('b3')
+      end
+
+      it 'removes the second logged move' do
+        expect(player.last_move).not_to include('b4')
+      end
+
+      it 'adds the new move' do
+        expect(player.last_move).to include('a1')
+      end
+    end
+
+    context 'when last_move is not "full" yet' do
+      let(:move) { 'a3' }
+      before do
+        player.instance_variable_set('@last_move', %w[a1])
+        player.update_last_move(move)
+      end
+
+      it 'keeps the first move' do
+        expect(player.last_move).to include('a1')
+      end
+
+      it 'adds the second move' do
+        expect(player.last_move).to include('a3')
+      end
+
+      it 'has no other moves' do
+        expect(player.last_move.size).to eq(2)
+      end
+    end
+  end
 end
