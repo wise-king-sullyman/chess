@@ -99,6 +99,19 @@ class Player
     promotion_choice.to_i
   end
 
+  def add_promotion_piece(old_piece, new_piece_selection)
+    case new_piece_selection
+    when 0
+      pieces.push(Queen.new(game, self, old_piece.location))
+    when 1
+      pieces.push(Rook.new(game, self, old_piece.location))
+    when 2
+      pieces.push(Bishop.new(game, self, old_piece.location))
+    when 3
+      pieces.push(Knight.new(game, self, old_piece.location))
+    end
+  end
+
   private
 
   def piece_choice
@@ -130,18 +143,5 @@ class Player
     '2 to become a bishop, or 3 to become a knight'
     add_promotion_piece(piece, validate_promotion_choice(gets.chomp))
     pieces.delete(piece)
-  end
-
-  def add_promotion_piece(old_piece, new_piece_selection)
-    case new_piece_selection
-    when 0
-      pieces.push(Queen.new(game, self, old_piece.location))
-    when 1
-      pieces.push(Rook.new(game, self, old_piece.location))
-    when 2
-      pieces.push(Bishop.new(game, self, old_piece.location))
-    when 3
-      pieces.push(Knight.new(game, self, old_piece.location))
-    end
   end
 end

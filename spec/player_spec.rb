@@ -365,4 +365,58 @@ describe Player do
       end
     end
   end
+
+  describe '#add_promotion_piece' do
+    before do
+      player.instance_variable_set('@pieces', [])
+    end
+
+    context 'when queen selected' do
+      it 'adds a queen to player.pieces' do
+        player.add_promotion_piece(piece, 0)
+        expect(pieces.first.class).to be Queen
+      end
+
+      it 'gives the piece the same location as the piece it is replacing' do
+        player.add_promotion_piece(piece, 0)
+        expect(pieces.first.location).to eq([1, 1])
+      end
+    end
+
+    context 'when rook selected' do
+      it 'adds a rook to player.pieces' do
+        player.add_promotion_piece(piece, 1)
+        expect(pieces.first.class).to be Rook
+      end
+
+      it 'gives the piece the same location as the piece it is replacing' do
+        player.add_promotion_piece(piece, 1)
+        expect(pieces.first.location).to eq([1, 1])
+      end
+    end
+
+    context 'when bishop selected' do
+      it 'adds a bishop to player.pieces' do
+        player.add_promotion_piece(piece, 2)
+        expect(pieces.first.class).to be Bishop
+      end
+
+      it 'gives the piece the same location as the piece it is replacing' do
+        player.add_promotion_piece(piece, 2)
+        expect(pieces.first.location).to eq([1, 1])
+      end
+    end
+
+    context 'when knight selected' do
+      it 'adds a knight to player.pieces' do
+        player.add_promotion_piece(piece, 3)
+        expect(pieces.first.class).to be Knight
+      end
+
+      it 'gives the piece the same location as the piece it is replacing' do
+        player.add_promotion_piece(piece, 3)
+        expect(pieces.first.location).to eq([1, 1])
+      end
+    end
+  end
 end
