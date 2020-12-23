@@ -219,4 +219,82 @@ describe Player do
       end
     end
   end
+
+  describe '#validate_input' do
+    context 'when valid input is given initially' do
+      let(:input) { 'a1' }
+      it 'returns the input' do
+        expect(player.validate_input(input)).to eq(input)
+      end
+
+      it 'does not call #gets' do
+        expect(player).not_to receive(:gets)
+        player.validate_input(input)
+      end
+    end
+
+    context 'when no input is given' do
+      let(:input) { '' }
+      before do
+        allow(player).to receive(:gets).and_return(input, input, 'a1')
+      end
+
+      it 'returns the input when valid' do
+        expect(player.validate_input(input)).to eq('a1')
+      end
+
+      it 'calls #gets until valid input is given' do
+        expect(player).to receive(:gets).exactly(3).times
+        player.validate_input(input)
+      end
+    end
+
+    context 'when out of order input is given' do
+      let(:input) { '1a' }
+      before do
+        allow(player).to receive(:gets).and_return(input, input, 'a1')
+      end
+
+      it 'returns the input when valid' do
+        expect(player.validate_input(input)).to eq('a1')
+      end
+
+      it 'calls #gets until valid input is given' do
+        expect(player).to receive(:gets).exactly(3).times
+        player.validate_input(input)
+      end
+    end
+
+    context 'when out of range input is given' do
+      let(:input) { 'i1' }
+      before do
+        allow(player).to receive(:gets).and_return('a0', 'a9', 'a1')
+      end
+
+      it 'returns the input when valid' do
+        expect(player.validate_input(input)).to eq('a1')
+      end
+
+      it 'calls #gets until valid input is given' do
+        expect(player).to receive(:gets).exactly(3).times
+        player.validate_input(input)
+      end
+    end
+
+    context 'when other invalid input is given' do
+      let(:input) { '#1' }
+      before do
+        allow(player).to receive(:gets).and_return('1$', 'foo', 'a1')
+      end
+
+      it 'returns the input when valid' do
+        expect(player.validate_input(input)).to eq('a1')
+      end
+
+      it 'calls #gets until valid input is given' do
+        expect(player).to receive(:gets).exactly(3).times
+        player.validate_input(input)
+      end
+    end
+  end
 end
