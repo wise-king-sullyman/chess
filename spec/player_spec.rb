@@ -171,4 +171,10 @@ describe Player do
       end
     end
   end
+
+  describe '#translate_input' do
+    it 'translates the input into proper [row, column] notation' do
+      expect(player.translate_input('b3')).to eq([5, 1])
+    end
+  end
 end

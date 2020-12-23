@@ -62,6 +62,16 @@ class Player
     true
   end
 
+  def translate_input(input)
+    column_hash = {
+      'a' => 0, 'b' => 1, 'c' => 2, 'd' => 3, 'e' => 4, 'f' => 5, 'g' => 6,
+      'h' => 7
+    }
+    column = column_hash.fetch(input[0])
+    row = 8 - input[1].to_i
+    [row, column]
+  end
+
   private
 
   def piece_choice
@@ -74,13 +84,6 @@ class Player
     puts "#{name} enter move location:"
     input = player_input
     [input.first, input.last]
-  end
-
-  def translate_input(input)
-    column_hash = { 'a' => 0, 'b' => 1, 'c' => 2, 'd' => 3, 'e' => 4, 'f' => 5, 'g' => 6, 'h' => 7 }
-    column = column_hash.fetch(input[0])
-    row = 8 - input[1].to_i
-    [row, column]
   end
 
   def player_input
