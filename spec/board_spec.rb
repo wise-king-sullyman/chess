@@ -45,4 +45,24 @@ describe Board do
       end
     end
   end
+
+  describe '@empty_current_board' do
+    let(:board_state) { board.instance_variable_get('@current_board') }
+    it 'sets the current board to an array of size 8' do
+      board.empty_current_board
+      expect(board_state.size).to eq(8)
+    end
+
+    it 'has sub arrays of size 8 each' do
+      board.empty_current_board
+      all_rows_size_eight = board_state.all? { |row| row.size == 8 }
+      expect(all_rows_size_eight).to be(true)
+    end
+
+    it 'has nil in all tile locations' do
+      board.empty_current_board
+      nil_in_all_locations = board_state.all? { |row| row.all? { |tile| tile == nil } }
+      expect(nil_in_all_locations).to be(true)
+    end
+  end
 end

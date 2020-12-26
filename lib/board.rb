@@ -39,13 +39,13 @@ class Board
     end
   end
 
-  private
-
-  attr_accessor :current_board
-
   def empty_current_board
     self.current_board = make_blank_board
   end
+
+  private
+
+  attr_accessor :current_board
 
   def make_blank_board
     board = []
