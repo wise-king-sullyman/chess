@@ -46,7 +46,7 @@ describe Board do
     end
   end
 
-  describe '@empty_current_board' do
+  describe '#empty_current_board' do
     let(:board_state) { board.instance_variable_get('@current_board') }
     it 'sets the current board to an array of size 8' do
       board.empty_current_board
