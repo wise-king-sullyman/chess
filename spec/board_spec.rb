@@ -46,6 +46,23 @@ describe Board do
     end
   end
 
+  describe '#make_blank_board' do
+    let(:blank_board) { board.make_blank_board }
+    it 'sets the current board to an array of size 8' do
+      expect(blank_board.size).to eq(8)
+    end
+
+    it 'has sub arrays of size 8 each' do
+      all_rows_size_eight = blank_board.all? { |row| row.size == 8 }
+      expect(all_rows_size_eight).to be(true)
+    end
+
+    it 'has nil in all tile locations' do
+      nil_in_all_locations = blank_board.all? { |row| row.all?(&:nil?) }
+      expect(nil_in_all_locations).to be(true)
+    end
+  end
+
   describe '#empty_current_board' do
     let(:board_state) { board.instance_variable_get('@current_board') }
     it 'sets the current board to an array of size 8' do

@@ -43,10 +43,6 @@ class Board
     self.current_board = make_blank_board
   end
 
-  private
-
-  attr_accessor :current_board
-
   def make_blank_board
     board = []
     8.times { board.push([]) }
@@ -55,6 +51,10 @@ class Board
     end
     board
   end
+
+  private
+
+  attr_accessor :current_board
 
   def draw_rows(board_array, board_string)
     board_array.each_with_index do |row, index|
