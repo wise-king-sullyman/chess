@@ -24,6 +24,16 @@ class Board
     board_string
   end
 
+  def draw_rows(board_array, board_string)
+    board_array.each_with_index do |row, index|
+      board_string += (8 - index).to_s + ' '
+      board_string = draw_tiles(row, board_string, index)
+      board_string += ' ' + (8 - index).to_s
+      board_string += "\n"
+    end
+    board_string
+  end
+
   def piece_at(location)
     current_board[location.first][location.last]
   end
@@ -55,16 +65,6 @@ class Board
   private
 
   attr_accessor :current_board
-
-  def draw_rows(board_array, board_string)
-    board_array.each_with_index do |row, index|
-      board_string += (8 - index).to_s + ' '
-      board_string = draw_tiles(row, board_string, index)
-      board_string += ' ' + (8 - index).to_s
-      board_string += "\n"
-    end
-    board_string
-  end
 
   def draw_tiles(row, board_string, row_index)
     row.each_with_index do |tile, tile_index|

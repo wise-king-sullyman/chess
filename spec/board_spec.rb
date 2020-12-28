@@ -81,4 +81,13 @@ describe Board do
       expect(board.to_s).to eq("  a b c d e f g h \n  a b c d e f g h \n")
     end
   end
+
+  describe '#draw_rows' do
+    let(:board_array) { Array.new(8, []) }
+    let(:board_string) { "  a b c d e f g h \n" }
+    let(:output_string) { "  a b c d e f g h \n8  8\n7  7\n6  6\n5  5\n4  4\n3  3\n2  2\n1  1\n" }
+    it 'returns board string after calling #draw_tiles on each row and adding row headers' do
+      expect(board.draw_rows(board_array, board_string)).to eq(output_string)
+    end
+  end
 end
