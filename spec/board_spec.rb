@@ -76,7 +76,7 @@ describe Board do
   end
 
   describe '#to_s' do
-    it 'returns the representation of the board as a string' do
+    it 'returns #draw_rows after calling it with and appending a footer' do
       allow(board).to receive(:draw_rows).and_return("  a b c d e f g h \n")
       expect(board.to_s).to eq("  a b c d e f g h \n  a b c d e f g h \n")
     end
