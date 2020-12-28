@@ -74,4 +74,11 @@ describe Board do
       expect(board_state.size).to eq(8)
     end
   end
+
+  describe '#to_s' do
+    it 'returns the representation of the board as a string' do
+      allow(board).to receive(:draw_rows).and_return("  a b c d e f g h \n")
+      expect(board.to_s).to eq("  a b c d e f g h \n  a b c d e f g h \n")
+    end
+  end
 end
