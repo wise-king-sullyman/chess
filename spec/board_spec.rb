@@ -103,4 +103,42 @@ describe Board do
       expect(board.draw_tiles(row, board_string, row_index)).to eq(output_string)
     end
   end
+
+  describe '#tile_background_white_or_black' do
+    context 'when row index is even and tile index is odd' do
+      let(:row_index) { 0 }
+      let(:tile_index) { 1 }
+      let(:backround_color) { board.tile_background_white_or_black(row_index, tile_index) }
+      it 'returns black' do
+        expect(backround_color).to eq('black')
+      end
+    end
+
+    context 'when row index is odd and tile index is even' do
+      let(:row_index) { 1 }
+      let(:tile_index) { 0 }
+      let(:backround_color) { board.tile_background_white_or_black(row_index, tile_index) }
+      it 'returns black' do
+        expect(backround_color).to eq('black')
+      end
+    end
+
+    context 'when row index is odd and tile index is odd' do
+      let(:row_index) { 1 }
+      let(:tile_index) { 1 }
+      let(:backround_color) { board.tile_background_white_or_black(row_index, tile_index) }
+      it 'returns black' do
+        expect(backround_color).to eq('white')
+      end
+    end
+
+    context 'when row index is even and tile index is even' do
+      let(:row_index) { 0 }
+      let(:tile_index) { 0 }
+      let(:backround_color) { board.tile_background_white_or_black(row_index, tile_index) }
+      it 'returns black' do
+        expect(backround_color).to eq('white')
+      end
+    end
+  end
 end

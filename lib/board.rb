@@ -42,6 +42,10 @@ class Board
     board_string
   end
 
+  def tile_background_white_or_black(row_index, tile_index)
+    row_index.even? == tile_index.even? ? 'white' : 'black'
+  end
+
   def piece_at(location)
     current_board[location.first][location.last]
   end
@@ -73,10 +77,6 @@ class Board
   private
 
   attr_accessor :current_board
-
-  def tile_background_white_or_black(row_index, tile_index)
-    row_index.even? == tile_index.even? ? 'white' : 'black'
-  end
 
   def make_colorized_tile(tile, background)
     colorize_tile(
