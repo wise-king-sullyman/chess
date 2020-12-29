@@ -90,4 +90,17 @@ describe Board do
       expect(board.draw_rows(board_array, board_string)).to eq(output_string)
     end
   end
+
+  describe '#draw_tiles' do
+    let(:row) { Array.new(8) }
+    let(:board_string) { '' }
+    let(:row_index) { 0 }
+    let(:output_string) {
+      "\e[48;2;128;66;0m  \e[0m\e[48;2;77;40;0m  \e[0m\e[48;2;128;66;0m  \e[0m\e[48;2;77;40;0m  "\
+      "\e[0m\e[48;2;128;66;0m  \e[0m\e[48;2;77;40;0m  \e[0m\e[48;2;128;66;0m  \e[0m\e[48;2;77;40;0m  \e[0m" 
+    }
+    it 'returns board string after calling #make_colorized_tile for each tile in the row' do
+      expect(board.draw_tiles(row, board_string, row_index)).to eq(output_string)
+    end
+  end
 end

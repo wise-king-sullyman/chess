@@ -34,6 +34,14 @@ class Board
     board_string
   end
 
+  def draw_tiles(row, board_string, row_index)
+    row.each_with_index do |tile, tile_index|
+      background = tile_background_white_or_black(row_index, tile_index)
+      board_string += make_colorized_tile(tile, background)
+    end
+    board_string
+  end
+
   def piece_at(location)
     current_board[location.first][location.last]
   end
@@ -65,14 +73,6 @@ class Board
   private
 
   attr_accessor :current_board
-
-  def draw_tiles(row, board_string, row_index)
-    row.each_with_index do |tile, tile_index|
-      background = tile_background_white_or_black(row_index, tile_index)
-      board_string += make_colorized_tile(tile, background)
-    end
-    board_string
-  end
 
   def tile_background_white_or_black(row_index, tile_index)
     row_index.even? == tile_index.even? ? 'white' : 'black'
