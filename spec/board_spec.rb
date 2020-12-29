@@ -141,4 +141,28 @@ describe Board do
       end
     end
   end
+
+  describe '#make_colorized_tile' do
+    let(:background) { 'white' }
+    context 'when tile is empty' do
+      let(:tile) { nil }
+      let(:output_string) { "\e[48;2;128;66;0m  \e[0m" }
+      it 'returns an empty colored tile' do
+        expect(board.make_colorized_tile(tile, background)).to eq(output_string)
+      end
+    end
+
+    context 'when tile is occupid' do
+      let(:piece) { double('piece') }
+      let(:player) { double('player') }
+      let(:tile) { piece }
+      let(:output_string) { "\e[48;2;128;66;0m\e[38;2;255;243;230mx \e[0m\e[0m" }
+      it 'returns the symbol in the appropriate color' do
+        allow(piece).to receive(:symbol).and_return('x')
+        allow(piece).to receive(:player).and_return(player)
+        allow(player).to receive(:color).and_return('white')
+        expect(board.make_colorized_tile(tile, background)).to eq(output_string)
+      end
+    end
+  end
 end

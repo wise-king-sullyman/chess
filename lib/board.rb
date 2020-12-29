@@ -46,6 +46,14 @@ class Board
     row_index.even? == tile_index.even? ? 'white' : 'black'
   end
 
+  def make_colorized_tile(tile, background)
+    colorize_tile(
+      symbol: tile&.symbol('black') || ' ',
+      symbol_color: tile&.player&.color,
+      background_color: background
+    )
+  end
+
   def piece_at(location)
     current_board[location.first][location.last]
   end
@@ -77,12 +85,4 @@ class Board
   private
 
   attr_accessor :current_board
-
-  def make_colorized_tile(tile, background)
-    colorize_tile(
-      symbol: tile&.symbol('black') || ' ',
-      symbol_color: tile&.player&.color,
-      background_color: background
-    )
-  end
 end
