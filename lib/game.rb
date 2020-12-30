@@ -29,7 +29,6 @@ class Game
 
   def test_move_piece(piece, location)
     piece.move(location, true)
-    board.refresh
   end
 
   def player_input_1_or_2
