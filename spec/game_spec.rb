@@ -94,6 +94,80 @@ describe Game do
     end
   end
 
+  describe '#player_input_1_or_2' do
+    before do
+      allow(game).to receive(:puts)
+    end
+
+    context 'when valid input is given' do
+      let(:valid_input) { '1' }
+
+      before do
+        allow(game).to receive(:gets).and_return(valid_input)
+      end
+
+      it 'calls #gets once' do
+        expect(game).to receive(:gets).once
+        game.player_input_1_or_2
+      end
+
+      it 'returns the valid input as an integer' do
+        expect(game.player_input_1_or_2).to eq(valid_input.to_i)
+      end
+    end
+
+    context 'when a number outside the valid range is given' do
+      let(:valid_input) { '1' }
+
+      before do
+        allow(game).to receive(:gets).and_return('0', '3', valid_input)
+      end
+
+      it 'calls #gets until valid input is given' do
+        expect(game).to receive(:gets).exactly(3).times
+        game.player_input_1_or_2
+      end
+
+      it 'returns the valid input as an integer' do
+        expect(game.player_input_1_or_2).to eq(valid_input.to_i)
+      end
+    end
+
+    context 'when a non number or symbol is given' do
+      let(:valid_input) { '1' }
+
+      before do
+        allow(game).to receive(:gets).and_return('q', '$', valid_input)
+      end
+
+      it 'calls #gets until valid input is given' do
+        expect(game).to receive(:gets).exactly(3).times
+        game.player_input_1_or_2
+      end
+
+      it 'returns the valid input as an integer' do
+        expect(game.player_input_1_or_2).to eq(valid_input.to_i)
+      end
+    end
+
+    context 'when no response is given' do
+      let(:valid_input) { '1' }
+
+      before do
+        allow(game).to receive(:gets).and_return('', '', valid_input)
+      end
+
+      it 'calls #gets until valid input is given' do
+        expect(game).to receive(:gets).exactly(3).times
+        game.player_input_1_or_2
+      end
+
+      it 'returns the valid input as an integer' do
+        expect(game.player_input_1_or_2).to eq(valid_input.to_i)
+      end
+    end
+  end
+
   describe '#enemy_king_location' do
     let(:player2) { instance_double('player') }
     it 'returns the enemy kings location' do
