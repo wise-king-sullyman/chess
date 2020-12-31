@@ -168,6 +168,24 @@ describe Game do
     end
   end
 
+  describe '#add_players' do
+    context 'when player input is 1' do
+      it 'calls #setup_single_player_game' do
+        allow(game).to receive(:player_input_1_or_2).and_return(1)
+        expect(game).to receive(:setup_single_player_game)
+        game.add_players
+      end
+    end
+
+    context 'when player input is 2' do
+      it 'calls #setup_two_player_game' do
+        allow(game).to receive(:player_input_1_or_2).and_return(2)
+        expect(game).to receive(:setup_two_player_game)
+        game.add_players
+      end
+    end
+  end
+
   describe '#enemy_king_location' do
     let(:player2) { instance_double('player') }
     it 'returns the enemy kings location' do
