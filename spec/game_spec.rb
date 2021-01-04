@@ -10,6 +10,10 @@ describe Game do
   let(:piece2) { double('piece') }
   subject(:game) { Game.new }
 
+  before do
+    allow(game).to receive(:puts)
+  end
+
   describe '#move_piece' do
     let(:location) { [1, 1] }
 
@@ -182,6 +186,58 @@ describe Game do
         allow(game).to receive(:player_input_1_or_2).and_return(2)
         expect(game).to receive(:setup_two_player_game)
         game.add_players
+      end
+    end
+  end
+
+  describe '#setup_single_player_game' do
+    context 'when player_input_1_or_2 == 1' do
+      before do
+        allow(game).to receive(:player_input_1_or_2).and_return(1)
+      end
+
+      it 'assigns white before black' do
+        game.setup_single_player_game
+        expect(game.players.first.color).to eq('white')
+      end
+
+      it 'assigns Player to white' do
+        game.setup_single_player_game
+        expect(game.players.first.class).to eq(Player)
+      end
+
+      it 'assigns AI to black' do
+        game.setup_single_player_game
+        expect(game.players.last.class).to eq(AI)
+      end
+
+      it 'adds two items to @players' do
+        expect { game.setup_single_player_game }.to change { game.players.size }.by(2)
+      end
+    end
+
+    context 'when player_input_1_or_2 == 2' do
+      before do
+        allow(game).to receive(:player_input_1_or_2).and_return(2)
+      end
+
+      it 'assigns white before black' do
+        game.setup_single_player_game
+        expect(game.players.first.color).to eq('white')
+      end
+
+      it 'assigns AI to white' do
+        game.setup_single_player_game
+        expect(game.players.first.class).to eq(AI)
+      end
+
+      it 'assigns Player to black' do
+        game.setup_single_player_game
+        expect(game.players.last.class).to eq(Player)
+      end
+
+      it 'adds two items to @players' do
+        expect { game.setup_single_player_game }.to change { game.players.size }.by(2)
       end
     end
   end
