@@ -242,6 +242,27 @@ describe Game do
     end
   end
 
+  describe '#setup_two_player_game' do
+    it 'assigns white before black' do
+      game.setup_two_player_game
+      expect(game.players.first.color).to eq('white')
+    end
+
+    it 'assigns Player to white' do
+      game.setup_two_player_game
+      expect(game.players.first.class).to eq(Player)
+    end
+
+    it 'assigns Player to black' do
+      game.setup_two_player_game
+      expect(game.players.last.class).to eq(Player)
+    end
+
+    it 'adds two items to @players' do
+      expect { game.setup_two_player_game }.to change { game.players.size }.by(2)
+    end
+  end
+
   describe '#enemy_king_location' do
     let(:player2) { instance_double('player') }
     it 'returns the enemy kings location' do
