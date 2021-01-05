@@ -263,6 +263,66 @@ describe Game do
     end
   end
 
+  describe '#play' do
+    before do
+      allow(game).to receive(:ask_to_load_game)
+      allow(File).to receive(:exist?)
+      allow(game).to receive(:add_players)
+      allow(game.players).to receive(:empty?)
+      allow(game).to receive(:announce_winner)
+      allow(game).to receive(:game_loop)
+    end
+
+    it 'calls File.exist? with file_name' do
+      allow(game).to receive(:file_name).and_return('foo')
+      expect(File).to receive(:exist?).with('foo')
+      game.play
+    end
+
+    context 'when a file with file_name exists' do
+      it 'calls #ask_to_load_game' do
+        allow(File).to receive(:exist?).and_return(true)
+        expect(game).to receive(:ask_to_load_game)
+        game.play
+      end
+    end
+
+    context 'when a file with file_name does not exist' do
+      it 'does not call #ask_to_load_game' do
+        allow(File).to receive(:exist?).and_return(false)
+        expect(game).not_to receive(:ask_to_load_game)
+        game.play
+      end
+    end
+
+    context 'when game.players is empty' do
+      it 'calls #add_players' do
+        allow(game.players).to receive(:empty?).and_return(true)
+        expect(game).to receive(:add_players)
+        game.play
+      end
+    end
+
+    context 'when game.players is not empty' do
+      it 'does not call #add_players' do
+        allow(game.players).to receive(:empty?).and_return(false)
+        expect(game).not_to receive(:add_players)
+        game.play
+      end
+    end
+
+    it 'calls #game_loop' do
+      expect(game).to receive(:game_loop)
+      game.play
+    end
+
+    it 'calls #announce_winner with the output from #game_loop' do
+      allow(game).to receive(:game_loop).and_return('foo')
+      expect(game).to receive(:announce_winner).with('foo')
+      game.play
+    end
+  end
+
   describe '#enemy_king_location' do
     let(:player2) { instance_double('player') }
     it 'returns the enemy kings location' do
