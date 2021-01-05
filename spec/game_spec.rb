@@ -362,6 +362,24 @@ describe Game do
     end
   end
 
+  describe '#other_player' do
+    before do
+      game.instance_variable_set('@players', [player, player2])
+    end
+
+    context 'when called with player' do
+      it 'returns player2' do
+        expect(game.other_player(player)).to eq(player2)
+      end
+    end
+
+    context 'when called with player2' do
+      it 'returns player' do
+        expect(game.other_player(player2)).to eq(player)
+      end
+    end
+  end
+
   describe '#available?' do
     let(:location) { 'foo' }
 

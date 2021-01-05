@@ -115,15 +115,15 @@ class Game
     board.piece_at(location)
   end
 
-  private
-
-  attr_writer :players, :board
-
   def other_player(calling_player)
     player1 = players.first
     player2 = players.last
     player1 == calling_player ? player2 : player1
   end
+
+  private
+
+  attr_writer :players, :board
 
   def clear_terminal
     system('clear') || system('cls')
