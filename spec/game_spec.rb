@@ -323,6 +323,71 @@ describe Game do
     end
   end
 
+  describe '#game_loop' do
+    before do
+      allow(game).to receive(:ply_setup)
+      game.instance_variable_set('@players', [player, player2])
+      allow(game).to receive(:clear_terminal)
+    end
+
+    it 'calls #ply_setup with player' do
+      allow(game).to receive(:player_in_checkmate?).and_return(true)
+      expect(game).to receive(:ply_setup).with(player)
+      game.game_loop
+    end
+
+    it 'calls #player_in_checkmate? with player' do
+      allow(game).to receive(:player_in_checkmate?).and_return(true)  
+      expect(game).to receive(:player_in_checkmate?).with(player)
+      game.game_loop
+    end
+
+    context 'when the player is in checkmate' do
+      it 'returns #other_player with player' do
+        allow(game).to receive(:player_in_checkmate?).and_return(true)
+        expect(game).to receive(:other_player).with(player)
+        game.game_loop
+      end
+    end
+
+    it 'calls player #mated?' do
+      allow(game).to receive(:player_in_checkmate?).and_return(false)
+      allow(player).to receive(:mated?).and_return(true)
+      expect(player).to receive(:mated?)
+      game.game_loop
+    end
+
+    context 'when player is in stalemate' do
+      it 'returns nil' do
+        allow(game).to receive(:player_in_checkmate?).and_return(false)
+        allow(player).to receive(:mated?).and_return(true)
+        expect(game.game_loop).to eq(nil)
+      end
+    end
+
+    context 'when player is not in checkmate or stalemate for three turns' do
+      it 'calls player #move three times' do
+        allow(game).to receive(:player_in_checkmate?).and_return(false)
+        allow(player).to receive(:mated?).and_return(false, false, false, true)
+        allow(player2).to receive(:mated?).and_return(false)
+        allow(player).to receive(:move)
+        allow(player2).to receive(:move)
+        expect(player).to receive(:move).exactly(3).times
+        game.game_loop
+      end
+    end
+
+    it 'calls #clear_terminal' do
+      allow(game).to receive(:player_in_checkmate?).and_return(false)
+      allow(player).to receive(:mated?).and_return(false, true)
+      allow(player2).to receive(:mated?).and_return(false)
+      allow(player).to receive(:move)
+      allow(player2).to receive(:move)
+      expect(game).to receive(:clear_terminal)
+      game.game_loop
+    end
+  end
+
   describe '#enemy_king_location' do
     let(:player2) { instance_double('player') }
     it 'returns the enemy kings location' do
