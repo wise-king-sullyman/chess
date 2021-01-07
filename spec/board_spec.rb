@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require './lib/board'
-require './lib/pieces/piece'
+require_relative '../lib/board'
+require_relative '../lib/pieces/piece'
 
 describe Board do
   let(:players) { [] }

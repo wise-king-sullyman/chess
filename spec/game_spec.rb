@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/game'
+require_relative '../lib/game'
 
 describe Game do
   let(:board) { double('board') }

@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-require './lib/pieces/piece'
+require_relative '../lib/pieces/piece'
