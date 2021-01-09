@@ -12,4 +12,34 @@ describe Piece do
     end
   end
   subject(:piece) { dummy_class.new(game, player, location) }
+
+    describe '#move' do
+    context 'when a test move is being performed' do
+      before do
+        piece.move([3, 3], true)
+      end
+
+      it 'sets self.location to the entered location' do
+        expect(piece.location).to eq([3, 3])
+      end
+
+      it 'does not change self.moved' do
+        expect(piece.moved).to be(false)
+      end
+    end
+
+    context 'when a non-test move is being performed' do
+      before do
+        piece.move([3, 3])
+      end
+
+      it 'sets self.location to the entered location' do
+        expect(piece.location).to eq([3, 3])
+      end
+
+      it 'changes self.moved to true' do
+        expect(piece.moved).to be(true)
+      end
+    end
+  end
 end
