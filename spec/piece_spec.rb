@@ -13,7 +13,7 @@ describe Piece do
   end
   subject(:piece) { dummy_class.new(game, player, location) }
 
-    describe '#move' do
+  describe '#move' do
     context 'when a test move is being performed' do
       before do
         piece.move([3, 3], true)
