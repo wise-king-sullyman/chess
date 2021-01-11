@@ -59,4 +59,22 @@ describe Piece do
       end
     end
   end
+
+  describe '#can_attack_king?' do
+    context 'when the piece can attack the enemy king' do
+      it 'returns true' do
+        allow(game).to receive(:enemy_king_location)
+        allow(piece).to receive(:can_attack_location?).and_return(true)
+        expect(piece.can_attack_king?).to be(true)
+      end
+    end
+
+    context 'when the piece can not attack the enemy king' do
+      it 'returns false' do
+        allow(game).to receive(:enemy_king_location)
+        allow(piece).to receive(:can_attack_location?).and_return(false)
+        expect(piece.can_attack_king?).to be(false)
+      end
+    end
+  end
 end
