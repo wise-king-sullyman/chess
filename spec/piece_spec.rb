@@ -77,4 +77,42 @@ describe Piece do
       end
     end
   end
+
+  describe '#can_attack_location?' do
+    before do
+      allow(game).to receive(:board)
+    end
+
+    context 'when the given location is legal and reachable' do
+      it 'returns false' do
+        allow(piece).to receive(:legal_move?).and_return(true)
+        allow(piece).to receive(:reachable?).and_return(true)
+        expect(piece.can_attack_location?([3, 3])).to be(true)
+      end
+    end
+
+    context 'when the given location is legal but not reachable' do
+      it 'returns false' do
+        allow(piece).to receive(:legal_move?).and_return(true)
+        allow(piece).to receive(:reachable?).and_return(false)
+        expect(piece.can_attack_location?([3, 3])).to be(false)
+      end
+    end
+
+    context 'when the given location is reachable but not legal' do
+      it 'returns false' do
+        allow(piece).to receive(:legal_move?).and_return(false)
+        allow(piece).to receive(:reachable?).and_return(true)
+        expect(piece.can_attack_location?([3, 3])).to be(false)
+      end
+    end
+
+    context 'when the given location is not legal or reachable' do
+      it 'returns false' do
+        allow(piece).to receive(:legal_move?).and_return(false)
+        allow(piece).to receive(:reachable?).and_return(false)
+        expect(piece.can_attack_location?([3, 3])).to be(false)
+      end
+    end
+  end
 end
