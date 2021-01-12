@@ -115,4 +115,24 @@ describe Piece do
       end
     end
   end
+
+  describe '#can_move?' do
+    before do
+      allow(game).to receive(:board)
+    end
+
+    context 'when valid_moves returns a non-empty array' do
+      it 'returns true' do
+        allow(piece).to receive(:valid_moves).and_return([[1, 1], [3, 3]])
+        expect(piece.can_move?).to be(true)
+      end
+    end
+
+    context 'when valid_moves returns an empty array' do
+      it 'returns false' do
+        allow(piece).to receive(:valid_moves).and_return([])
+        expect(piece.can_move?).to be(false)
+      end
+    end
+  end
 end
