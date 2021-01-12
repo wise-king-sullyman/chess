@@ -135,4 +135,10 @@ describe Piece do
       end
     end
   end
+
+  describe '#eligible_for_promotion?' do
+    it 'returns false' do
+      expect(piece.eligible_for_promotion?).to be(false)
+    end
+  end
 end
