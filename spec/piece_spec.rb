@@ -141,4 +141,40 @@ describe Piece do
       expect(piece.eligible_for_promotion?).to be(false)
     end
   end
+
+  describe '#clean_moves' do
+    before do
+      allow(game).to receive(:board)
+      allow(game).to receive(:move_checks_self?)
+    end
+
+    context 'when the move array contains no out of bounds, at current location, or (if applicable) self checking moves' do
+      let(:moves) { [[1, 1], [3, 3]] }
+      it 'returns the moves array unchanged' do
+        expect(piece.clean_moves(moves)).to eq([[1, 1], [3, 3]])
+      end
+    end
+
+    context 'when the current location is listed in the moves aray' do
+      let(:moves) { [[1, 1], [4, 4]] }
+      it 'returns the moves array after removing the current location' do
+        expect(piece.clean_moves(moves)).to eq([[1, 1]])
+      end
+    end
+
+    context 'when the moves array includes rows or columns out of range' do
+      let(:moves) { [[1, 1], [8, 0], [3, 3], [-1, 2], [3, 9], [4, -3], [8, 8]] }
+      it 'returns the moves array with out of bounds moves removed' do
+        expect(piece.clean_moves(moves)).to eq([[1, 1], [3, 3]])
+      end
+    end
+
+    context 'when the moves array includes moves that would check the moving player' do
+      let(:moves) { [[1, 1], [7, 0], [3, 3], [1, 2], [3, 6], [4, 3], [2, 2]] }
+      it 'returns the moves array with self checking moves removed' do
+        allow(game).to receive(:move_checks_self?).and_return(false, true, false, true)
+        expect(piece.clean_moves(moves)).to eq([[1, 1], [3, 3]])
+      end
+    end
+  end
 end

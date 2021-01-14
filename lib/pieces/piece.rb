@@ -41,10 +41,6 @@ module Piece
     false
   end
 
-  private
-
-  attr_writer :location, :moved
-
   def clean_moves(moves)
     calling_method_name = caller_locations[3].to_s.split(' ').last
     moves.delete(location)
@@ -56,6 +52,10 @@ module Piece
     end
     moves
   end
+
+  private
+
+  attr_writer :location, :moved
 
   def apply_move_modifiers(modifiers, row, column)
     modifiers.map { |modifier| [row + modifier.first, column + modifier.last] }
