@@ -143,29 +143,101 @@ describe Piece do
   end
 
   describe '#clean_moves' do
+    let(:moves) { [[1, 1], [4, 4]] }
+
     before do
       allow(game).to receive(:board)
       allow(game).to receive(:move_checks_self?)
     end
 
-    context 'when the move array contains no out of bounds, at current location, or (if applicable) self checking moves' do
+    it 'calls #remove_at_current_location_move once with moves and location' do
+      expect(piece).to receive(:remove_at_current_location_move).once.with(moves, location)
+      piece.clean_moves(moves)
+    end
+
+    it 'calls #remove_out_of_bounds_moves once' do
+      expect(piece).to receive(:remove_out_of_bounds_moves).once.with(0, 7, moves)
+      piece.clean_moves(moves)
+    end
+
+    context 'when #clean_moves is not being called as a descendent of #can_attack_king' do
+      it 'calls #remove_self_checks' do
+        allow(piece).to receive(:calling_method_name).and_return("`possible_moves'")
+        expect(piece).to receive(:remove_self_checks).once.with(moves)
+        piece.clean_moves(moves)
+      end
+    end
+
+    context 'when #clean_moves is being called as a descendent of #can_attack_king' do
+      it 'calls #remove_self_checks' do
+        allow(piece).to receive(:calling_method_name).and_return("`can_attack_king?'")
+        expect(piece).not_to receive(:remove_self_checks)
+        piece.clean_moves(moves)
+      end
+    end
+
+    it 'returns moves' do
+      expect(piece.clean_moves(moves)).to eq(moves)
+    end
+  end
+
+  describe '#remove_at_current_location_move' do
+    before do
+      allow(game).to receive(:board)
+      allow(game).to receive(:move_checks_self?)
+    end
+
+    context 'when the move array contains does not include the current location' do
       let(:moves) { [[1, 1], [3, 3]] }
       it 'returns the moves array unchanged' do
-        expect(piece.clean_moves(moves)).to eq([[1, 1], [3, 3]])
+        output_moves = piece.remove_at_current_location_move(moves, [4, 4])
+        expect(output_moves).to eq([[1, 1], [3, 3]])
       end
     end
 
     context 'when the current location is listed in the moves aray' do
       let(:moves) { [[1, 1], [4, 4]] }
       it 'returns the moves array after removing the current location' do
-        expect(piece.clean_moves(moves)).to eq([[1, 1]])
+        output_moves = piece.remove_at_current_location_move(moves, [4, 4])
+        expect(output_moves).to eq([[1, 1]])
+      end
+    end
+  end
+
+  describe '#remove_out_of_bounds_moves' do
+    before do
+      allow(game).to receive(:board)
+      allow(game).to receive(:move_checks_self?).and_return(false)
+    end
+
+    context 'when the move array contains no out of bounds moves' do
+      let(:moves) { [[1, 1], [3, 3]] }
+      it 'returns the moves array unchanged' do
+        output_moves = piece.remove_out_of_bounds_moves(0, 7, moves)
+        expect(output_moves).to eq([[1, 1], [3, 3]])
       end
     end
 
     context 'when the moves array includes rows or columns out of range' do
       let(:moves) { [[1, 1], [8, 0], [3, 3], [-1, 2], [3, 9], [4, -3], [8, 8]] }
       it 'returns the moves array with out of bounds moves removed' do
-        expect(piece.clean_moves(moves)).to eq([[1, 1], [3, 3]])
+        output_moves = piece.remove_out_of_bounds_moves(0, 7, moves)
+        expect(output_moves).to eq([[1, 1], [3, 3]])
+      end
+    end
+  end
+
+  describe '#remove_self_checks' do
+    before do
+      allow(game).to receive(:board)
+      allow(game).to receive(:move_checks_self?).and_return(false)
+    end
+
+    context 'when the move array contains no self checking moves' do
+      let(:moves) { [[1, 1], [3, 3]] }
+      it 'returns the moves array unchanged' do
+        output_moves = piece.remove_self_checks(moves)
+        expect(output_moves).to eq([[1, 1], [3, 3]])
       end
     end
 
@@ -173,7 +245,8 @@ describe Piece do
       let(:moves) { [[1, 1], [7, 0], [3, 3], [1, 2], [3, 6], [4, 3], [2, 2]] }
       it 'returns the moves array with self checking moves removed' do
         allow(game).to receive(:move_checks_self?).and_return(false, true, false, true)
-        expect(piece.clean_moves(moves)).to eq([[1, 1], [3, 3]])
+        output_moves = piece.remove_self_checks(moves)
+        expect(output_moves).to eq([[1, 1], [3, 3]])
       end
     end
   end

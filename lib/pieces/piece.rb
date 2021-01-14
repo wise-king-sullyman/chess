@@ -42,13 +42,27 @@ module Piece
   end
 
   def clean_moves(moves)
-    calling_method_name = caller_locations[3].to_s.split(' ').last
-    moves.delete(location)
-    moves.keep_if { |move| move.all? { |number| number.between?(0, 7) } }
-    unless calling_method_name == "`can_attack_king?'"
-      moves.delete_if do |move|
-        game.move_checks_self?(self, move, game.board)
-      end
+    remove_at_current_location_move(moves, location)
+    remove_out_of_bounds_moves(0, 7, moves)
+    remove_self_checks(moves) unless calling_method_name == "`can_attack_king?'"
+    moves
+  end
+
+  def remove_at_current_location_move(moves, current_location)
+    moves.delete(current_location)
+    moves
+  end
+
+  def remove_out_of_bounds_moves(lower_bound, upper_bound, moves)
+    moves.keep_if do |move|
+      move.all? { |number| number.between?(lower_bound, upper_bound) }
+    end
+    moves
+  end
+
+  def remove_self_checks(moves)
+    moves.delete_if do |move|
+      game.move_checks_self?(self, move, game.board)
     end
     moves
   end
@@ -56,6 +70,10 @@ module Piece
   private
 
   attr_writer :location, :moved
+
+  def calling_method_name
+    caller_locations[4].to_s.split(' ').last
+  end
 
   def apply_move_modifiers(modifiers, row, column)
     modifiers.map { |modifier| [row + modifier.first, column + modifier.last] }
