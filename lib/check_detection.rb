@@ -20,14 +20,18 @@ module CheckDetection
   def move_checks_self?(piece, location, board)
     starting_location = piece.location
     piece_at_location = board.piece_at(location)
-    piece_at_location&.player&.remove_piece(piece_at_location)
-    test_move_piece(piece, location)
-    board.refresh
-    output = player_in_check?(piece.player) ? true : false
-    test_move_piece(piece, starting_location)
-    piece_at_location&.player&.revive_piece(piece_at_location)
-    board.refresh
+    test_move(piece, nil, location, board)
+    output = player_in_check?(piece.player)
+    test_move(piece, piece_at_location, starting_location, board)
     output
+  end
+
+  def test_move(piece, replace_piece_with, to_location, board)
+    from_row, from_column = piece.location
+    to_row, to_column = to_location
+    piece.move(to_location, true)
+    board.update(from_row, from_column, replace_piece_with)
+    board.update(to_row, to_column, piece)
   end
 
   def in_check_at?(player, location)
