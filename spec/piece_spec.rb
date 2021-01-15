@@ -11,6 +11,11 @@ describe Piece do
 
     def possible_moves(row, column)
     end
+
+    # this is to give an easy to find method name for testing #callers_include?
+    def foo(function_name_as_string)
+      callers_include?(function_name_as_string)
+    end
   end
   subject(:piece) { DummyClass.new(game, player, location) }
 
@@ -162,7 +167,7 @@ describe Piece do
 
     context 'when #clean_moves is not being called as a descendent of #can_attack_king' do
       it 'calls #remove_self_checks' do
-        allow(piece).to receive(:calling_method_name).and_return("`possible_moves'")
+        allow(piece).to receive(:callers_include?).and_return(false)
         expect(piece).to receive(:remove_self_checks).once.with(moves)
         piece.clean_moves(moves)
       end
@@ -170,7 +175,7 @@ describe Piece do
 
     context 'when #clean_moves is being called as a descendent of #can_attack_king' do
       it 'calls #remove_self_checks' do
-        allow(piece).to receive(:calling_method_name).and_return("`can_attack_king?'")
+        allow(piece).to receive(:callers_include?).and_return(true)
         expect(piece).not_to receive(:remove_self_checks)
         piece.clean_moves(moves)
       end
@@ -247,6 +252,20 @@ describe Piece do
         allow(game).to receive(:move_checks_self?).and_return(false, true, false, true)
         output_moves = piece.remove_self_checks(moves)
         expect(output_moves).to eq([[1, 1], [3, 3]])
+      end
+    end
+  end
+
+  describe '#callers_include?' do
+    context 'when the supplied function name is included in the callers of the method' do
+      it 'returns true' do
+        expect(piece.foo('foo')).to be(true)
+      end
+    end
+
+    context 'when the supplied function name is not included in the callers of the method' do
+      it 'returns false' do
+        expect(piece.callers_include?('foo')).to be(false)
       end
     end
   end

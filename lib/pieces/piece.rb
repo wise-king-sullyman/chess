@@ -44,7 +44,7 @@ module Piece
   def clean_moves(moves)
     remove_at_current_location_move(moves, location)
     remove_out_of_bounds_moves(0, 7, moves)
-    remove_self_checks(moves) unless calling_method_name == "`can_attack_king?'"
+    remove_self_checks(moves) unless callers_include?('can_attack_king?')
     moves
   end
 
@@ -67,13 +67,15 @@ module Piece
     moves
   end
 
+  def callers_include?(function_name_as_string)
+    caller_locations.any? do |caller|
+      caller.to_s.include?(function_name_as_string)
+    end
+  end
+
   private
 
   attr_writer :location, :moved
-
-  def calling_method_name
-    caller_locations[4].to_s.split(' ').last
-  end
 
   def apply_move_modifiers(modifiers, row, column)
     modifiers.map { |modifier| [row + modifier.first, column + modifier.last] }
