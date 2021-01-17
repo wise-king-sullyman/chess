@@ -27,10 +27,6 @@ class Game
     piece.move(location)
   end
 
-  def test_move_piece(piece, location)
-    piece.move(location, true)
-  end
-
   def player_input_1_or_2
     input = gets.chomp.to_i
     until input.between?(1, 2)

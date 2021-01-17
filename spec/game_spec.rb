@@ -56,48 +56,6 @@ describe Game do
     end
   end
 
-  describe '#test_move_piece' do
-    let(:location) { [1, 1] }
-
-    context 'when the tile is unoccupied' do
-      before do
-        game.instance_variable_set('@board', board)
-        allow(board).to receive(:piece_at).and_return(nil)
-        allow(piece).to receive(:move)
-      end
-
-      it 'does not call for a piece to be remove' do
-        expect(player).not_to receive(:remove_piece)
-        game.test_move_piece(piece, location)
-      end
-
-      it 'calls #move on the moving piece with the supplied location and the test flag set to true' do
-        expect(piece).to receive(:move).with(location, true)
-        game.test_move_piece(piece, location)
-      end
-    end
-
-    context 'when the tile is occupied' do
-      before do
-        game.instance_variable_set('@board', board)
-        allow(board).to receive(:piece_at).and_return(piece2)
-        allow(piece2).to receive(:player).and_return(player2)
-        allow(player2).to receive(:remove_piece)
-        allow(piece).to receive(:move)
-      end
-
-      it 'does not call for the piece at the location to be removed' do
-        expect(player2).not_to receive(:remove_piece).with(piece2)
-        game.test_move_piece(piece, location)
-      end
-
-      it 'calls #move on the moving piece with the supplied location and the test flag set to true' do
-        expect(piece).to receive(:move).with(location, true)
-        game.test_move_piece(piece, location)
-      end
-    end
-  end
-
   describe '#player_input_1_or_2' do
     before do
       allow(game).to receive(:puts)
