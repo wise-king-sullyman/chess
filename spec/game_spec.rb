@@ -655,7 +655,7 @@ describe Game do
       allow(player2).to receive(:pieces).and_return([piece2])
       game.instance_variable_set('@players', players)
       allow(board).to receive(:piece_at)
-      allow(board).to receive(:refresh)
+      allow(board).to receive(:update)
     end
     context 'when move puts self into check' do
       it 'reutrns true' do
