@@ -269,4 +269,12 @@ describe Piece do
       end
     end
   end
+
+  describe '#apply_move_modifiers' do
+    let(:modifiers) { [[0, 0], [1, 2], [3, -1]] }
+    let(:expected_moves) { [[1, 4], [2, 6], [4, 3]] }
+    it 'returns an array of moves with the supplied row and column summed with the given modifiers' do
+      expect(piece.apply_move_modifiers(modifiers, 1, 4)).to eq(expected_moves)
+    end
+  end
 end

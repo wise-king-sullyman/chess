@@ -73,11 +73,11 @@ module Piece
     end
   end
 
-  private
-
-  attr_writer :location, :moved
-
   def apply_move_modifiers(modifiers, row, column)
     modifiers.map { |modifier| [row + modifier.first, column + modifier.last] }
   end
+
+  private
+
+  attr_writer :location, :moved
 end
