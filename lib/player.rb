@@ -112,6 +112,13 @@ class Player
     end
   end
 
+  def promote(piece)
+    puts 'Pawn promoted! Select 0 to become a queen, 1 to become a rook'\
+    '2 to become a bishop, or 3 to become a knight'
+    add_promotion_piece(piece, validate_promotion_choice(gets.chomp))
+    pieces.delete(piece)
+  end
+
   private
 
   def piece_choice
@@ -136,12 +143,5 @@ class Player
 
   def piece_at_location(location)
     game.piece_at(location)
-  end
-
-  def promote(piece)
-    puts 'Pawn promoted! Select 0 to become a queen, 1 to become a rook'\
-    '2 to become a bishop, or 3 to become a knight'
-    add_promotion_piece(piece, validate_promotion_choice(gets.chomp))
-    pieces.delete(piece)
   end
 end

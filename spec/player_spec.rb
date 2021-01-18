@@ -419,4 +419,21 @@ describe Player do
       end
     end
   end
+
+  describe '#promote' do
+    before do
+      allow(player).to receive(:gets).and_return('foo')
+      allow(player).to receive(:validate_promotion_choice).and_return('foo')
+    end
+
+    it 'calls #add_promotion_piece with the piece and result from #validate_promotion_choice' do
+      expect(player).to receive(:add_promotion_piece).with(piece, 'foo')
+      player.promote(piece)
+    end
+
+    it 'calls delete on the players pieces with the given piece' do
+      expect(pieces).to receive(:delete).with(piece)
+      player.promote(piece)
+    end
+  end
 end
