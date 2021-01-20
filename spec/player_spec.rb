@@ -436,4 +436,21 @@ describe Player do
       player.promote(piece)
     end
   end
+
+  describe '#piece_choice' do
+    before do
+      allow(player).to receive(:player_input).and_return([0, 1])
+      allow(player).to receive(:piece_at_location).and_return(piece)
+    end
+
+    it 'calls #piece_at_location with the translated player input' do
+      expect(player).to receive(:piece_at_location).with([0, 1])
+      player.piece_choice
+    end
+
+    it 'returns the piece at the given location' do
+      expect(player.piece_choice).to eq(piece)
+      player.piece_choice
+    end
+  end
 end
