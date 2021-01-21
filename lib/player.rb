@@ -127,8 +127,7 @@ class Player
 
   def location_choice
     puts "#{name} enter move location:"
-    input = player_input
-    [input.first, input.last]
+    player_input
   end
 
   private
