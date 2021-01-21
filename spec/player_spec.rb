@@ -453,4 +453,11 @@ describe Player do
       player.piece_choice
     end
   end
+
+  describe '#location_choice' do
+    it 'returns an array with the translated player input' do
+      allow(player).to receive(:player_input).and_return([2, 1])
+      expect(player.location_choice).to eq([2, 1])
+    end
+  end
 end

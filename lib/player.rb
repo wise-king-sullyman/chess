@@ -125,13 +125,13 @@ class Player
     piece_at_location([input.first, input.last])
   end
 
-  private
-
   def location_choice
     puts "#{name} enter move location:"
     input = player_input
     [input.first, input.last]
   end
+
+  private
 
   def player_input
     unvalidated_input = gets.chomp
