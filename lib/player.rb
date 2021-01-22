@@ -130,8 +130,6 @@ class Player
     player_input
   end
 
-  private
-
   def player_input
     unvalidated_input = gets.chomp
     binding.pry if unvalidated_input == 'admin'
@@ -139,6 +137,8 @@ class Player
     update_last_move(validated_input)
     translate_input(validated_input)
   end
+
+  private
 
   def piece_at_location(location)
     game.piece_at(location)

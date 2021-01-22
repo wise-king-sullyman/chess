@@ -460,4 +460,35 @@ describe Player do
       expect(player.location_choice).to eq([2, 1])
     end
   end
+
+  describe '#player_input' do
+    let(:unvalidated_input) { 'foo' }
+    let(:validated_input) { 'a1' }
+
+    before do
+      allow(player).to receive(:gets).and_return(unvalidated_input)
+      allow(player).to receive(:validate_input).and_return(validated_input)
+      allow(player).to receive(:update_last_move)
+      allow(player).to receive(:translate_input).and_return('bar')
+    end
+
+    it 'calls #validate_input with the given input' do
+      expect(player).to receive(:validate_input).with(unvalidated_input)
+      player.player_input
+    end
+
+    it 'calls #update_last_move with the validated input' do
+      expect(player).to receive(:update_last_move).with(validated_input)
+      player.player_input
+    end
+
+    it 'calls #translate_input with the validated input' do
+      expect(player).to receive(:translate_input).with(validated_input)
+      player.player_input
+    end
+
+    it 'returns the output from translate_input' do
+      expect(player.player_input).to eq('bar')
+    end
+  end
 end
