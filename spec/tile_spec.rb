@@ -60,4 +60,28 @@ describe 'Tile' do
       end
     end
   end
+
+  describe '#colorize_tile' do
+    let(:text) { 'F' }
+    let(:text_with_space) { text + ' ' }
+    let(:color) { 'white' }
+    context 'when a symbol and symbol color are provided' do
+      it 'calls #colorize_text with the symbol and symbol color' do
+        expect(tile_tester).to receive(:colorize_text).with(text_with_space, color)
+        tile_tester.colorize_tile(symbol: text, symbol_color: color, background_color: color)
+      end
+    end
+
+    context 'when a symbol and symbol color are not provided' do
+      it 'does not call #colorize_text' do
+        expect(tile_tester).not_to receive(:colorize_text)
+        tile_tester.colorize_tile(background_color: color)
+      end
+    end
+
+    it 'calls #colorize_background with the given background color' do
+      expect(tile_tester).to receive(:colorize_background).with('  ', color)
+      tile_tester.colorize_tile(background_color: color)
+    end
+  end
 end
