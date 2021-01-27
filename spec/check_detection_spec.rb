@@ -22,6 +22,22 @@ describe 'CheckDetection' do
     allow(check_tester).to receive(:other_player).and_return(player2)
   end
 
+  describe '#player_in_check?' do
+    context 'when the other players enemy (aka the player passed in as the argument) is in check' do
+      it 'returns true' do
+        allow(check_tester).to receive(:enemy_in_check?).with(player2).and_return(true)
+        expect(check_tester.player_in_check?(player)).to be true
+      end
+    end
+
+    context 'when the other players enemy is not in check' do
+      it 'returns false' do
+        allow(check_tester).to receive(:enemy_in_check?).with(player2).and_return(false)
+        expect(check_tester.player_in_check?(player)).to be false
+      end
+    end
+  end
+
   describe '#enemy_in_check?' do
     before do
       allow(player).to receive(:pieces).and_return([piece])
