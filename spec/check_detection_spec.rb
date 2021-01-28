@@ -38,6 +38,32 @@ describe 'CheckDetection' do
     end
   end
 
+  describe '#player_in_checkmate' do
+    context 'when player is in checkmate?' do
+      it 'returns true' do
+        allow(check_tester).to receive(:player_in_check?).and_return(true)
+        allow(player).to receive(:mated?).and_return(true)
+        expect(check_tester.player_in_checkmate?(player)).to be true
+      end
+    end
+
+    context 'when player is in check but not mated' do
+      it 'returns false' do
+        allow(check_tester).to receive(:player_in_check?).and_return(true)
+        allow(player).to receive(:mated?).and_return(false)
+        expect(check_tester.player_in_checkmate?(player)).to be false
+      end
+    end
+
+    context 'when player is mated but not in check' do
+      it 'returns false' do
+        allow(check_tester).to receive(:player_in_check?).and_return(false)
+        allow(player).to receive(:mated?).and_return(true)
+        expect(check_tester.player_in_checkmate?(player)).to be false
+      end
+    end
+  end
+
   describe '#enemy_in_check?' do
     before do
       allow(player).to receive(:pieces).and_return([piece])
