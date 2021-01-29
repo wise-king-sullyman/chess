@@ -84,6 +84,45 @@ describe 'CheckDetection' do
     end
   end
 
+  describe '#move_checks_self?' do
+    let(:test_location) { [2, 2] }
+    let(:piece_start_location) { [3, 3] }
+
+    before do
+      allow(piece).to receive(:location).and_return(piece_start_location)
+      allow(board).to receive(:piece_at).and_return(piece2)
+      allow(check_tester).to receive(:test_move)
+      allow(check_tester).to receive(:player_in_check?)
+      allow(piece).to receive(:player)
+    end
+
+    context 'when the player of the piece is in check after the test move' do
+      it 'returns true' do
+        allow(check_tester).to receive(:player_in_check?).and_return(true)
+        result = check_tester.move_checks_self?(piece, test_location, board)
+        expect(result).to be true
+      end
+    end
+
+    context 'when the player of the piece is not in check after the test move' do
+      it 'returns false' do
+        allow(check_tester).to receive(:player_in_check?).and_return(false)
+        result = check_tester.move_checks_self?(piece, test_location, board)
+        expect(result).to be false
+      end
+    end
+
+    it 'calls test_move with the piece, no replacement piece, the test location, and the board' do
+      expect(check_tester).to receive(:test_move).with(piece, nil, test_location, board)
+      check_tester.move_checks_self?(piece, test_location, board)
+    end
+
+    it 'calls test_move with the piece, the piece originally at test_loction, the original location of piece, and board' do
+      expect(check_tester).to receive(:test_move).with(piece, piece2, piece_start_location, board)
+      check_tester.move_checks_self?(piece, test_location, board)
+    end
+  end
+
   describe '#in_check_at?' do
     let(:players) { [player, player2] }
 
