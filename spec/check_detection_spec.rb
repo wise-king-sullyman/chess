@@ -123,6 +123,32 @@ describe 'CheckDetection' do
     end
   end
 
+  describe '#test_move' do
+    let(:to_location) { [2, 2] }
+    let(:piece_start_location) { [3, 3] }
+
+    before do
+      allow(piece).to receive(:location).and_return(piece_start_location)
+      allow(piece).to receive(:move)
+      allow(board).to receive(:update)
+    end
+
+    it 'calls #move on the given piece with the destination location' do
+      expect(piece).to receive(:move).with(to_location, true)
+      check_tester.test_move(piece, piece2, to_location, board)
+    end
+
+    it 'calls board.update with the pieces original row, column, and what to replace the piece with' do
+      expect(board).to receive(:update).with(piece_start_location.first, piece_start_location.last, piece2)
+      check_tester.test_move(piece, piece2, to_location, board)
+    end
+
+    it 'calls board.update with the destination row, column, and piece' do
+      expect(board).to receive(:update).with(to_location.first, to_location.last, piece)
+      check_tester.test_move(piece, piece2, to_location, board)
+    end
+  end
+
   describe '#in_check_at?' do
     let(:players) { [player, player2] }
 
