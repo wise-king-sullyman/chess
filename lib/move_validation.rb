@@ -47,8 +47,6 @@ module MoveValidation
     true
   end
 
-  private
-
   def column_reachable?(piece, to, board)
     from_row = piece.location.first
     range = to.first > from_row ? (from_row + 1...to.first) : (to.first + 1...from_row)
@@ -57,6 +55,8 @@ module MoveValidation
     end
     true
   end
+
+  private
 
   def diagonal_reachable?(piece, to, board)
     from_row = piece.location.first
