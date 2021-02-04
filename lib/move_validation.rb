@@ -56,8 +56,6 @@ module MoveValidation
     true
   end
 
-  private
-
   def diagonal_reachable?(piece, to, board)
     from_row = piece.location.first
     from_column = piece.location.last

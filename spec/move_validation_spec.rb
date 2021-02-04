@@ -261,4 +261,126 @@ describe 'MoveValidation' do
       end
     end
   end
+
+  describe '#diagonal_reachable?' do
+    context 'when the piece is moving to a column of greater index and row of greater index' do
+      let(:current_location) { [0, 0] }
+      let(:to_location) { [4, 4] }
+
+      before do
+        allow(piece).to receive(:location).and_return(current_location)
+      end
+
+      context 'when a piece is in one of the tiles between the location and destination' do
+        it 'returns false' do
+          allow(board).to receive(:piece_at).and_return(false, false, true)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be false
+        end
+      end
+
+      context 'when there are no pieces between the location and the destination' do
+        it 'returns true' do
+          allow(board).to receive(:piece_at).and_return(false)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be true
+        end
+      end
+
+      context 'when a piece is at the destination but none are inbetween' do
+        it 'returns true' do
+          allow(board).to receive(:piece_at).and_return(false, false, false, true)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be true
+        end
+      end
+    end
+
+    context 'when the piece is moving to a column of greater index and row of lesser index' do
+      let(:current_location) { [0, 4] }
+      let(:to_location) { [4, 0] }
+
+      before do
+        allow(piece).to receive(:location).and_return(current_location)
+      end
+
+      context 'when a piece is in one of the tiles between the location and destination' do
+        it 'returns false' do
+          allow(board).to receive(:piece_at).and_return(false, false, true)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be false
+        end
+      end
+
+      context 'when there are no pieces between the location and the destination' do
+        it 'returns true' do
+          allow(board).to receive(:piece_at).and_return(false)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be true
+        end
+      end
+
+      context 'when a piece is at the destination but none are inbetween' do
+        it 'returns true' do
+          allow(board).to receive(:piece_at).and_return(false, false, false, true)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be true
+        end
+      end
+    end
+
+    context 'when the piece is moving to a column of lesser index and row of greater index' do
+      let(:current_location) { [4, 0] }
+      let(:to_location) { [0, 4] }
+
+      before do
+        allow(piece).to receive(:location).and_return(current_location)
+      end
+
+      context 'when a piece is in one of the tiles between the location and destination' do
+        it 'returns false' do
+          allow(board).to receive(:piece_at).and_return(false, false, true)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be false
+        end
+      end
+
+      context 'when there are no pieces between the location and the destination' do
+        it 'returns true' do
+          allow(board).to receive(:piece_at).and_return(false)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be true
+        end
+      end
+
+      context 'when a piece is at the destination but none are inbetween' do
+        it 'returns true' do
+          allow(board).to receive(:piece_at).and_return(false, false, false, true)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be true
+        end
+      end
+    end
+
+    context 'when the piece is moving to a column of lesser index and row of lesser index' do
+      let(:current_location) { [4, 4] }
+      let(:to_location) { [0, 0] }
+
+      before do
+        allow(piece).to receive(:location).and_return(current_location)
+      end
+
+      context 'when a piece is in one of the tiles between the location and destination' do
+        it 'returns false' do
+          allow(board).to receive(:piece_at).and_return(false, false, true)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be false
+        end
+      end
+
+      context 'when there are no pieces between the location and the destination' do
+        it 'returns true' do
+          allow(board).to receive(:piece_at).and_return(false)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be true
+        end
+      end
+
+      context 'when a piece is at the destination but none are inbetween' do
+        it 'returns true' do
+          allow(board).to receive(:piece_at).and_return(false, false, false, true)
+          expect(move_validator.diagonal_reachable?(piece, to_location, board)).to be true
+        end
+      end
+    end
+  end
 end
