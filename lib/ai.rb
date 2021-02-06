@@ -35,12 +35,12 @@ class AI < Player
     piece_at_location([input.first, input.last])
   end
 
-  private
-
   def location_choice
     input = random_tile
     [input.first, input.last]
   end
+
+  private
 
   def random_row_selection
     rand(1..8).to_s

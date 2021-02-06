@@ -140,4 +140,22 @@ describe AI do
       ai_test.piece_choice
     end
   end
+
+  describe '#location_choice' do
+    let(:tile) { [1, 2] }
+
+    before do
+      allow(ai_test).to receive(:random_tile).and_return(tile)
+      allow(ai_test).to receive(:piece_at_location)
+    end
+
+    it 'calls #random_tile' do
+      expect(ai_test).to receive(:random_tile)
+      ai_test.location_choice
+    end
+
+    it 'returns the output of #random_tile' do
+      expect(ai_test.location_choice).to eq(tile)
+    end
+  end
 end
