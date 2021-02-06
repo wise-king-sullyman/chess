@@ -30,12 +30,12 @@ class AI < Player
     my_pieces.delete(piece)
   end
 
-  private
-
   def piece_choice
     input = random_tile
     piece_at_location([input.first, input.last])
   end
+
+  private
 
   def location_choice
     input = random_tile

@@ -121,4 +121,23 @@ describe AI do
       ai_test.promote(piece, 3, my_pieces)
     end
   end
+
+  describe '#piece_choice' do
+    let(:tile) { [1, 2] }
+
+    before do
+      allow(ai_test).to receive(:random_tile).and_return(tile)
+      allow(ai_test).to receive(:piece_at_location)
+    end
+
+    it 'calls #random_tile' do
+      expect(ai_test).to receive(:random_tile)
+      ai_test.piece_choice
+    end
+
+    it 'calls #piece_at_location with the first and second outputs from random_tile' do
+      expect(ai_test).to receive(:piece_at_location).with(tile)
+      ai_test.piece_choice
+    end
+  end
 end
