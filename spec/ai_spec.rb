@@ -104,4 +104,21 @@ describe AI do
       expect(ai_test.random_tile).to eq([6, 1])
     end
   end
+
+  describe '#promote' do
+    before do
+      allow(ai_test).to receive(:add_promotion_piece)
+    end
+
+    it 'calls #add_promotion_piece with the provided piece and #rand' do
+      expect(ai_test).to receive(:add_promotion_piece).with(piece, 3)
+      ai_test.promote(piece, 3)
+    end
+
+    let(:my_pieces) { [] }
+    it 'calls #delete with piece on my_pieces' do
+      expect(my_pieces).to receive(:delete).with(piece)
+      ai_test.promote(piece, 3, my_pieces)
+    end
+  end
 end
