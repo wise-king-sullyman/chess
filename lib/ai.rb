@@ -25,12 +25,12 @@ class AI < Player
     translate_input(location)
   end
 
-  private
-
-  def promote(piece)
-    add_promotion_piece(piece, rand(4))
-    pieces.delete(piece)
+  def promote(piece, number = rand(4), my_pieces = pieces)
+    add_promotion_piece(piece, number)
+    my_pieces.delete(piece)
   end
+
+  private
 
   def piece_choice
     input = random_tile
