@@ -158,4 +158,16 @@ describe AI do
       expect(ai_test.location_choice).to eq(tile)
     end
   end
+
+  describe '#random_row_selection' do
+    it 'calls #rand with 1..8' do
+      expect(ai_test).to receive(:rand).with(1..8)
+      ai_test.random_row_selection
+    end
+
+    it 'returns the random number as a string' do
+      allow(ai_test).to receive(:rand).and_return(3)
+      expect(ai_test.random_row_selection).to eq('3')
+    end
+  end
 end

@@ -40,11 +40,11 @@ class AI < Player
     [input.first, input.last]
   end
 
-  private
-
   def random_row_selection
     rand(1..8).to_s
   end
+
+  private
 
   def random_column_selection
     ('a'..'h').to_a.sample
