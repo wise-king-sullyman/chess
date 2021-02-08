@@ -170,4 +170,46 @@ describe AI do
       expect(ai_test.random_row_selection).to eq('3')
     end
   end
+
+  describe '#random_column_selection' do
+    context 'when supplied with a one character range' do
+      let(:range) { ('a'...'b') }
+      it 'returns the character' do
+        expect(ai_test.random_column_selection(range)).to eq('a')
+      end
+    end
+
+    context 'when supplied with a limited character range' do
+      let(:range) { ('c'..'e') }
+      it 'returns the character' do
+        random_column = ai_test.random_column_selection(range)
+        expect(random_column).to eq('c').or eq('d').or eq('e')
+      end
+    end
+
+    context 'when given no arguments' do
+      let(:range) { ('a'..'h') }
+      it 'returns a character between a and h inclusive' do
+        expect(range).to include(ai_test.random_column_selection)
+      end
+    end
+
+    context 'when given the same seed' do
+      it 'always returns the same character' do
+        srand(1)
+        # 'f' is the predetermined output after calling srand(1)
+        expect(ai_test.random_column_selection).to eq('f')
+      end
+    end
+
+    context 'when the seed is changed' do
+      it 'returns a different character' do
+        srand(1)
+        character1 = ai_test.random_column_selection
+        srand(2)
+        character2 = ai_test.random_column_selection
+        expect(character1).not_to eq(character2)
+      end
+    end
+  end
 end
