@@ -44,9 +44,7 @@ class AI < Player
     rand(1..8).to_s
   end
 
-  private
-
-  def random_column_selection
-    ('a'..'h').to_a.sample
+  def random_column_selection(range = ('a'..'h'))
+    range.to_a.sample
   end
 end
