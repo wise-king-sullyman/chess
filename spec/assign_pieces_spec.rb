@@ -208,4 +208,41 @@ describe 'AssignPieces' do
       end
     end
   end
+
+  describe '#assign_queen' do
+    it 'adds one item to the provided pieces array' do
+      expect { piece_assigner.assign_queen(player, game, pieces) }.to change { pieces.size }.by(1)
+    end
+
+    it 'only adds queens to pieces' do
+      piece_assigner.assign_queen(player, game, pieces)
+      expect(pieces.all? { |piece| piece.instance_of?(Queen) }).to be(true)
+    end
+
+    context 'when the player is white' do
+      let(:expected_location) { [7, 3] }
+
+      before do
+        allow(player).to receive(:color).and_return('white')
+      end
+
+      it 'assign the expected location to the queen' do
+        piece_assigner.assign_queen(player, game, pieces)
+        expect(pieces.first.location).to eq(expected_location)
+      end
+    end
+
+    context 'when the player is black' do
+      let(:expected_location) { [0, 3] }
+
+      before do
+        allow(player).to receive(:color).and_return('black')
+      end
+
+      it 'assign the expected location to the queen' do
+        piece_assigner.assign_queen(player, game, pieces)
+        expect(pieces.first.location).to eq(expected_location)
+      end
+    end
+  end
 end
