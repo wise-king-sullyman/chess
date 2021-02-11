@@ -110,4 +110,53 @@ describe 'AssignPieces' do
       end
     end
   end
+
+  describe '#assign_knights' do
+    it 'adds two items to the provided pieces array' do
+      expect { piece_assigner.assign_knights(player, game, pieces) }.to change { pieces.size }.by(2)
+    end
+
+    it 'only adds knights to pieces' do
+      piece_assigner.assign_knights(player, game, pieces)
+      expect(pieces.all? { |piece| piece.instance_of?(Knight) }).to be(true)
+    end
+
+    context 'when the player is white' do
+      let(:expected_first_location) { [7, 1] }
+      let(:expected_second_location) { [7, 6] }
+
+      before do
+        allow(player).to receive(:color).and_return('white')
+      end
+
+      it 'assign the expected first location to the first knight' do
+        piece_assigner.assign_knights(player, game, pieces)
+        expect(pieces.first.location).to eq(expected_first_location)
+      end
+
+      it 'assign the expected second location to the second knight' do
+        piece_assigner.assign_knights(player, game, pieces)
+        expect(pieces.last.location).to eq(expected_second_location)
+      end
+    end
+
+    context 'when the player is black' do
+      let(:expected_first_location) { [0, 1] }
+      let(:expected_second_location) { [0, 6] }
+
+      before do
+        allow(player).to receive(:color).and_return('black')
+      end
+
+      it 'assign the expected first location to the first knight' do
+        piece_assigner.assign_knights(player, game, pieces)
+        expect(pieces.first.location).to eq(expected_first_location)
+      end
+
+      it 'assign the expected second location to the second knight' do
+        piece_assigner.assign_knights(player, game, pieces)
+        expect(pieces.last.location).to eq(expected_second_location)
+      end
+    end
+  end
 end
