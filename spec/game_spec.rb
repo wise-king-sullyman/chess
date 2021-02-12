@@ -346,6 +346,71 @@ describe Game do
     end
   end
 
+  describe '#ply_setup' do
+    before do
+      allow(game).to receive(:save_game)
+      allow(game).to receive(:other_player).and_return(player2)
+      allow(game).to receive(:player_in_check?)
+      allow(game).to receive(:print_previous_move)
+      allow(game).to receive(:print_check_announcement)
+      allow(game).to receive(:print_game_board)
+      allow(board).to receive(:refresh)
+      allow(player).to receive(:name)
+      allow(player2).to receive(:last_move).and_return([])
+    end
+
+    it 'calls #save_game with the current player' do
+      expect(game).to receive(:save_game).with(player)
+      game.ply_setup(player, board)
+    end
+
+    context 'when the other player has performed at least one move' do
+      let(:last_move_made) { [1, 2] }
+
+      it 'calls #print_previous_move with the last move' do
+        allow(player2).to receive(:last_move).and_return(last_move_made)
+        expect(game).to receive(:print_previous_move).with(last_move_made)
+        game.ply_setup(player, board)
+      end
+    end
+
+    context 'when the other player has not performed any moves' do
+      it 'does not call #print_previous_move' do
+        expect(game).not_to receive(:print_previous_move)
+        game.ply_setup(player, board)
+      end
+    end
+
+    it 'calls #refresh on the board' do
+      expect(board).to receive(:refresh)
+      game.ply_setup(player, board)
+    end
+
+    it 'calls #print_game_board with the board' do
+      expect(game).to receive(:print_game_board).with(board)
+      game.ply_setup(player, board)
+    end
+
+    context 'when the player is in check' do
+      let(:player_name) { 'John' }
+
+      it 'calls #print_check_announcement with the players name' do
+        allow(game).to receive(:player_in_check?).and_return(true)
+        allow(player).to receive(:name).and_return(player_name)
+        expect(game).to receive(:print_check_announcement).with(player_name)
+        game.ply_setup(player, board)
+      end
+    end
+
+    context 'when the player is not in check' do
+      it 'does not call #print_check_announcement' do
+        allow(game).to receive(:player_in_check?).and_return(false)
+        expect(game).not_to receive(:print_check_announcement)
+        game.ply_setup(player, board)
+      end
+    end
+  end
+
   describe '#enemy_king_location' do
     let(:player2) { instance_double('player') }
     it 'returns the enemy kings location' do
