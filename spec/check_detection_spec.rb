@@ -2,14 +2,14 @@
 
 require_relative '../lib/check_detection'
 
-describe 'CheckDetection' do
-  class CheckDummyClass
-    include CheckDetection
+class CheckDummyClass
+  include CheckDetection
 
-    def other_player(player)
-    end
+  def other_player(player)
   end
+end
 
+describe 'CheckDetection' do
   subject(:check_tester) { CheckDummyClass.new }
 
   let(:board) { double('board') }
