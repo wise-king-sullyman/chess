@@ -87,13 +87,13 @@ class Game
     end
   end
 
-  def ply_setup(player)
+  def ply_setup(player, game_board = board)
     save_game(player)
     previous_move = other_player(player).last_move
-    puts "Last move: #{previous_move.first} to #{previous_move.last}" unless previous_move.empty?
-    board.refresh
-    puts board
-    puts "#{player.name} in check" if player_in_check?(player)
+    print_previous_move(previous_move) unless previous_move.empty?
+    game_board.refresh
+    print_game_board(game_board)
+    print_check_announcement(player.name) if player_in_check?(player)
   end
 
   def enemy_king_location(calling_player)
@@ -123,5 +123,17 @@ class Game
 
   def clear_terminal
     system('clear') || system('cls')
+  end
+
+  def print_previous_move(move)
+    puts "Last move: #{move.first} to #{move.last}"
+  end
+
+  def print_check_announcement(name)
+    puts "#{name} in check"
+  end
+
+  def print_game_board(game_board)
+    puts game_board
   end
 end
