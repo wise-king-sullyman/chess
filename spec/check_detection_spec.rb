@@ -171,32 +171,4 @@ describe 'CheckDetection' do
       end
     end
   end
-
-  describe '#move_checks_self?' do
-    let(:location) { [0, 0] }
-    let(:players) { [player, player2] }
-
-    before do
-      allow(piece).to receive(:move)
-      allow(piece).to receive(:player).and_return(player)
-      allow(piece).to receive(:location)
-      allow(player2).to receive(:pieces).and_return([piece2])
-      check_tester.instance_variable_set('@players', players)
-      allow(board).to receive(:piece_at)
-      allow(board).to receive(:update)
-    end
-    context 'when move puts self into check' do
-      it 'reutrns true' do
-        allow(piece2).to receive(:can_attack_king?).and_return(true)
-        expect(check_tester.move_checks_self?(piece, location, board)).to be true
-      end
-    end
-
-    context 'when move does not put self into check' do
-      it 'reutrns false' do
-        allow(piece2).to receive(:can_attack_king?).and_return(false)
-        expect(check_tester.move_checks_self?(piece, location, board)).to be false
-      end
-    end
-  end
 end
