@@ -2,11 +2,11 @@
 
 require_relative '../lib/move_validation'
 
-describe 'MoveValidation' do
-  class MoveValidationDummyClass
-    include MoveValidation
-  end
+class MoveValidationDummyClass
+  include MoveValidation
+end
 
+describe 'MoveValidation' do
   subject(:move_validator) { MoveValidationDummyClass.new }
 
   let(:board) { double('board') }
