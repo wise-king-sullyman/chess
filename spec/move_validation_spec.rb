@@ -15,6 +15,50 @@ describe 'MoveValidation' do
   let(:piece) { double('piece') }
   let(:piece2) { double('piece') }
 
+  describe '#valid_move?' do
+    let(:location) { [1, 2] }
+
+    before do
+      allow(piece).to receive(:player)
+    end
+
+    context 'when the move is valid, and the location is both available and reachable' do
+      it 'returns true' do
+        allow(piece).to receive(:legal_move?).and_return(true)
+        allow(move_validator).to receive(:available?).and_return(true)
+        allow(move_validator).to receive(:reachable?).and_return(true)
+        expect(move_validator.valid_move?(piece, location, board)).to be(true)
+      end
+    end
+
+    context 'when the move is invalid, but the location is available and reachable' do
+      it 'returns false' do
+        allow(piece).to receive(:legal_move?).and_return(false)
+        allow(move_validator).to receive(:available?).and_return(true)
+        allow(move_validator).to receive(:reachable?).and_return(true)
+        expect(move_validator.valid_move?(piece, location, board)).to be(false)
+      end
+    end
+
+    context 'when the move is valid and the location is available, but not reachable' do
+      it 'returns false' do
+        allow(piece).to receive(:legal_move?).and_return(true)
+        allow(move_validator).to receive(:available?).and_return(true)
+        allow(move_validator).to receive(:reachable?).and_return(false)
+        expect(move_validator.valid_move?(piece, location, board)).to be(false)
+      end
+    end
+
+    context 'when the move is valid, and the location is reachable, but not available' do
+      it 'returns false' do
+        allow(piece).to receive(:legal_move?).and_return(true)
+        allow(move_validator).to receive(:available?).and_return(false)
+        allow(move_validator).to receive(:reachable?).and_return(true)
+        expect(move_validator.valid_move?(piece, location, board)).to be(false)
+      end
+    end
+  end
+
   describe '#available?' do
     let(:location) { 'foo' }
 
