@@ -4,6 +4,9 @@ require_relative '../lib/move_validation'
 
 class MoveValidationDummyClass
   include MoveValidation
+
+  def possible_moves(row, column)
+  end
 end
 
 describe 'MoveValidation' do
@@ -55,6 +58,49 @@ describe 'MoveValidation' do
         allow(move_validator).to receive(:available?).and_return(false)
         allow(move_validator).to receive(:reachable?).and_return(true)
         expect(move_validator.valid_move?(piece, location, board)).to be(false)
+      end
+    end
+  end
+
+  describe '#valid_moves' do
+    let(:location) { [1, 2] }
+    let(:test_move) { [3, 3] }
+    let(:moves) { [test_move] }
+
+    before do
+      allow(piece).to receive(:player)
+      allow(move_validator).to receive(:possible_moves).and_return(moves)
+    end
+
+    context 'when a possible move is available and reachable' do
+      it 'includes that move in the array it returns' do
+        allow(move_validator).to receive(:available?).and_return(true)
+        allow(move_validator).to receive(:reachable?).and_return(true)
+        expect(move_validator.valid_moves(piece, location, board)).to include(test_move)
+      end
+    end
+
+    context 'when a possible move is available but not reachable' do
+      it 'does not include that move in the array it returns' do
+        allow(move_validator).to receive(:available?).and_return(true)
+        allow(move_validator).to receive(:reachable?).and_return(false)
+        expect(move_validator.valid_moves(piece, location, board)).not_to include(test_move)
+      end
+    end
+
+    context 'when a possible move is reachable but not available' do
+      it 'does not include that move in the array it returns' do
+        allow(move_validator).to receive(:available?).and_return(false)
+        allow(move_validator).to receive(:reachable?).and_return(true)
+        expect(move_validator.valid_moves(piece, location, board)).not_to include(test_move)
+      end
+    end
+
+    context 'when a possible move is not available or reachable' do
+      it 'does not include that move in the array it returns' do
+        allow(move_validator).to receive(:available?).and_return(false)
+        allow(move_validator).to receive(:reachable?).and_return(false)
+        expect(move_validator.valid_moves(piece, location, board)).not_to include(test_move)
       end
     end
   end
