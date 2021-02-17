@@ -22,7 +22,13 @@ module SavingAndLoading
   end
 
   def ask_to_load_game
+    load_game if prompt_user_to_load_game == 'y'
+  end
+
+  private
+
+  def prompt_user_to_load_game
     puts 'Save game detected. Load previous game? y/n'
-    load_game if gets.chomp == 'y'
+    gets.chomp
   end
 end
