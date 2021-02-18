@@ -13,8 +13,8 @@ module SavingAndLoading
     File.open(save_as, 'w') { |file| file.write(current_state.to_yaml) }
   end
 
-  def load_game
-    save = YAML.load_file(file_name)
+  def load_game(game_save = nil)
+    save = game_save || YAML.load_file(file_name)
     self.players = save.fetch(:players)
     self.board = save.fetch(:board)
     player = save.fetch(:player)
