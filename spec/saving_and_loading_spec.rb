@@ -4,10 +4,52 @@ require_relative '../lib/saving_and_loading'
 
 class SaveAndLoadDummyClass
   include SavingAndLoading
+
+  attr_accessor :players, :board
 end
 
 describe 'SavingAndLoading' do
   subject(:save_load_tester) { SaveAndLoadDummyClass.new }
+
+  let(:players) { double('players') }
+  let(:board) { double('board') }
+  let(:player) { double('player') }
+
+  describe '#load_game' do
+    let(:mocked_game_save) { { players: players, board: board, player: player } }
+
+    before do
+      allow(save_load_tester).to receive(:players).and_return(players)
+      allow(players).to receive(:first)
+      allow(players).to receive(:reverse!)
+    end
+
+    it 'sets self.players to the saved games players value' do
+      expect(save_load_tester).to receive(:players=).with(players)
+      save_load_tester.load_game(mocked_game_save)
+    end
+
+    it 'sets self.board to the saved games board value' do
+      expect(save_load_tester).to receive(:board=).with(board)
+      save_load_tester.load_game(mocked_game_save)
+    end
+
+    context 'when the player in the save is the first player in players' do
+      it 'does not call #reverse! on self.players' do
+        allow(players).to receive(:first).and_return(player)
+        expect(players).not_to receive(:reverse!)
+        save_load_tester.load_game(mocked_game_save)
+      end
+    end
+
+    context 'when the player in the save is not the first player in players' do
+      it 'calls #reverse! on self.players' do
+        allow(players).to receive(:first).and_return(double('player2'))
+        expect(players).to receive(:reverse!)
+        save_load_tester.load_game(mocked_game_save)
+      end
+    end
+  end
 
   describe '#ask_to_load_game' do
     before do
