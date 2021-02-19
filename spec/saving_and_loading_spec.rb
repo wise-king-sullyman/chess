@@ -15,6 +15,14 @@ describe 'SavingAndLoading' do
   let(:board) { double('board') }
   let(:player) { double('player') }
 
+  describe '#game_state' do
+    let(:mocked_game_save) { { players: players, board: board, player: player } }
+
+    it 'returns the expected game state' do
+      expect(save_load_tester.game_state(players, board, player)).to eq(mocked_game_save)
+    end
+  end
+
   describe '#save_game' do
     let(:mocked_game_save) { { players: players, board: board, player: player } }
     let(:game_save) { double('game_save') }
