@@ -15,6 +15,24 @@ describe 'SavingAndLoading' do
   let(:board) { double('board') }
   let(:player) { double('player') }
 
+  describe '#save_game' do
+    let(:mocked_game_save) { { players: players, board: board, player: player } }
+    let(:game_save) { double('game_save') }
+
+    it 'calls #to_yaml on the result from #game_state' do
+      allow(save_load_tester).to receive(:game_state).and_return(game_save)
+      expect(game_save).to receive(:to_yaml)
+      save_load_tester.save_game(player, 'file_name.yaml')
+    end
+
+    it 'calls for game_state.to_yaml to be saved as the given file name' do
+      allow(save_load_tester).to receive(:game_state).and_return(mocked_game_save)
+      allow(File).to receive(:open).with('file_name.yaml', 'w') do |file|
+        expect(file).to receive(:write).with(mocked_game_save.to_yaml)
+      end
+    end
+  end
+
   describe '#load_game' do
     let(:mocked_game_save) { { players: players, board: board, player: player } }
 
