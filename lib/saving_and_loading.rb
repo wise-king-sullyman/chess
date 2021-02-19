@@ -4,12 +4,12 @@ require 'yaml'
 
 # Includes methods related to saving a game and restoring from a save
 module SavingAndLoading
+  def game_state(current_players, current_board, current_player)
+    { players: current_players, board: current_board, player: current_player }
+  end
+
   def save_game(current_player, save_as = file_name)
-    current_state = {
-      players: players,
-      board: board,
-      player: current_player
-    }
+    current_state = game_state(players, board, current_player)
     File.open(save_as, 'w') { |file| file.write(current_state.to_yaml) }
   end
 
