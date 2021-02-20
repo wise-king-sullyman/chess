@@ -2,21 +2,23 @@
 
 require_relative '../lib/pieces/piece'
 
+class DummyClass
+  include Piece
+
+  def possible_moves(row, column)
+  end
+
+  # this is to give an easy to find method name for testing #callers_include?
+  def foo(function_name_as_string)
+    callers_include?(function_name_as_string)
+  end
+end
+
 describe Piece do
   let(:game) { double('game') }
   let(:player) { double('player') }
   let(:location) { [4, 4] }
-  class DummyClass
-    include Piece
 
-    def possible_moves(row, column)
-    end
-
-    # this is to give an easy to find method name for testing #callers_include?
-    def foo(function_name_as_string)
-      callers_include?(function_name_as_string)
-    end
-  end
   subject(:piece) { DummyClass.new(game, player, location) }
 
   describe '#move' do
