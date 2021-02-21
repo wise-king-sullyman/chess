@@ -30,6 +30,32 @@ describe Bishop do
     end
   end
 
+  describe '#possible_moves' do
+    let(:possible_moves) do
+      [
+        [0, 1], [0, 1], [0, 1], [0, 1],
+        [1, 2], [1, 0], [-1, 2], [-1, 0],
+        [2, 3], [2, -1], [-2, 3], [-2, -1],
+        [3, 4], [3, -2], [-3, 4], [-3, -2],
+        [4, 5], [4, -3], [-4, 5], [-4, -3],
+        [5, 6], [5, -4], [-5, 6], [-5, -4],
+        [6, 7], [6, -5], [-6, 7], [-6, -5],
+        [7, 8], [7, -6], [-7, 8], [-7, -6]
+      ]
+    end
+
+    it 'calls #clean_moves with all theoretically possible moves the piece can make' do
+      allow(bishop).to receive(:clean_moves) { |moves| moves }
+      expect(bishop).to receive(:clean_moves).with(possible_moves)
+      bishop.possible_moves(bishop.location.first, bishop.location.last)
+    end
+
+    it 'returns the cleaned moves' do
+      allow(bishop).to receive(:clean_moves).with(possible_moves).and_return('foo')
+      expect(bishop.possible_moves(bishop.location.first, bishop.location.last)).to eq('foo')
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       bishop.move([0, 1])

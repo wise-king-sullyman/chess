@@ -9,8 +9,6 @@ class Bishop
     color == 'white' ? "\u2657".encode : "\u265D".encode
   end
 
-  private
-
   def possible_moves(row, column)
     moves = []
     8.times do |number|
