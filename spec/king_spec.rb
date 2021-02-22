@@ -179,4 +179,98 @@ describe King do
       end
     end
   end
+
+  describe '#move_castling_rook' do
+    let(:rook) { double('rook') }
+
+    before do
+      allow(game).to receive(:board).and_return(board)
+      allow(board).to receive(:piece_at)
+      allow(rook).to receive(:move)
+    end
+
+    context 'when the white king is moving board right' do
+      let(:king_to_location) { [0, 6] }
+      let(:rook_from_location) { [0, 7] }
+      let(:rook_to_location) { [0, 5] }
+
+      before do
+        allow(rook).to receive(:location).and_return(rook_from_location)
+      end
+
+      it 'requests the correct rook' do
+        expect(board).to receive(:piece_at).with(rook_from_location).and_return(rook)
+        king.move_castling_rook(king_to_location)
+      end
+
+      it 'calls #move with the correct location on the rook' do
+        allow(board).to receive(:piece_at).and_return(rook)
+        expect(rook).to receive(:move).with(rook_to_location)
+        king.move_castling_rook(king_to_location)
+      end
+    end
+
+    context 'when the white king is moving board left' do
+      let(:king_to_location) { [0, 2] }
+      let(:rook_from_location) { [0, 0] }
+      let(:rook_to_location) { [0, 3] }
+
+      before do
+        allow(rook).to receive(:location).and_return(rook_from_location)
+      end
+
+      it 'requests the correct rook' do
+        expect(board).to receive(:piece_at).with(rook_from_location).and_return(rook)
+        king.move_castling_rook(king_to_location)
+      end
+
+      it 'calls #move with the correct location on the rook' do
+        allow(board).to receive(:piece_at).and_return(rook)
+        expect(rook).to receive(:move).with(rook_to_location)
+        king.move_castling_rook(king_to_location)
+      end
+    end
+
+    context 'when the black king is moving board right' do
+      let(:king_to_location) { [7, 6] }
+      let(:rook_from_location) { [7, 7] }
+      let(:rook_to_location) { [7, 5] }
+
+      before do
+        allow(rook).to receive(:location).and_return(rook_from_location)
+      end
+
+      it 'requests the correct rook' do
+        expect(board).to receive(:piece_at).with(rook_from_location).and_return(rook)
+        king.move_castling_rook(king_to_location)
+      end
+
+      it 'calls #move with the correct location on the rook' do
+        allow(board).to receive(:piece_at).and_return(rook)
+        expect(rook).to receive(:move).with(rook_to_location)
+        king.move_castling_rook(king_to_location)
+      end
+    end
+
+    context 'when the black king is moving board left' do
+      let(:king_to_location) { [7, 2] }
+      let(:rook_from_location) { [7, 0] }
+      let(:rook_to_location) { [7, 3] }
+
+      before do
+        allow(rook).to receive(:location).and_return(rook_from_location)
+      end
+
+      it 'requests the correct rook' do
+        expect(board).to receive(:piece_at).with(rook_from_location).and_return(rook)
+        king.move_castling_rook(king_to_location)
+      end
+
+      it 'calls #move with the correct location on the rook' do
+        allow(board).to receive(:piece_at).and_return(rook)
+        expect(rook).to receive(:move).with(rook_to_location)
+        king.move_castling_rook(king_to_location)
+      end
+    end
+  end
 end
