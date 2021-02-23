@@ -44,12 +44,12 @@ class King
     self.moved = true unless test_move
   end
 
-  private
-
   def uncleaned_moves(row, column)
     modifiers = [1, 0, -1].product([1, 0, -1])
     apply_move_modifiers(modifiers, row, column)
   end
+
+  private
 
   def possible_moves(row, column)
     moves = clean_moves(uncleaned_moves(row, column))

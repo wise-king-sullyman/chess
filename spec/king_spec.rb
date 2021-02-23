@@ -273,4 +273,20 @@ describe King do
       end
     end
   end
+
+  describe '#uncleaned_moves' do
+    let(:modifiers) { [[1, 1], [1, 0], [1, -1], [0, 1], [0, 0], [0, -1], [-1, 1], [-1, 0], [-1, -1]] }
+    let(:row) { 1 }
+    let(:column) { 5 }
+
+    it 'calls #apply_move_modifiers with the modifiers, row, and column' do
+      expect(king).to receive(:apply_move_modifiers).with(modifiers, row, column)
+      king.uncleaned_moves(row, column)
+    end
+
+    it 'returns the output from #apply_move_modifiers' do
+      allow(king).to receive(:apply_move_modifiers).and_return('foo')
+      expect(king.uncleaned_moves(row, column)).to eq('foo')
+    end
+  end
 end
