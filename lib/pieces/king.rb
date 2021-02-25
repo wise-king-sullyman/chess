@@ -49,8 +49,6 @@ class King
     apply_move_modifiers(modifiers, row, column)
   end
 
-  private
-
   def possible_moves(row, column)
     moves = clean_moves(uncleaned_moves(row, column))
     player.pieces.each do |piece|
@@ -58,6 +56,8 @@ class King
     end
     moves
   end
+
+  private
 
   def castle_pieces_moved?(rook)
     moved || rook.moved

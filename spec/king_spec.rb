@@ -289,4 +289,47 @@ describe King do
       expect(king.uncleaned_moves(row, column)).to eq('foo')
     end
   end
+
+  describe '#possible_moves' do
+    let(:row) { 0 }
+    let(:column) { 4 }
+    let(:piece) { double('piece') }
+    let(:pieces) { [piece, piece, piece] }
+
+    before do
+      allow(king).to receive(:uncleaned_moves)
+      allow(king).to receive(:clean_moves)
+      allow(player).to receive(:pieces).and_return(pieces)
+    end
+
+    it 'calls methods needed to determine possible moves and returns their result' do
+      allow(king).to receive(:uncleaned_moves)
+      allow(king).to receive(:clean_moves).and_return('foo')
+      expect(king.possible_moves(row, column)).to eq('foo')
+    end
+
+    context 'when one of the players pieces is a rook' do
+      it 'calls #add_castle_moves once' do
+        allow(piece).to receive(:class).and_return(Pawn, Pawn, Rook)
+        expect(king).to receive(:add_castle_move).once
+        king.possible_moves(row, column)
+      end
+    end
+
+    context 'when two of the players pieces are rooks' do
+      it 'calls #add_castle_moves twice' do
+        allow(piece).to receive(:class).and_return(Pawn, Rook)
+        expect(king).to receive(:add_castle_move).twice
+        king.possible_moves(row, column)
+      end
+    end
+
+    context 'when none of the players pieces are rooks' do
+      it 'does not call #add_castle_moves' do
+        allow(piece).to receive(:class).and_return(Pawn)
+        expect(king).not_to receive(:add_castle_move)
+        king.possible_moves(row, column)
+      end
+    end
+  end
 end
