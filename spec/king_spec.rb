@@ -332,4 +332,36 @@ describe King do
       end
     end
   end
+
+  describe '#castle_pieces_moved?' do
+    let(:rook) { double('rook') }
+
+    context 'when the king has moved' do
+      it 'returns true' do
+        allow(rook).to receive(:moved).and_return(false)
+        expect(king.castle_pieces_moved?(rook, true)).to be(true)
+      end
+    end
+
+    context 'when the rook has moved' do
+      it 'returns true' do
+        allow(rook).to receive(:moved).and_return(true)
+        expect(king.castle_pieces_moved?(rook, false)).to be(true)
+      end
+    end
+
+    context 'when the rook and king have both moved' do
+      it 'returns true' do
+        allow(rook).to receive(:moved).and_return(true)
+        expect(king.castle_pieces_moved?(rook, true)).to be(true)
+      end
+    end
+
+    context 'when neither the rook or king have moved' do
+      it 'returns false' do
+        allow(rook).to receive(:moved).and_return(false)
+        expect(king.castle_pieces_moved?(rook, false)).to be(false)
+      end
+    end
+  end
 end
