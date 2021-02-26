@@ -57,11 +57,11 @@ class King
     moves
   end
 
-  private
-
-  def castle_pieces_moved?(rook)
-    moved || rook.moved
+  def castle_pieces_moved?(rook, king_has_moved = moved)
+    king_has_moved || rook.moved
   end
+
+  private
 
   def castle_prevented_by_check?(rook)
     rook_direction = rook.location.last == 7 ? 1 : -1
