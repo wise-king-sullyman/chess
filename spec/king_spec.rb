@@ -364,4 +364,44 @@ describe King do
       end
     end
   end
+
+  describe '#castle_prevented_by_check?' do
+    let(:rook) { double('rook') }
+
+    before do
+      allow(rook).to receive(:location).and_return([1, 2])
+    end
+
+    context 'when the player is in check' do
+      it 'returns true' do
+        allow(game).to receive(:player_in_check?).and_return(true)
+        allow(game).to receive(:move_checks_self?).and_return(false)
+        expect(king.castle_prevented_by_check?(rook)).to be(true)
+      end
+    end
+
+    context 'when castling would put the player in check' do
+      it 'returns true' do
+        allow(game).to receive(:player_in_check?).and_return(false)
+        allow(game).to receive(:move_checks_self?).and_return(true, false)
+        expect(king.castle_prevented_by_check?(rook)).to be(true)
+      end
+    end
+
+    context 'when moving to the castling position would put the player in check' do
+      it 'returns true' do
+        allow(game).to receive(:player_in_check?).and_return(false)
+        allow(game).to receive(:move_checks_self?).and_return(false, true)
+        expect(king.castle_prevented_by_check?(rook)).to be(true)
+      end
+    end
+
+    context 'when check does not prevent the castle' do
+      it 'returns false' do
+        allow(game).to receive(:player_in_check?).and_return(false)
+        allow(game).to receive(:move_checks_self?).and_return(false, false)
+        expect(king.castle_prevented_by_check?(rook)).to be(false)
+      end
+    end
+  end
 end

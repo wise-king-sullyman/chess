@@ -61,8 +61,6 @@ class King
     king_has_moved || rook.moved
   end
 
-  private
-
   def castle_prevented_by_check?(rook)
     rook_direction = rook.location.last == 7 ? 1 : -1
     toward_rook = [location.first, location.last + rook_direction]
