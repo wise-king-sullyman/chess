@@ -30,6 +30,35 @@ describe Knight do
     end
   end
 
+  describe '#possible_moves' do
+    let(:possible_moves) { [[2, 2], [2, 0], [-2, 2], [-2, 0], [1, 3], [1, -1], [-1, 3], [-1, -1]] }
+    let(:modifiers) { [[2, 1], [2, -1], [-2, 1], [-2, -1], [1, 2], [1, -2], [-1, 2], [-1, -2]] }
+    let(:row) { 0 }
+    let(:column) { 1 }
+
+    before do
+      allow(knight).to receive(:apply_move_modifiers)
+      allow(knight).to receive(:clean_moves)
+    end
+
+    it 'calls #apply_move_modifiers with the modifiers, current row, and current column' do
+      expect(knight).to receive(:apply_move_modifiers).with(modifiers, row, column)
+      knight.possible_moves(knight.location.first, knight.location.last)
+    end
+
+    it 'calls #clean_moves with all theoretically possible moves the piece can make' do
+      allow(knight).to receive(:apply_move_modifiers).and_return(possible_moves)
+      allow(knight).to receive(:clean_moves) { |moves| moves }
+      expect(knight).to receive(:clean_moves).with(possible_moves)
+      knight.possible_moves(knight.location.first, knight.location.last)
+    end
+
+    it 'returns the cleaned moves' do
+      allow(knight).to receive(:clean_moves).and_return('foo')
+      expect(knight.possible_moves(knight.location.first, knight.location.last)).to eq('foo')
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       knight.move([0, 1])
