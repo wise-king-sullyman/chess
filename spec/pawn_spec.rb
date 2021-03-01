@@ -274,4 +274,40 @@ describe Pawn do
       end
     end
   end
+
+  describe `#valid_pawn_move?`do
+    let(:location) { [2, 1] }
+    
+    context 'when the pawn move is legal and reachable' do
+      it 'returns true' do
+        allow(pawn).to receive(:legal_pawn_move?).and_return(true)
+        allow(pawn).to receive(:reachable?).and_return(true)
+        expect(pawn.valid_pawn_move?(location)).to be(true)
+      end
+    end
+
+    context 'when the pawn move is legal but not reachable' do
+      it 'returns false' do
+        allow(pawn).to receive(:legal_pawn_move?).and_return(true)
+        allow(pawn).to receive(:reachable?).and_return(false)
+        expect(pawn.valid_pawn_move?(location)).to be(false)
+      end
+    end
+
+    context 'when the pawn move is reachable but not legal' do
+      it 'returns false' do
+        allow(pawn).to receive(:legal_pawn_move?).and_return(false)
+        allow(pawn).to receive(:reachable?).and_return(true)
+        expect(pawn.valid_pawn_move?(location)).to be(false)
+      end
+    end
+
+    context 'when the pawn move is not legal or reachable' do
+      it 'returns false' do
+        allow(pawn).to receive(:legal_pawn_move?).and_return(false)
+        allow(pawn).to receive(:reachable?).and_return(false)
+        expect(pawn.valid_pawn_move?(location)).to be(false)
+      end
+    end
+  end
 end

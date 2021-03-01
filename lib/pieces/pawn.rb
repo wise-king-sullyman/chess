@@ -144,14 +144,14 @@ class Pawn
     capture(en_passant_piece)
   end
 
-  private
-
-  attr_writer :vulnerable_to_en_passant
-
   def valid_pawn_move?(location)
     legal_pawn_move?(location) \
     && reachable?(self, location, game.board)
   end
+
+  private
+
+  attr_writer :vulnerable_to_en_passant
 
   def legal_pawn_move?(move)
     possible_pawn_attack_moves(location.first, location.last).include?(move)
