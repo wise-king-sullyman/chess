@@ -310,4 +310,26 @@ describe Pawn do
       end
     end
   end
+
+  describe '#legal_pawn_move?' do
+    let(:move) { [2, 3] }
+
+    context 'when the move is included in the current possible attack moves' do
+      let(:possible_moves) { [[0, 2], [2, 3]] }
+
+      it 'returns true' do
+        allow(pawn).to receive(:possible_pawn_attack_moves).and_return(possible_moves)
+        expect(pawn.legal_pawn_move?(move)).to be(true)
+      end
+    end
+
+    context 'when the move is not included in the current possible attack moves' do
+      let(:possible_moves) { [[0, 2], [2, 4]] }
+
+      it 'returns false' do
+        allow(pawn).to receive(:possible_pawn_attack_moves).and_return(possible_moves)
+        expect(pawn.legal_pawn_move?(move)).to be(false)
+      end
+    end
+  end
 end
