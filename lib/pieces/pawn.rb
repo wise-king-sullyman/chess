@@ -153,14 +153,14 @@ class Pawn
     possible_pawn_attack_moves(location.first, location.last).include?(move)
   end
 
-  private
-
-  attr_writer :vulnerable_to_en_passant
-
   def possible_pawn_attack_moves(row, column)
     moves = []
     moves.push([row + direction, column + 1])
     moves.push([row + direction, column - 1])
     clean_moves(moves)
   end
+
+  private
+
+  attr_writer :vulnerable_to_en_passant
 end

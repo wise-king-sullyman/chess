@@ -332,4 +332,35 @@ describe Pawn do
       end
     end
   end
+
+  describe '#possible_pawn_attack_moves' do
+    let(:row) { 1 }
+    let(:column) { 1 }
+
+    before do
+      allow(pawn).to receive(:clean_moves) { |argument| argument }
+    end
+
+    context 'when the pawns direction is positive' do
+      let(:left_attack) { [2, 0] }
+      let(:right_attack) { [2, 2] }
+
+      it 'adds the board left attack move to the list of potential moves' do
+        expect(pawn.possible_pawn_attack_moves(row, column)).to include(left_attack)
+      end
+
+      it 'adds the board right attack move to the list of potential moves' do
+        expect(pawn.possible_pawn_attack_moves(row, column)).to include(right_attack)
+      end
+
+      it 'does not add any other moves to the list of potential moves' do
+        expect(pawn.possible_pawn_attack_moves(row, column).size).to eq(2)
+      end
+
+      it 'returns the output of calling #clean_moves on the list of potential moves' do
+        allow(pawn).to receive(:clean_moves).and_return('foo')
+        expect(pawn.possible_pawn_attack_moves(row, column)).to eq('foo')
+      end
+    end
+  end
 end
