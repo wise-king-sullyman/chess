@@ -30,6 +30,32 @@ describe Queen do
     end
   end
 
+  describe '#possible_moves' do
+    let(:possible_moves) do
+      [
+        [0, 3], [0, 0], [0, 3], [0, 3], [0, 3], [0, 3],
+        [1, 3], [0, 1], [1, 4], [1, 2], [-1, 4], [-1, 2],
+        [2, 3], [0, 2], [2, 5], [2, 1], [-2, 5], [-2, 1],
+        [3, 3], [0, 3], [3, 6], [3, 0], [-3, 6], [-3, 0],
+        [4, 3], [0, 4], [4, 7], [4, -1], [-4, 7], [-4, -1],
+        [5, 3], [0, 5], [5, 8], [5, -2], [-5, 8], [-5, -2],
+        [6, 3], [0, 6], [6, 9], [6, -3], [-6, 9], [-6, -3],
+        [7, 3], [0, 7], [7, 10], [7, -4], [-7, 10], [-7, -4]
+      ]
+    end
+
+    it 'calls #clean_moves with all theoretically possible moves the piece can make' do
+      allow(queen).to receive(:clean_moves)
+      expect(queen).to receive(:clean_moves).with(possible_moves)
+      queen.possible_moves(queen.location.first, queen.location.last)
+    end
+
+    it 'returns the cleaned moves' do
+      allow(queen).to receive(:clean_moves).and_return('foo')
+      expect(queen.possible_moves(queen.location.first, queen.location.last)).to eq('foo')
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       queen.move([0, 1])

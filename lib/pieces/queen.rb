@@ -9,8 +9,6 @@ class Queen
     color == 'white' ? "\u2655".encode : "\u265B".encode
   end
 
-  private
-
   def possible_moves(row, column)
     moves = []
     8.times do |number|
