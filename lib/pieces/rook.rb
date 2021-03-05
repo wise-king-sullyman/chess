@@ -9,8 +9,6 @@ class Rook
     color == 'white' ? "\u2656".encode : "\u265C".encode
   end
 
-  private
-
   def possible_moves(row, column)
     moves = []
     8.times { |number| moves.push([number, column], [row, number]) }

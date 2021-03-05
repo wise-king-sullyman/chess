@@ -30,6 +30,32 @@ describe Rook do
     end
   end
 
+  describe '#possible_moves' do
+    let(:possible_moves) do
+      [
+        [0, 0], [0, 0],
+        [1, 0], [0, 1],
+        [2, 0], [0, 2],
+        [3, 0], [0, 3],
+        [4, 0], [0, 4],
+        [5, 0], [0, 5],
+        [6, 0], [0, 6],
+        [7, 0], [0, 7]
+      ]
+    end
+
+    it 'calls #clean_moves with all theoretically possible moves the piece can make' do
+      allow(rook).to receive(:clean_moves)
+      expect(rook).to receive(:clean_moves).with(possible_moves)
+      rook.possible_moves(rook.location.first, rook.location.last)
+    end
+
+    it 'returns the cleaned moves' do
+      allow(rook).to receive(:clean_moves).and_return('foo')
+      expect(rook.possible_moves(rook.location.first, rook.location.last)).to eq('foo')
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       rook.move([0, 1])
