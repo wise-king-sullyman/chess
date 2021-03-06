@@ -281,6 +281,31 @@ describe Game do
     end
   end
 
+  describe '#announce_winner' do
+    context 'when the winner is false' do
+      it 'calls #print_draw' do
+        expect(game).to receive(:print_draw)
+        game.announce_winner(false)
+      end
+    end
+
+    context 'when the winner is nil' do
+      it 'calls #print_draw' do
+        expect(game).to receive(:print_draw)
+        game.announce_winner(nil)
+      end
+    end
+
+    context 'when the winner is truthy' do
+      let(:winner) { 'foo' }
+
+      it 'calls #print_winner with the winner' do
+        expect(game).to receive(:print_winner).with(winner)
+        game.announce_winner(winner)
+      end
+    end
+  end
+
   describe '#game_loop' do
     before do
       allow(game).to receive(:ply_setup)
