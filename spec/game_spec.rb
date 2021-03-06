@@ -475,6 +475,22 @@ describe Game do
     end
   end
 
+  describe '#piece_at' do
+    let(:location) { [1, 2] }
+
+    it 'calls #piece_at on the game board at the provided location' do
+      game.instance_variable_set('@board', board)
+      expect(board).to receive(:piece_at).with(location)
+      game.piece_at(location)
+    end
+
+    it 'returns the output from board.piece_at' do
+      game.instance_variable_set('@board', board)
+      allow(board).to receive(:piece_at).and_return('foo')
+      expect(game.piece_at(location)).to eq('foo')
+    end
+  end
+
   describe '#other_player' do
     before do
       game.instance_variable_set('@players', [player, player2])
