@@ -67,9 +67,9 @@ class Game
 
   def announce_winner(winner)
     if winner
-      puts "#{other_player(winner).name} in checkmate! #{winner.name} won!"
+      print_winner(winner)
     else
-      puts 'Draw game'
+      print_draw
     end
   end
 
@@ -135,5 +135,13 @@ class Game
 
   def print_game_board(game_board)
     puts game_board
+  end
+
+  def print_winner(winner)
+    puts "#{other_player(winner).name} in checkmate! #{winner.name} won!"
+  end
+
+  def print_draw
+    puts 'Draw game'
   end
 end
