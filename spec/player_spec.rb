@@ -491,4 +491,18 @@ describe Player do
       expect(player.player_input).to eq('bar')
     end
   end
+
+  describe '#piece_at_location' do
+    let(:location) { [1, 2] }
+
+    it 'calls #piece_at_location on the game board at the provided location' do
+      expect(game).to receive(:piece_at).with(location)
+      player.piece_at_location(location)
+    end
+
+    it 'returns the output from board.piece_at_location' do
+      allow(game).to receive(:piece_at).and_return('foo')
+      expect(player.piece_at_location(location)).to eq('foo')
+    end
+  end
 end

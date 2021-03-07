@@ -138,8 +138,6 @@ class Player
     translate_input(validated_input)
   end
 
-  private
-
   def piece_at_location(location)
     game.piece_at(location)
   end
