@@ -2,11 +2,11 @@
 
 require_relative '../lib/tile'
 
-describe 'Tile' do
-  class TileDummyClass
-    include Tile
-  end
+class TileDummyClass
+  include Tile
+end
 
+describe 'Tile' do
   subject(:tile_tester) { TileDummyClass.new }
 
   describe '#colorize_background' do
