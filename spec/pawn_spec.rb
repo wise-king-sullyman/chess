@@ -34,6 +34,47 @@ describe Pawn do
     end
   end
 
+  describe '#possible_moves' do
+    let(:moves) { [] }
+    let(:row) { 1 }
+    let(:column) { 1 }
+
+    it 'calls #add_single_move_if_applicable with a moves array, row, and column' do
+      expect(pawn).to receive(:add_single_move_if_applicable).with(moves, row, column)
+      pawn.possible_moves(row, column)
+    end
+
+    it 'calls #add_double_move_if_applicable with a moves array, row, and column' do
+      allow(pawn).to receive(:add_single_move_if_applicable).and_return(moves)
+      expect(pawn).to receive(:add_double_move_if_applicable).with(moves, row, column)
+      pawn.possible_moves(row, column)
+    end
+
+    it 'calls #add_attack_moves_if_applicable with a moves array, row, and column' do
+      allow(pawn).to receive(:add_single_move_if_applicable).and_return(moves)
+      allow(pawn).to receive(:add_double_move_if_applicable).and_return(moves)
+      expect(pawn).to receive(:add_attack_moves_if_applicable).with(moves, row, column)
+      pawn.possible_moves(row, column)
+    end
+
+    it 'calls #add_en_passant_moves_if_applicable with a moves array, row, and column' do
+      allow(pawn).to receive(:add_single_move_if_applicable).and_return(moves)
+      allow(pawn).to receive(:add_double_move_if_applicable).and_return(moves)
+      allow(pawn).to receive(:add_attack_moves_if_applicable).and_return(moves)
+      expect(pawn).to receive(:add_en_passant_moves_if_applicable).with(moves, row, column)
+      pawn.possible_moves(row, column)
+    end
+
+    it 'calls #clean_moves with the moves array' do
+      allow(pawn).to receive(:add_single_move_if_applicable).and_return(moves)
+      allow(pawn).to receive(:add_double_move_if_applicable).and_return(moves)
+      allow(pawn).to receive(:add_attack_moves_if_applicable).and_return(moves)
+      allow(pawn).to receive(:add_en_passant_moves_if_applicable).and_return(moves)
+      expect(pawn).to receive(:clean_moves).with(moves)
+      pawn.possible_moves(row, column)
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       pawn.move([0, 1])
@@ -310,7 +351,7 @@ describe Pawn do
       end
     end
   end
-
+ 
   describe '#legal_pawn_move?' do
     let(:move) { [2, 3] }
 
