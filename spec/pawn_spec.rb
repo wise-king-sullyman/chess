@@ -75,6 +75,29 @@ describe Pawn do
     end
   end
 
+  describe '#add_single_move_if_applicable' do
+    let(:moves) { [] }
+    let(:row) { 1 }
+    let(:column) { 1 }
+
+    context 'when there is a piece at the single move location' do
+      it 'returns the moves array unchanged' do
+        allow(game).to receive(:piece_at).and_return(true)
+        expect { pawn.add_single_move_if_applicable(moves, row, column) }.not_to(change { moves })
+      end
+    end
+
+    context 'when there is not a piece at the single move location' do
+      it 'returns the moves array with the single move added' do
+        allow(game).to receive(:piece_at).and_return(false)
+        allow(pawn).to receive(:direction).and_return(1)
+
+        pawn.add_single_move_if_applicable(moves, row, column)
+        expect(moves).to eq([[2, 1]])
+      end
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       pawn.move([0, 1])
