@@ -128,6 +128,51 @@ describe Pawn do
     end
   end
 
+  describe '#add_attack_moves_if_applicable' do
+    let(:moves) { [] }
+    let(:row) { 1 }
+    let(:column) { 1 }
+
+    before do
+      allow(pawn).to receive(:diagonal_right).and_return([2, 2])
+      allow(pawn).to receive(:diagonal_left).and_return([2, 0])
+    end
+
+    context 'when there are no pieces that the pawn can attack' do
+     it 'returns the moves array unchanged' do
+       allow(pawn).to receive(:can_attack?).and_return(false)
+       expect { pawn.add_attack_moves_if_applicable(moves, row, column) }.not_to(change { moves })
+     end
+    end 
+
+    context 'when there is a piece that the pawn can attack to the right' do
+      it 'returns the moves array with that right diagonal move added' do
+        allow(pawn).to receive(:can_attack?).and_return(true, false)
+
+        pawn.add_attack_moves_if_applicable(moves, row, column)
+        expect(moves).to eq([[2, 2]])
+      end
+    end
+
+    context 'when there is a piece that the pawn can attack to the left' do
+      it 'returns the moves array with that left diagonal move added' do
+        allow(pawn).to receive(:can_attack?).and_return(false, true)
+
+        pawn.add_attack_moves_if_applicable(moves, row, column)
+        expect(moves).to eq([[2, 0]])
+      end
+    end
+
+    context 'when there are pieces to the left and right that the pawn can attack' do
+      it 'returns the moves array with both right and left diagonal moves added' do
+        allow(pawn).to receive(:can_attack?).and_return(true)
+
+        pawn.add_attack_moves_if_applicable(moves, row, column)
+        expect(moves).to eq([[2, 2], [2, 0]])
+      end
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       pawn.move([0, 1])
