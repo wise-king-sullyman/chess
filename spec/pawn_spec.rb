@@ -98,6 +98,36 @@ describe Pawn do
     end
   end
 
+  describe '#add_double_move_if_applicable' do
+    let(:moves) { [] }
+    let(:row) { 1 }
+    let(:column) { 1 }
+
+    context 'when there is a piece directly in front of the pawn' do
+      it 'returns the moves array unchanged' do
+        allow(game).to receive(:piece_at).and_return(true)
+        expect { pawn.add_double_move_if_applicable(moves, row, column) }.not_to(change { moves })
+      end
+    end
+
+    context 'when there is a piece two tiles in front of the pawn' do
+      it 'returns the moves array unchanged' do
+        allow(game).to receive(:piece_at).and_return(false, true)
+        expect { pawn.add_double_move_if_applicable(moves, row, column) }.not_to(change { moves })
+      end
+    end
+
+    context 'when there is no piece in the tile directly or two tiles in front in front of the pawn' do
+      it 'returns the moves array with the double move added' do
+        allow(game).to receive(:piece_at).and_return(false)
+        allow(pawn).to receive(:direction).and_return(1)
+
+        pawn.add_double_move_if_applicable(moves, row, column)
+        expect(moves).to eq([[3, 1]])
+      end
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       pawn.move([0, 1])
