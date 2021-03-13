@@ -192,6 +192,25 @@ describe Pawn do
     end
   end
 
+  describe '#diagonal_left' do
+    let(:row) { 1 }
+    let(:column) { 1 }
+
+    context 'when direction is positive' do
+      it 'returns the move to board north diagonal left of the pawn' do
+        allow(pawn).to receive(:direction).and_return(1)
+        expect(pawn.diagonal_left(row, column)).to eq([2, 0])
+      end
+    end
+
+    context 'when direction is negative' do
+      it 'returns the move to board south diagonal left of the pawn' do
+        allow(pawn).to receive(:direction).and_return(-1)
+        expect(pawn.diagonal_left(row, column)).to eq([0, 0])
+      end
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       pawn.move([0, 1])
