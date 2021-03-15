@@ -211,6 +211,20 @@ describe Pawn do
     end
   end
 
+  describe '#can_attack?' do
+    let(:location) { [1, 1] }
+
+    it 'calls #enemy_at? on the game with the player and location' do
+      expect(game).to receive(:enemy_at?).with(player, location)
+      pawn.can_attack?(location)
+    end
+
+    it 'returns the output of the #enemy_at? call to game' do
+      allow(game).to receive(:enemy_at?).and_return('foo')
+      expect(pawn.can_attack?(location)).to eq('foo')
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       pawn.move([0, 1])
