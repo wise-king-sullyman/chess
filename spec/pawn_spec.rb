@@ -225,6 +225,38 @@ describe Pawn do
     end
   end
 
+  describe '#orthogonal_right_piece' do
+    let(:row) { 1 }
+    let(:column) { 1 }
+    let(:right_column) { 2 }
+
+    it 'calls Game.piece_at for the piece to the board right of the pawn' do
+      expect(game).to receive(:piece_at).with([row, right_column])
+      pawn.orthogonal_right_piece(row, column)
+    end
+
+    it 'returns the output of the #piece_at call' do
+      allow(game).to receive(:piece_at).and_return('foo')
+      expect(pawn.orthogonal_right_piece(row, column)).to eq('foo')
+    end
+  end
+
+  describe '#orthogonal_left_piece' do
+    let(:row) { 1 }
+    let(:column) { 1 }
+    let(:left_column) { 0 }
+
+    it 'calls Game.piece_at for the piece to the board left of the pawn' do
+      expect(game).to receive(:piece_at).with([row, left_column])
+      pawn.orthogonal_left_piece(row, column)
+    end
+
+    it 'returns the output of the #piece_at call' do
+      allow(game).to receive(:piece_at).and_return('foo')
+      expect(pawn.orthogonal_left_piece(row, column)).to eq('foo')
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       pawn.move([0, 1])
