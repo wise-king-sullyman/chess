@@ -257,6 +257,50 @@ describe Pawn do
     end
   end
 
+  describe '#can_en_passant?' do
+    let(:piece) { double('piece') }
+
+    before do
+      allow(piece).to receive(:location)
+    end
+
+    context 'when the piece is not a pawn' do
+      it 'returns false' do
+        allow(piece).to receive(:respond_to?).and_return(false)
+        allow(game).to receive(:enemy_at?).and_return(true)
+        allow(piece).to receive(:vulnerable_to_en_passant).and_return(true)
+        expect(pawn.can_en_passant?(piece)).to be(false)
+      end
+    end
+
+    context 'when the piece is not an enemy' do
+      it 'returns false' do
+        allow(piece).to receive(:respond_to?).and_return(true)
+        allow(game).to receive(:enemy_at?).and_return(false)
+        allow(piece).to receive(:vulnerable_to_en_passant).and_return(true)
+        expect(pawn.can_en_passant?(piece)).to be(false)
+      end
+    end
+
+    context 'when the piece is not vulnerable to en passant' do
+      it 'returns false' do
+        allow(piece).to receive(:respond_to?).and_return(true)
+        allow(game).to receive(:enemy_at?).and_return(true)
+        allow(piece).to receive(:vulnerable_to_en_passant).and_return(false)
+        expect(pawn.can_en_passant?(piece)).to be(false)
+      end
+    end
+
+    context 'when the piece can be en passanted' do
+      it 'returns true' do
+        allow(piece).to receive(:respond_to?).and_return(true)
+        allow(game).to receive(:enemy_at?).and_return(true)
+        allow(piece).to receive(:vulnerable_to_en_passant).and_return(true)
+        expect(pawn.can_en_passant?(piece)).to be(true)
+      end
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       pawn.move([0, 1])
