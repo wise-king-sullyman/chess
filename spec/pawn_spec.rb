@@ -301,6 +301,29 @@ describe Pawn do
     end
   end
 
+  describe '#can_attack_location' do
+    let(:location) { [2, 2] }
+
+    it 'calls #valid_pawn_move? with the provided location' do
+      expect(pawn).to receive(:valid_pawn_move?).with(location)
+      pawn.can_attack_location?(location)
+    end
+
+    context 'when moving to the location is invalid' do
+      it 'returns false' do
+        allow(pawn).to receive(:valid_pawn_move?).and_return(false)
+        expect(pawn.can_attack_location?(location)).to be(false)
+      end
+    end
+
+    context 'when moving to the location is valid' do
+      it 'returns true' do
+        allow(pawn).to receive(:valid_pawn_move?).and_return(true)
+        expect(pawn.can_attack_location?(location)).to be(true)
+      end
+    end
+  end
+
   describe '#move' do
     it 'sets @location to the new location' do
       pawn.move([0, 1])
