@@ -345,6 +345,41 @@ describe Pawn do
     end
   end
 
+  describe '#eligible_for_promotion?' do
+
+    context 'when the pawn has crossed the board from board top to board bottom' do
+      it 'returns true' do
+        allow(pawn).to receive(:direction).and_return(1)
+        allow(pawn).to receive(:location).and_return([7, 2])
+        expect(pawn.eligible_for_promotion?).to be(true)
+      end
+    end
+
+    context 'when the pawn has crossed the board from board bottom to board top' do
+      it 'returns true' do
+        allow(pawn).to receive(:direction).and_return(-1)
+        allow(pawn).to receive(:location).and_return([0, 2])
+        expect(pawn.eligible_for_promotion?).to be(true)
+      end
+    end
+
+    context 'when the pawn has not crossed the board from board top to board bottom' do
+      it 'returns false' do
+        allow(pawn).to receive(:direction).and_return(1)
+        allow(pawn).to receive(:location).and_return([6, 2])
+        expect(pawn.eligible_for_promotion?).to be(false)
+      end
+    end
+
+    context 'when the pawn has not crossed the board from board bottom to board top' do
+      it 'returns false' do
+        allow(pawn).to receive(:direction).and_return(-1)
+        allow(pawn).to receive(:location).and_return([1, 2])
+        expect(pawn.eligible_for_promotion?).to be(false)
+      end
+    end
+  end
+
   describe '#legal_move?' do
     context 'when legal 1 square positive first move is given' do
       it 'returns true' do
