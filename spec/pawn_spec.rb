@@ -380,6 +380,37 @@ describe Pawn do
     end
   end
 
+  describe '#en_passant_performed?' do
+    let(:piece) { double('piece') }
+    let(:to_location) { [4, 4] }
+    let(:behind_pawn) { [3, 4] }
+    let(:direction) { 1 }
+    context 'when the piece was en passanted last ply' do
+      it 'returns true' do
+        allow(pawn).to receive(:can_en_passant?).and_return(true)
+        allow(piece).to receive(:location).and_return(behind_pawn)
+        expect(pawn.en_passant_performed?(piece, to_location)).to be(true)
+      end
+    end
+
+    context 'when the piece cannot be en passanted' do
+      it 'returns false' do
+        allow(pawn).to receive(:can_en_passant?).and_return(false)
+        allow(piece).to receive(:location).and_return(behind_pawn)
+        expect(pawn.en_passant_performed?(piece, to_location)).to be(false)
+      end
+    end
+
+    context 'when the piece is not behind the pawn' do
+      let(:not_behind_pawn) { [2, 4] }
+      it 'returns false' do
+        allow(pawn).to receive(:can_en_passant?).and_return(true)
+        allow(piece).to receive(:location).and_return(not_behind_pawn)
+        expect(pawn.en_passant_performed?(piece, to_location)).to be(false)
+      end
+    end
+  end
+
   describe '#legal_move?' do
     context 'when legal 1 square positive first move is given' do
       it 'returns true' do
