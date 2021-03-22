@@ -411,6 +411,16 @@ describe Pawn do
     end
   end
 
+  describe '#capture' do
+    let(:piece) { double('piece') }
+    it 'calls #remove_piece on the pieces player, with the piece to be removed' do
+      allow(piece).to receive(:player).and_return(player)
+      allow(player).to receive(:remove_piece)
+      expect(player).to receive(:remove_piece).with(piece)
+      pawn.capture(piece)
+    end
+  end
+
   describe '#legal_move?' do
     context 'when legal 1 square positive first move is given' do
       it 'returns true' do
