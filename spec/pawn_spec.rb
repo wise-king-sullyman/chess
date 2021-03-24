@@ -421,6 +421,22 @@ describe Pawn do
     end
   end
 
+  describe '#falsify_en_passant_vulnerability' do
+    it 'sets the pawns vulnerable_to_en_passant property to false' do
+      pawn.instance_variable_set('@vulnerable_to_en_passant', true)
+      pawn.falsify_en_passant_vulnerability
+      expect(pawn.vulnerable_to_en_passant).to be(false)
+    end
+  end
+
+  describe '#truthify_en_passant_vulnerability' do
+    it 'sets the pawns vulnerable_to_en_passant property to false' do
+      pawn.instance_variable_set('@vulnerable_to_en_passant', false)
+      pawn.truthify_en_passant_vulnerability
+      expect(pawn.vulnerable_to_en_passant).to be(true)
+    end
+  end
+
   describe '#legal_move?' do
     context 'when legal 1 square positive first move is given' do
       it 'returns true' do
