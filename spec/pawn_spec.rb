@@ -437,6 +437,22 @@ describe Pawn do
     end
   end
 
+  describe '#double_move_performed?' do
+    context 'when a double move was performed' do
+      let(:to_location) { [3, 1] }
+      it 'returns true' do
+        expect(pawn.double_move_performed?(to_location)).to be(true)
+      end
+    end
+
+    context 'when a double move was not performed' do
+      let(:to_location) { [2, 1] }
+      it 'returns true' do
+        expect(pawn.double_move_performed?(to_location)).to be(false)
+      end
+    end
+  end
+
   describe '#legal_move?' do
     context 'when legal 1 square positive first move is given' do
       it 'returns true' do
