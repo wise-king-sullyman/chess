@@ -453,6 +453,32 @@ describe Pawn do
     end
   end
 
+  describe '#en_passantable?' do
+    let(:to_location) { [5, 5] }
+    let(:test_move) { false }
+    context 'when the move performed is a test move' do
+      let(:test_move) { true }
+
+      it 'returns false' do
+        expect(pawn.en_passantable?(to_location, test_move)).to be(false)
+      end
+    end
+
+    context 'when the more performed is not a double move' do
+      it 'returns false' do
+        allow(pawn).to receive(:double_move_performed?).and_return(false)
+        expect(pawn.en_passantable?(to_location, test_move)).to be(false)
+      end
+    end
+
+    context 'when the more performed is a double move' do
+      it 'returns true' do
+        allow(pawn).to receive(:double_move_performed?).and_return(true)
+        expect(pawn.en_passantable?(to_location, test_move)).to be(true)
+      end
+    end
+  end
+
   describe '#legal_move?' do
     context 'when legal 1 square positive first move is given' do
       it 'returns true' do
