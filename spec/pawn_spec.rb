@@ -479,6 +479,48 @@ describe Pawn do
     end
   end
 
+  describe '#piece_behind_move' do
+    let(:to_location) { [5, 5] }
+
+    context 'when the pawn movement direction is positive' do
+      let(:direction) { 1 }
+      let(:expected_location) { [4, 5] }
+
+      before do
+        allow(pawn).to receive(:direction).and_return(direction)
+      end
+
+      it 'calls game.piece_at with the piece behind the location being moved to' do
+        expect(game).to receive(:piece_at).with(expected_location)
+        pawn.piece_behind_move(to_location)
+      end
+
+      it 'returns the piece behind the location being moved to' do
+        allow(game).to receive(:piece_at).and_return('foo')
+        expect(pawn.piece_behind_move(to_location)).to be('foo')
+      end
+    end
+
+    context 'when the pawn movement direction is positive' do
+      let(:direction) { -1 }
+      let(:expected_location) { [6, 5] }
+
+      before do
+        allow(pawn).to receive(:direction).and_return(direction)
+      end
+
+      it 'calls game.piece_at with the piece behind the location being moved to' do
+        expect(game).to receive(:piece_at).with(expected_location)
+        pawn.piece_behind_move(to_location)
+      end
+
+      it 'returns the piece behind the location being moved to' do
+        allow(game).to receive(:piece_at).and_return(expected_location)
+        expect(pawn.piece_behind_move(to_location)).to be(expected_location)
+      end
+    end
+  end
+
   describe '#legal_move?' do
     context 'when legal 1 square positive first move is given' do
       it 'returns true' do
