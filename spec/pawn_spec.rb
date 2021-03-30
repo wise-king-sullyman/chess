@@ -521,6 +521,29 @@ describe Pawn do
     end
   end
 
+  describe '#capture_enemy_if_en_passant_performed' do
+    let(:move_location) { [5, 5] }
+
+    context 'when the pawn did not move en passant' do
+      it 'does not call capture on the piece behind the pawn' do
+        allow(pawn).to receive(:piece_behind_move)
+        allow(pawn).to receive(:en_passant_performed?).and_return(false)
+        expect(pawn).not_to receive(:capture)
+        pawn.capture_enemy_if_en_passant_performed(move_location)
+      end
+    end
+
+    context 'when the pawn moved en passant' do
+      let(:piece) { double('piece') }
+      it 'calls capture on the piece behind the pawn' do
+        allow(pawn).to receive(:piece_behind_move).and_return(piece)
+        allow(pawn).to receive(:en_passant_performed?).and_return(true)
+        expect(pawn).to receive(:capture).with(piece)
+        pawn.capture_enemy_if_en_passant_performed(move_location)
+      end
+    end
+  end
+
   describe '#legal_move?' do
     context 'when legal 1 square positive first move is given' do
       it 'returns true' do
