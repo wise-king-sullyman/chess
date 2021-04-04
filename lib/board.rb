@@ -74,12 +74,7 @@ class Board
   end
 
   def make_blank_board
-    board = []
-    8.times { board.push([]) }
-    board.each do |row|
-      row.push(nil) until row.size == 8
-    end
-    board
+    Array.new(8) { Array.new(8) }
   end
 
   private
